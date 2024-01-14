@@ -3,12 +3,12 @@ package vvl.util;
 
 /**
  * Building block for implementing lists.
- * 
+ * <br><br>
  * A "cons" is simply a pair (L,R) holding a specific value on the left hand
  * side (L) and the right hand side (R).
- * 
- * See e.g. {@link https://en.wikipedia.org/wiki/Cons} for details.
- * 
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Cons">Wikipedia Cons</a>.
+ *
  * @author leberre
  *
  * @param <L>
@@ -103,11 +103,8 @@ public class Cons<L, R> {
         } else if (!left.equals(other.left))
             return false;
         if (right == null) {
-            if (other.right != null)
-                return false;
-        } else if (!right.equals(other.right))
-            return false;
-        return true;
+            return other.right == null;
+        } else return right.equals(other.right);
     }
 
     /**
@@ -115,8 +112,7 @@ public class Cons<L, R> {
      * 
      * @return an empty cons of the expected type.
      */
-    public static final <U, V> Cons<U, V> nil() {
+    public static <U, V> Cons<U, V> nil() {
         return new Cons<>();
     }
-
 }
