@@ -29,7 +29,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     public ConsList<E> append(E e) {
         ConsList<E> l = new ConsListImpl<>(e);
         E[] elems = this.toArrayTyped();
-        for (int i=elems.length-1; i>=0; i--) l.prepend(elems[i]);
+        for (int i=elems.length-1; i>=0; i--) l=l.prepend(elems[i]);
         return l;
     }
 
