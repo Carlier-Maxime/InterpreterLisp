@@ -98,6 +98,12 @@ public interface ConsList<E> extends Iterable<E> {
 		return array;
 	}
 
+	default E[] toArrayTyped() {
+		@SuppressWarnings("unchecked")
+		E[] array = (E[]) toArray();
+		return array;
+	}
+
 	/**
 	 * Create a new empty list.
 	 * 
