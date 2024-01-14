@@ -90,21 +90,15 @@ public class Cons<L, R> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         Cons<?, ?> other = (Cons<?, ?>) obj;
         if (left == null) {
-            if (other.left != null)
-                return false;
-        } else if (!left.equals(other.left))
-            return false;
-        if (right == null) {
-            return other.right == null;
-        } else return right.equals(other.right);
+            if (other.left != null) return false;
+        } else if (!left.equals(other.left)) return false;
+        if (right == null) return other.right == null;
+        else return right.equals(other.right);
     }
 
     /**
