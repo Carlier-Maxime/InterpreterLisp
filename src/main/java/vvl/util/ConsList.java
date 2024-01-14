@@ -82,9 +82,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 */
 	default E reduce(E identity, BinaryOperator<E> accumulator) {
 		E result = identity;
-		for (E element : this) {
-			result = accumulator.apply(result, element);
-		}
+		for (E element : this) result = accumulator.apply(result, element);
 		return result;
 	}
 
@@ -96,9 +94,7 @@ public interface ConsList<E> extends Iterable<E> {
 	default Object[] toArray() {
 		Object[] array = new Object[size()];
 		int i = 0;
-		for (Object o : this) {
-			array[i++] = o;
-		}
+		for (Object o : this) array[i++] = o;
 		return array;
 	}
 
@@ -132,9 +128,7 @@ public interface ConsList<E> extends Iterable<E> {
 	@SafeVarargs
 	static <T> ConsList<T> asList(T... ts) {
 		ConsList<T> list = nil();
-		for (int i = ts.length - 1; i >= 0; i--) {
-			list = list.prepend(ts[i]);
-		}
+		for (int i = ts.length - 1; i >= 0; i--) list = list.prepend(ts[i]);
 		return list;
 	}
 }
