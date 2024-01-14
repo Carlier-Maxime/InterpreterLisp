@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 /**
  * Implementation of a list using the {@link vvl.util.Cons} data structure.
- * 
+ * <br><br>
  * The implementation of ConsList must be immutable, i.e. each call to the
  * {@link #append(Object)} or {@link #prepend(Object)} methods must return a new
  * list without changing the state of the current list. This is unlike the
