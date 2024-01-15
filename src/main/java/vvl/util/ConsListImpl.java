@@ -17,7 +17,8 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     }
 
     private ConsListImpl(E first, ConsList<E> list) {
-        this.list = new Cons<>(first, list);
+        if (list==null && first!=null) this.list = new Cons<>(first, ConsList.nil());
+        else this.list = new Cons<>(first, list);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
 
     @Override
     public boolean isEmpty() {
-        return car()==null && cdr()==null;
+        return list.left()==null && list.right()==null;
     }
 
     @Override
@@ -45,7 +46,8 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
 
     @Override
     public ConsList<E> cdr() {
-        return list.right();
+        ConsList<E> l = list.right();
+        return l==null ? ConsList.nil() : l;
     }
 
     @Override
