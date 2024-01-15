@@ -81,4 +81,17 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
             }
         };
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConsListImpl<?> consList = (ConsListImpl<?>) o;
+        return list.equals(consList.list);
+    }
+
+    @Override
+    public int hashCode() {
+        return list.hashCode();
+    }
 }
