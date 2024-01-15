@@ -94,4 +94,17 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     public int hashCode() {
         return list.hashCode();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("(");
+        boolean empty = true;
+        for (E e : this) {
+            if (!empty) sb.append(' ');
+            else empty=false;
+            sb.append(e);
+        }
+        sb.append(')');
+        return sb.toString();
+    }
 }
