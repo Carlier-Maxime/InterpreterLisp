@@ -6,3 +6,9 @@ testreports
 .vscode
 # Ignore Gradle build output directory
 build
+
+.idea/
+gradlew
+gradlew.bat
+/gradle
+/out

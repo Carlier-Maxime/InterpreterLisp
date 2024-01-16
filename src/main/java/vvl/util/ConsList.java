@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 /**
  * Implementation of a list using the {@link vvl.util.Cons} data structure.
- * 
+ * <br><br>
  * The implementation of ConsList must be immutable, i.e. each call to the
  * {@link #append(Object)} or {@link #prepend(Object)} methods must return a new
  * list without changing the state of the current list. This is unlike the
@@ -82,9 +82,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 */
 	default E reduce(E identity, BinaryOperator<E> accumulator) {
 		E result = identity;
-		for (E element : this) {
-			result = accumulator.apply(result, element);
-		}
+		for (E element : this) result = accumulator.apply(result, element);
 		return result;
 	}
 
@@ -96,9 +94,13 @@ public interface ConsList<E> extends Iterable<E> {
 	default Object[] toArray() {
 		Object[] array = new Object[size()];
 		int i = 0;
-		for (Object o : this) {
-			array[i++] = o;
-		}
+		for (Object o : this) array[i++] = o;
+		return array;
+	}
+
+	default E[] toArrayTyped() {
+		@SuppressWarnings("unchecked")
+		E[] array = (E[]) toArray();
 		return array;
 	}
 
@@ -108,8 +110,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @return an empty list
 	 */
 	static <T> ConsList<T> nil() {
-		// TODO
-		throw new UnsupportedOperationException("Not implemented yet");
+		return new ConsListImpl<>();
 	}
 
 	/**
@@ -119,8 +120,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @return a list containing only t
 	 */
 	static <T> ConsList<T> singleton(T t) {
-		// TODO
-		throw new UnsupportedOperationException("Not implemented yet");
+		return new ConsListImpl<>(t);
 	}
 
 	/**
@@ -132,9 +132,7 @@ public interface ConsList<E> extends Iterable<E> {
 	@SafeVarargs
 	static <T> ConsList<T> asList(T... ts) {
 		ConsList<T> list = nil();
-		for (int i = ts.length - 1; i >= 0; i--) {
-			list = list.prepend(ts[i]);
-		}
+		for (int i = ts.length - 1; i >= 0; i--) list = list.prepend(ts[i]);
 		return list;
 	}
 }
