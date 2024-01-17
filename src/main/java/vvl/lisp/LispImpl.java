@@ -32,7 +32,18 @@ public class LispImpl implements Lisp {
 
     @Override
     public LispItem parse(String expr) throws LispError {
-        return parseSingleElement(expr);
+        int startList = expr.indexOf('(');
+        if (startList==-1) return parseSingleElement(expr);
+        String outside = expr.substring(0,startList);
+        if (!outside.isBlank()) throw new LispError("Outside of expression is not a blank : "+expr);
+        int endList = expr.lastIndexOf(')');
+        if (endList==-1) throw new LispError("Expression not closed : "+expr);
+        outside = expr.substring(endList+1);
+        if (!outside.isBlank()) throw new LispError("Outside of expression is not a blank : "+expr);
+        String[] elems = expr.substring(startList+1, endList).split("\\s+");
+        LispExpression lispExpr = new LispExpression();
+        for (int i=elems.length-1; i>=0; i--) lispExpr.prepend(parseSingleElement(elems[i]));
+        return lispExpr;
     }
 
     @Override
