@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
  */
 public class LispNumber implements LispItem {
 	private static final Pattern intPattern = Pattern.compile("^[+-]?\\d+$");
-	private static final Pattern scientificNumberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d+([eE][+-]?\\d+\\.?\\d+)?$");
-	private static final Pattern ratioPattern = Pattern.compile("^[+-]?\\d+\\.?\\d+(/[+-]?\\d+\\.?\\d+)?$");
-	private static final Pattern numberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d+([/eE][+-]?\\d+\\.?\\d+)?$");
+	private static final Pattern scientificNumberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*([eE][+-]?\\d+)?$");
+	private static final Pattern ratioPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*(/[+-]?\\d+\\.?\\d*)?$");
+	private static final Pattern numberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*([/eE][+-]?\\d+\\.?\\d*)?$");
 	private Number element;
 	
 	public LispNumber(Number element) {
