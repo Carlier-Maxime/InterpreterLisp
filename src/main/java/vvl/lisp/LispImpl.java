@@ -1,5 +1,8 @@
 package vvl.lisp;
 
+import vvl.util.ConsList;
+import vvl.util.ConsListImpl;
+
 public class LispImpl implements Lisp {
     private LispItem parseSpecialNotation(String expr) throws LispError {
         assert expr.charAt(0)=='#';
@@ -32,18 +35,38 @@ public class LispImpl implements Lisp {
 
     @Override
     public LispItem parse(String expr) throws LispError {
-        int startList = expr.indexOf('(');
-        if (startList==-1) return parseSingleElement(expr);
-        String outside = expr.substring(0,startList);
-        if (!outside.isBlank()) throw new LispError("Outside of expression is not a blank : "+expr);
-        int endList = expr.lastIndexOf(')');
-        if (endList==-1) throw new LispError("Expression not closed : "+expr);
-        outside = expr.substring(endList+1);
-        if (!outside.isBlank()) throw new LispError("Outside of expression is not a blank : "+expr);
-        String[] elems = expr.substring(startList+1, endList).split("\\s+");
-        LispExpression lispExpr = new LispExpression();
-        for (int i=elems.length-1; i>=0; i--) if (!elems[i].isBlank()) lispExpr.prepend(parseSingleElement(elems[i]));
-        return lispExpr;
+        String[] elems = expr.split("\\s+");
+        if (elems.length==0) throw new LispError("Empty expression is invalid !");
+        ConsList<LispExpression> lists = new ConsListImpl<>();
+        for (int i=elems.length-1; i>=0; i--) {
+            while (elems[i].endsWith(")")) {
+                lists = lists.prepend(new LispExpression());
+                elems[i] = elems[i].substring(0, elems[i].length()-1);
+            }
+            int nbClose = 0;
+            while (elems[i].startsWith("(")) {
+                if (lists.isEmpty()) throw new LispError("Parenthesis incorrect : "+expr);
+                elems[i] = elems[i].substring(1);
+                nbClose++;
+            }
+            if (!elems[i].isBlank()) {
+                if (lists.isEmpty()) {
+                    if (elems.length==1) return parseSingleElement(elems[i]);
+                    throw new LispError("Missing Parenthesis : "+expr);
+                }
+                lists.car().prepend(parseSingleElement(elems[i]));
+            }
+            for (int j=0; j<nbClose; j++) {
+                LispExpression lispExpr = lists.car();
+                lists = lists.cdr();
+                if (lists.isEmpty()) {
+                    if (i==0) return lispExpr;
+                    for (int k=i-1; k>=0; k--) if (!elems[k].isBlank()) throw new LispError("Element outside expression : "+expr);
+                    return lispExpr;
+                } else lists.car().prepend(lispExpr);
+            }
+        }
+        throw new LispError("Invalid expression : "+expr);
     }
 
     @Override
