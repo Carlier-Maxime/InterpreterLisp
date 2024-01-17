@@ -1,7 +1,5 @@
 package vvl.lisp;
 
-import java.math.BigInteger;
-
 public class LispImpl implements Lisp {
     private LispItem parseSpecialNotation(String expr) throws LispError {
         assert expr.charAt(0)=='#';
@@ -23,12 +21,13 @@ public class LispImpl implements Lisp {
     private LispItem parseSingleElement(String expr) throws LispError {
         try {
             if (expr.charAt(0)=='#') return parseSpecialNotation(expr);
+            if (LispNumber.isNumber(expr)) return LispNumber.parseNumber(expr);
+            return new LispIdentifier(expr);
         } catch (LispError e) {
             throw e;
         } catch (Exception e) {
             throw new LispError("Parsing single element failed",e);
         }
-        throw new LispError("Parsing single element failed, this element is unrecognized : "+expr);
     }
 
     @Override
