@@ -42,7 +42,7 @@ public class LispImpl implements Lisp {
         if (!outside.isBlank()) throw new LispError("Outside of expression is not a blank : "+expr);
         String[] elems = expr.substring(startList+1, endList).split("\\s+");
         LispExpression lispExpr = new LispExpression();
-        for (int i=elems.length-1; i>=0; i--) lispExpr.prepend(parseSingleElement(elems[i]));
+        for (int i=elems.length-1; i>=0; i--) if (!elems[i].isBlank()) lispExpr.prepend(parseSingleElement(elems[i]));
         return lispExpr;
     }
 
