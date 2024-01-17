@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  *
  */
 public class LispIdentifier implements LispItem {
-	private static final String identifierRegex = "^[!$%&*/:<=>?^\\-_~a-zA-Z][!$%&*/:<=>?^\\-_~a-zA-Z0-9]*$";
+	private static final String identifierRegex = "^[!$%&*/:<=>?^\\-+_~a-zA-Z][!$%&*/:<=>?^\\-+_~a-zA-Z0-9]*$";
 	private static final Pattern identifierPattern = Pattern.compile(identifierRegex);
 	private final String id;
 	
