@@ -7,15 +7,13 @@ public class LispImpl implements Lisp {
         assert expr.charAt(0)=='#';
         try {
             if ("#t".equals(expr) || "#f".equals(expr)) return LispBoolean.valueOf(expr);
-            else if (expr.startsWith("#e")) return new LispNumber(Double.valueOf(expr.substring(2)));
-            else if (expr.startsWith("#b")) return new LispNumber(new BigInteger(expr.substring(2),2));
-            else if (expr.startsWith("#o")) return new LispNumber(new BigInteger(expr.substring(2),8));
-            else if (expr.startsWith("#d")) return new LispNumber(new BigInteger(expr.substring(2),10));
-            else if (expr.startsWith("#x")) return new LispNumber(new BigInteger(expr.substring(2),16));
-            else if (expr.startsWith("#r")) {
-                String[] r_part = expr.substring(2).split("/");
-                return new LispNumber(new BigInteger(r_part[0]).divide(new BigInteger(r_part[1])));
-            } else if ("#()".equals(expr)) return new LispExpression();
+            else if (expr.startsWith("#e")) return LispNumber.parseDouble(expr.substring(2));
+            else if (expr.startsWith("#b")) return LispNumber.parseBigInteger(expr.substring(2), 2);
+            else if (expr.startsWith("#o")) return LispNumber.parseBigInteger(expr.substring(2), 8);
+            else if (expr.startsWith("#d")) return LispNumber.parseBigInteger(expr.substring(2), 10);
+            else if (expr.startsWith("#x")) return LispNumber.parseBigInteger(expr.substring(2), 16);
+            else if (expr.startsWith("#r")) return LispNumber.parseRatio(expr.substring(2));
+            else if ("#()".equals(expr)) return new LispExpression();
         } catch (Exception e) {
             throw new LispError("Parsing special notation failed : "+expr,e);
         }
