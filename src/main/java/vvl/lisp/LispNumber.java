@@ -66,7 +66,7 @@ public class LispNumber implements LispItem {
 	public static LispNumber parseRatio(String ratio) throws LispError {
 		try {
 			String[] r_part = ratio.split("/");
-			return new LispNumber(new BigInteger(r_part[0]).divide(new BigInteger(r_part[1])));
+			return new LispNumber(Double.parseDouble(r_part[0]) / Double.parseDouble(r_part[1]));
 		} catch (Exception e) {
 			throw new LispError("Parsing Ratio failed", e);
 		}
