@@ -54,7 +54,8 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:33.0.0-jre'
     implementation 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.800'
-    
+    implementation 'org.jetbrains:annotations:24.1.0'
+
     // To avoid SLF4J error message on the console
 	testImplementation 'org.slf4j:slf4j-simple:2.0.10'
 }
