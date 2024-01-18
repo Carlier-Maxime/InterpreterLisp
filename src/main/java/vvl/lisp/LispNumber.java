@@ -14,7 +14,7 @@ public class LispNumber implements LispItem {
 	private static final Pattern scientificNumberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*([eE][+-]?\\d+)?$");
 	private static final Pattern ratioPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*(/[+-]?\\d+\\.?\\d*)?$");
 	private static final Pattern numberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*([/eE][+-]?\\d+\\.?\\d*)?$");
-	private Number element;
+	private final Number element;
 	
 	public LispNumber(Number element) {
 		this.element = element;
