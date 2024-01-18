@@ -19,7 +19,7 @@ public class LispError extends Exception {
      * @param message
      *            a detailed message intended to the end user.
      * @param cause
-     *            the reason of the exception (e.g another exception).
+     *            the reason of the exception (e.g. another exception).
      */
     public LispError(String message, Throwable cause) {
         super(message, cause);
