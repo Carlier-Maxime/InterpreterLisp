@@ -2,10 +2,10 @@ package vvl.lisp;
 
 /**
  * Simple Boolean type for our lisp interpreter.
- * 
+ * <br><br>
  * We do not use the classical boolean operators in order to have an easy
  * translation to and from the lisp representation of Booleans.
- * 
+ * <br><br>
  * The Boolean operators are not implemented. They must be applied on the
  * {@link #value()} of the object.
  * 

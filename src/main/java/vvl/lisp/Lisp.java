@@ -12,7 +12,7 @@ public interface Lisp {
      * Parse a textual lisp expression and cut it into operator and operands for
      * further evaluation.
      * 
-     * @param expr
+     * @param expr expression
      * @return a single lisp element or a lisp expression
      * @throws LispError
      *             if the expression is not a valid Lisp/scheme expression
