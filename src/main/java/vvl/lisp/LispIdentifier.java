@@ -14,18 +14,14 @@ import java.util.regex.Pattern;
 public class LispIdentifier implements LispItem {
 	private static final String identifierRegex = "^[!$%&*/:<=>?^\\-+_~a-zA-Z][!$%&*/:<=>?^\\-+_~a-zA-Z0-9]*$";
 	private static final Pattern identifierPattern = Pattern.compile(identifierRegex);
-	private static final HashMap<String, LispItem> functions = new HashMap<>() {{
-		put("not", items -> {
-			if (items.isEmpty() || items.size()>1) throw new LispError("Invalid Argument, one argument required, but "+items.size()+" given");
-			return LispBoolean.valueOf(items.car()==LispBoolean.FALSE);
-		});
+	private static final HashMap<String, LispFunction> functions = new HashMap<>() {{
+		put("not", new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class));
 	}};
 	private final String id;
 	
 	public LispIdentifier(String id) throws LispError {
 		if (!identifierPattern.matcher(id).matches()) throw new LispError("This identifier '"+id+"' not respect regex : "+identifierRegex);
 		this.id = id;
-		
 	}
 	
 	@Override
