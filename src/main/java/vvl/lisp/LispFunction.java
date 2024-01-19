@@ -30,7 +30,7 @@ class LispFunction implements LispItem {
 
     @Override
     public LispItem eval(ConsList<LispItem> items) throws LispError {
-        if ((items.size()!=nbArgs && !repeatArgs) || (repeatArgs && items.size()%nbArgs!=0)) throw new LispError("Invalid Number of Argument, "+nbArgs+" argument required, but "+items.size()+" given");
+        if ((items.size()!=nbArgs && !repeatArgs) || (repeatArgs && items.size()%nbArgs!=0)) throw new LispError("Invalid number of operands");
         ConsList<LispItem> tmp = items;
         int size = items.size();
         for (int i=0; i<size; i++) {
