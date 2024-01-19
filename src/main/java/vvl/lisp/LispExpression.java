@@ -49,5 +49,11 @@ public class LispExpression implements LispItem {
     @Override
     public int hashCode() {
         return expression.hashCode();
-    }    
+    }
+
+	@Override
+	public LispItem eval(ConsList<LispItem> items) throws LispError {
+		if (values().isEmpty()) return this;
+		return values().car().eval(values().cdr());
+	}
 }

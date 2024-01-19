@@ -1,5 +1,7 @@
 package vvl.lisp;
 
+import vvl.util.ConsList;
+
 /**
  * Simple Boolean type for our lisp interpreter.
  * <br><br>
@@ -86,5 +88,10 @@ public final class LispBoolean implements LispItem {
         default:
             throw new IllegalArgumentException("Not a Boolean");
         }
+    }
+
+    @Override
+    public LispItem eval(ConsList<LispItem> items) {
+        return this;
     }
 }

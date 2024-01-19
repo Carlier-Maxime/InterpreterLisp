@@ -1,5 +1,7 @@
 package vvl.lisp;
 
+import vvl.util.ConsList;
+
 import java.math.BigInteger;
 import java.util.regex.Pattern;
 
@@ -81,5 +83,10 @@ public class LispNumber implements LispItem {
 
 	public static boolean isNumber(String number) {
 		return numberPattern.matcher(number).matches();
+	}
+
+	@Override
+	public LispItem eval(ConsList<LispItem> items) {
+		return this;
 	}
 }

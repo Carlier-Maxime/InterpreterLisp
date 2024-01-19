@@ -71,6 +71,6 @@ public class LispImpl implements Lisp {
 
     @Override
     public LispItem evaluate(LispItem ex) throws LispError {
-        return null;
+        return ex.eval(null);
     }
 }

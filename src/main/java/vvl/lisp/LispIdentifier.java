@@ -1,5 +1,7 @@
 package vvl.lisp;
 
+import vvl.util.ConsList;
+
 import java.util.regex.Pattern;
 
 /**
@@ -34,5 +36,10 @@ public class LispIdentifier implements LispItem {
     @Override
     public int hashCode() {
         return id.hashCode();
-    }    
+    }
+
+	@Override
+	public LispItem eval(ConsList<LispItem> items) throws LispError {
+		throw new LispError("Identifier '"+id+"' not implemented");
+	}
 }
