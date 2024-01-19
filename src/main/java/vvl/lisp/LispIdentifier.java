@@ -20,6 +20,10 @@ public class LispIdentifier implements LispItem {
 			for (LispItem item: items) if (item == LispBoolean.FALSE) return LispBoolean.FALSE;
 			return LispBoolean.TRUE;
 		}, true, LispBoolean.class));
+		put("or", new LispFunction(items -> {
+			for (LispItem item: items) if (item == LispBoolean.TRUE) return LispBoolean.TRUE;
+			return LispBoolean.FALSE;
+		}, true, LispBoolean.class));
 	}};
 	private final String id;
 	
