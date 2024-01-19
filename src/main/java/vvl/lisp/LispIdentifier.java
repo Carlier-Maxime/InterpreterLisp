@@ -16,6 +16,10 @@ public class LispIdentifier implements LispItem {
 	private static final Pattern identifierPattern = Pattern.compile(identifierRegex);
 	private static final HashMap<String, LispFunction> functions = new HashMap<>() {{
 		put("not", new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class));
+		put("and", new LispFunction(items -> {
+			for (LispItem item: items) if (item == LispBoolean.FALSE) return LispBoolean.FALSE;
+			return LispBoolean.TRUE;
+		}, true, LispBoolean.class));
 	}};
 	private final String id;
 	
