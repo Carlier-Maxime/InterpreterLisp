@@ -15,15 +15,9 @@ public class LispIdentifier implements LispItem {
 	private static final String identifierRegex = "^[!$%&*/:<=>?^\\-+_~a-zA-Z][!$%&*/:<=>?^\\-+_~a-zA-Z0-9]*$";
 	private static final Pattern identifierPattern = Pattern.compile(identifierRegex);
 	private static final HashMap<String, LispFunction> functions = new HashMap<>() {{
-		put("not", new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class));
-		put("and", new LispFunction(items -> {
-			for (LispItem item: items) if (item == LispBoolean.FALSE) return LispBoolean.FALSE;
-			return LispBoolean.TRUE;
-		}, true, LispBoolean.class));
-		put("or", new LispFunction(items -> {
-			for (LispItem item: items) if (item == LispBoolean.TRUE) return LispBoolean.TRUE;
-			return LispBoolean.FALSE;
-		}, true, LispBoolean.class));
+		put("not", LispFunction.NOT);
+		put("and", LispFunction.AND);
+		put("or", LispFunction.OR);
 	}};
 	private final String id;
 	

@@ -9,6 +9,18 @@ interface LispEvalFunction {
 }
 
 class LispFunction implements LispItem {
+    public static final LispFunction NOT = new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class);
+
+    public static final LispFunction AND = new LispFunction(items -> {
+        for (LispItem item: items) if (item == LispBoolean.FALSE) return LispBoolean.FALSE;
+        return LispBoolean.TRUE;
+    }, true, LispBoolean.class);
+
+    public static final LispFunction OR = new LispFunction(items -> {
+        for (LispItem item: items) if (item == LispBoolean.TRUE) return LispBoolean.TRUE;
+        return LispBoolean.FALSE;
+    }, true, LispBoolean.class);
+
     private final LispEvalFunction function;
     private final int nbArgs;
     private final Class<? extends LispItem>[] types;
