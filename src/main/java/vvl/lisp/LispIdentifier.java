@@ -18,6 +18,11 @@ public class LispIdentifier implements LispItem {
 		put("not", LispFunction.NOT);
 		put("and", LispFunction.AND);
 		put("or", LispFunction.OR);
+		put(">", LispFunction.GREATER);
+		put(">=", LispFunction.GREATER_OR_EQUALS);
+		put("<", LispFunction.LESSER);
+		put("<=", LispFunction.LESSER_OR_EQUALS);
+		put("=", LispFunction.EQUALS);
 	}};
 	private final String id;
 	
