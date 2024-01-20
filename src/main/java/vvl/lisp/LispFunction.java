@@ -21,12 +21,24 @@ class LispFunction implements LispItem {
         return LispBoolean.FALSE;
     }, true, LispBoolean.class);
 
-    public static final LispFunction COMPARE = new LispFunction(items -> new LispNumber(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car())), LispNumber.class, LispNumber.class);
-    public static final LispFunction GREATER = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())==1), LispNumber.class, LispNumber.class);
-    public static final LispFunction LESSER = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())==-1), LispNumber.class, LispNumber.class);
-    public static final LispFunction EQUALS = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())==0), LispNumber.class, LispNumber.class);
-    public static final LispFunction GREATER_OR_EQUALS = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())>=0), LispNumber.class, LispNumber.class);
-    public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())<=0), LispNumber.class, LispNumber.class);
+    public static final LispFunction CHECK_CONDITION_FOR_PAIRS = new LispFunction(items -> {
+        int size = items.size()-2;
+        LispFunction cdn = (LispFunction) items.car();
+        items = items.cdr();
+        for (int i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), items.cdr().car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
+        return LispBoolean.TRUE;
+    }, true, LispFunction.class, LispNumber.class);
+
+    public static final LispFunction GREATER_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) > 0), LispNumber.class, LispNumber.class);
+    public static final LispFunction LESSER_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) < 0), LispNumber.class, LispNumber.class);
+    public static final LispFunction EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) == 0), LispNumber.class, LispNumber.class);
+    public static final LispFunction GREATER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) >= 0), LispNumber.class, LispNumber.class);
+    public static final LispFunction LESSER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) <= 0), LispNumber.class, LispNumber.class);
+    public static final LispFunction GREATER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_CONDITION)), true, LispNumber.class);
+    public static final LispFunction LESSER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_CONDITION)), true, LispNumber.class);
+    public static final LispFunction EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(EQUALS_CONDITION)), true, LispNumber.class);
+    public static final LispFunction GREATER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_OR_EQUALS_CONDITION)), true, LispNumber.class);
+    public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_OR_EQUALS_CONDITION)), true, LispNumber.class);
 
     private final LispEvalFunction function;
     private final int nbArgs;
