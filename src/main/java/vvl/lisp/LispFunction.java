@@ -3,8 +3,6 @@ package vvl.lisp;
 import org.jetbrains.annotations.NotNull;
 import vvl.util.ConsList;
 
-import java.math.BigInteger;
-
 @FunctionalInterface
 interface LispEvalFunction {
     LispItem apply(ConsList<LispItem> items) throws LispError;
@@ -33,7 +31,7 @@ class LispFunction implements LispItem {
     private final LispEvalFunction function;
     private final int nbArgs;
     private final Class<? extends LispItem>[] types;
-    private final boolean repeatArgs;
+    private final boolean lastArgIsVarargs;
 
     @SafeVarargs
     public LispFunction(@NotNull LispEvalFunction function, Class<? extends LispItem>... types) {
@@ -41,21 +39,21 @@ class LispFunction implements LispItem {
     }
 
     @SafeVarargs
-    public LispFunction(@NotNull LispEvalFunction function, boolean repeatArgs, Class<? extends LispItem>... types) {
+    public LispFunction(@NotNull LispEvalFunction function, boolean lastArgIsVarargs, Class<? extends LispItem>... types) {
         this.function = function;
         this.nbArgs = types.length;
         this.types = types;
-        this.repeatArgs = repeatArgs;
+        this.lastArgIsVarargs = lastArgIsVarargs;
     }
 
 
     @Override
     public LispItem eval(ConsList<LispItem> items) throws LispError {
-        if ((items.size()!=nbArgs && !repeatArgs) || (repeatArgs && items.size()%nbArgs!=0)) throw new LispError("Invalid number of operands");
-        ConsList<LispItem> tmp = items;
         int size = items.size();
+        if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw new LispError("Invalid number of operands");
+        ConsList<LispItem> tmp = items;
         for (int i=0; i<size; i++) {
-            if (tmp.car().getClass() != types[i % types.length]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
+            if (tmp.car().getClass() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
             tmp = tmp.cdr();
         }
         return function.apply(items);
