@@ -23,37 +23,7 @@ class LispFunction implements LispItem {
         return LispBoolean.FALSE;
     }, true, LispBoolean.class);
 
-    public static final LispFunction COMPARE = new LispFunction(items -> {
-        Number a = ((LispNumber) items.car()).value();
-        Number b = ((LispNumber) items.cdr().car()).value();
-        Class<? extends Number> classA = a.getClass();
-        Class<? extends Number> classB = b.getClass();
-        if (classA == classB) {
-            if (classA == BigInteger.class) return new LispNumber(((BigInteger) a).compareTo((BigInteger) b));
-            else if (classA == Double.class) return new LispNumber(((Double) a).compareTo((Double) b));
-            else throw new LispError("LispNumber "+classA+" not supported");
-        }
-        Double d; BigInteger i;
-        int factor = 1;
-        if (classA == BigInteger.class) {
-            i = (BigInteger) a;
-            if (classB != Double.class) throw new LispError("LispNumber "+classB+" not supported");
-            d = (Double) b;
-        } else if (classA == Double.class) {
-            factor = -1;
-            i = (BigInteger) b;
-            if (classB != BigInteger.class) throw new LispError("LispNumber "+classB+" not supported");
-            d = (Double) a;
-        } else throw new LispError("LispNumber "+classA+" not supported");
-        int r = i.compareTo(BigInteger.valueOf(d.longValue()));
-        if (r==0) {
-            double decimal = d - ((double) d.longValue());
-            if (decimal>0) r=-1;
-            else if (decimal<0) r=1;
-        }
-        return new LispNumber(r*factor);
-    }, LispNumber.class, LispNumber.class);
-
+    public static final LispFunction COMPARE = new LispFunction(items -> new LispNumber(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car())), LispNumber.class, LispNumber.class);
     public static final LispFunction GREATER = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())==1), LispNumber.class, LispNumber.class);
     public static final LispFunction LESSER = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())==-1), LispNumber.class, LispNumber.class);
     public static final LispFunction EQUALS = new LispFunction(items -> LispBoolean.valueOf(((int) ((LispNumber) COMPARE.eval(items)).value())==0), LispNumber.class, LispNumber.class);

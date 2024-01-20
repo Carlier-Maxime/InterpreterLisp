@@ -1,5 +1,6 @@
 package vvl.lisp;
 
+import org.jetbrains.annotations.NotNull;
 import vvl.util.ConsList;
 
 import java.math.BigInteger;
@@ -11,7 +12,7 @@ import java.util.regex.Pattern;
  * @author leberre
  * 
  */
-public class LispNumber implements LispItem {
+public class LispNumber implements LispItem, Comparable<LispNumber> {
 	private static final Pattern intPattern = Pattern.compile("^[+-]?\\d+$");
 	private static final Pattern scientificNumberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*([eE][+-]?\\d+)?$");
 	private static final Pattern ratioPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*(/[+-]?\\d+\\.?\\d*)?$");
@@ -88,5 +89,37 @@ public class LispNumber implements LispItem {
 	@Override
 	public LispItem eval(ConsList<LispItem> items) {
 		return this;
+	}
+
+	@Override
+	public int compareTo(@NotNull LispNumber o) {
+		Number a = this.value();
+		Number b = o.value();
+		Class<? extends Number> classA = a.getClass();
+		Class<? extends Number> classB = b.getClass();
+		if (classA == classB) {
+			if (classA == BigInteger.class) return ((BigInteger) a).compareTo((BigInteger) b);
+			else if (classA == Double.class) return ((Double) a).compareTo((Double) b);
+			else throw new RuntimeException(new LispError("LispNumber "+classA+" not supported"));
+		}
+		double d; BigInteger i;
+		int factor = 1;
+		if (classA == BigInteger.class) {
+			i = (BigInteger) a;
+			if (classB != Double.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
+			d = (Double) b;
+		} else if (classA == Double.class) {
+			factor = -1;
+			i = (BigInteger) b;
+			if (classB != BigInteger.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
+			d = (Double) a;
+		} else throw new RuntimeException(new LispError("LispNumber "+classA+" not supported"));
+		int r = i.compareTo(BigInteger.valueOf((long) d));
+		if (r==0) {
+			double decimal = d - (long) d;
+			if (decimal>0) r=-1;
+			else if (decimal<0) r=1;
+		}
+		return r*factor;
 	}
 }
