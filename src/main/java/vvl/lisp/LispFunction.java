@@ -26,7 +26,7 @@ class LispFunction implements LispItem {
         if (size<0) throw new LispError("Invalid number of operands");
         LispFunction cdn = (LispFunction) items.car();
         items = items.cdr();
-        for (int i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), items.cdr().car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
+        for (int i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), (items = items.cdr()).car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
         return LispBoolean.TRUE;
     }, true, LispFunction.class, LispNumber.class);
 
