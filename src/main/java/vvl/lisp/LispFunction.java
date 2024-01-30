@@ -22,11 +22,11 @@ class LispFunction implements LispItem {
     }, true, LispBoolean.class);
 
     public static final LispFunction CHECK_CONDITION_FOR_PAIRS = new LispFunction(items -> {
-        int size = items.size()-2;
+        int size = items.size()-2, i;
         if (size<0) throw new LispError("Invalid number of operands");
         LispFunction cdn = (LispFunction) items.car();
         items = items.cdr();
-        for (int i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), (items = items.cdr()).car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
+        for (i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), (items = items.cdr()).car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
         return LispBoolean.TRUE;
     }, true, LispFunction.class, LispNumber.class);
 
