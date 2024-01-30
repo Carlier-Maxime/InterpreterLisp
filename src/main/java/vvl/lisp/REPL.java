@@ -19,7 +19,7 @@ public class REPL {
     }
 
     public static void readEvalPrintLoop(Lisp lisp) {
-    	try (Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
+    	try (var scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
             System.out.println("My super own Lisp/Scheme interpreter 2024");
             System.out.println("Enter a valid Lisp expression followed by Enter. type 'quit' to exit.");
             System.out.print("> ");
