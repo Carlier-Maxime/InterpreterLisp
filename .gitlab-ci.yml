@@ -17,7 +17,6 @@ gradle:
       - "gradle $PROXY $SONARINFO sonarqube"
   tags: 
      - k8s
-     - docker
   artifacts:
     when: always
     reports:
