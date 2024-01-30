@@ -77,6 +77,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
 
             @Override
             public E next() {
+                if (!hasNext()) throw new NoSuchElementException();
                 E e = list.car();
                 list = list.cdr();
                 return e;
