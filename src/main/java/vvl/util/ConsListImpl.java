@@ -54,7 +54,8 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
 
     @Override
     public int size() {
-        return (isEmpty()) ? 0 : (list.right()==null) ? 1 : list.right().size()+1;
+        if (isEmpty()) return 0;
+        return (list.right()==null) ? 1 : list.right().size()+1;
     }
 
     @Override
