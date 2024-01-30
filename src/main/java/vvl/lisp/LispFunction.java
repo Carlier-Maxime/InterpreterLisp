@@ -22,11 +22,11 @@ class LispFunction implements LispItem {
     }, true, LispBoolean.class);
 
     public static final LispFunction CHECK_CONDITION_FOR_PAIRS = new LispFunction(items -> {
-        int size = items.size()-2, i;
+        int size = items.size()-2;
         if (size<0) throw new LispError("Invalid number of operands");
         LispFunction cdn = (LispFunction) items.car();
         items = items.cdr();
-        for (i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), (items = items.cdr()).car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
+        for (var i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), (items = items.cdr()).car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
         return LispBoolean.TRUE;
     }, true, LispFunction.class, LispNumber.class);
 
@@ -65,7 +65,7 @@ class LispFunction implements LispItem {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw new LispError("Invalid number of operands");
         ConsList<LispItem> tmp = items;
-        for (int i=0; i<size; i++) {
+        for (var i=0; i<size; i++) {
             if (tmp.car().getClass() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
             tmp = tmp.cdr();
         }
