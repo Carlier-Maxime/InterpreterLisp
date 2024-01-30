@@ -24,7 +24,7 @@ public class LispIdentifier implements LispItem {
 		functions.put(">=", LispFunction.GREATER_OR_EQUALS);
 		functions.put("<", LispFunction.LESSER);
 		functions.put("<=", LispFunction.LESSER_OR_EQUALS);
-		functions.put("=", LispFunction.EQUALS);
+		functions.put("=", LispFunction.IS_EQUALS);
 	}
 
 	private final String id;
