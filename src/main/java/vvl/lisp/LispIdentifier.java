@@ -22,7 +22,7 @@ public class LispIdentifier implements LispItem {
 		put(">=", LispFunction.GREATER_OR_EQUALS);
 		put("<", LispFunction.LESSER);
 		put("<=", LispFunction.LESSER_OR_EQUALS);
-		put("=", LispFunction.EQUALS);
+		put("=", LispFunction.IS_EQUALS);
 	}};
 	private final String id;
 	
