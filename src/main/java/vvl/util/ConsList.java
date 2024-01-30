@@ -92,7 +92,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @return all the elements of the list in an array of objects
 	 */
 	default Object[] toArray() {
-		Object[] array = new Object[size()];
+		var array = new Object[size()];
 		int i = 0;
 		for (Object o : this) array[i++] = o;
 		return array;
