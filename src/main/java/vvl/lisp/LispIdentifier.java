@@ -3,6 +3,7 @@ package vvl.lisp;
 import vvl.util.ConsList;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 public class LispIdentifier implements LispItem {
 	private static final String identifierRegex = "^[!$%&*/:<=>?^\\-+_~a-zA-Z][!$%&*/:<=>?^\\-+_~a-zA-Z0-9]*$";
 	private static final Pattern identifierPattern = Pattern.compile(identifierRegex);
-	private static final HashMap<String, LispFunction> functions = new HashMap<>() {};
+	private static final Map<String, LispFunction> functions = new HashMap<>() {};
 	static {
 		functions.put("not", LispFunction.NOT);
 		functions.put("and", LispFunction.AND);
