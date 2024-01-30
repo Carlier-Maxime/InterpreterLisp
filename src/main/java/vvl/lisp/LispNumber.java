@@ -13,10 +13,10 @@ import java.util.regex.Pattern;
  * 
  */
 public class LispNumber implements LispItem, Comparable<LispNumber> {
-	private static final Pattern intPattern = Pattern.compile("^[+-]?\\d+$");
-	private static final Pattern scientificNumberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*([eE][+-]?\\d+)?$");
-	private static final Pattern ratioPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*(/[+-]?\\d+\\.?\\d*)?$");
-	private static final Pattern numberPattern = Pattern.compile("^[+-]?\\d+\\.?\\d*([/eE][+-]?\\d+\\.?\\d*)?$");
+	private static final Pattern INT_PATTERN = Pattern.compile("^[+-]?\\d+$");
+	private static final Pattern SCIENTIFIC_NUMBER_PATTERN = Pattern.compile("^[+-]?\\d+\\.?\\d*([eE][+-]?\\d+)?$");
+	private static final Pattern RATIO_PATTERN = Pattern.compile("^[+-]?\\d+\\.?\\d*(/[+-]?\\d+\\.?\\d*)?$");
+	private static final Pattern NUMBER_PATTERN = Pattern.compile("^[+-]?\\d+\\.?\\d*([/eE][+-]?\\d+\\.?\\d*)?$");
 	private final Number element;
 	
 	public LispNumber(Number element) {
@@ -76,14 +76,14 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	}
 
 	public static LispNumber parseNumber(String number) throws LispError {
-		if (intPattern.matcher(number).matches()) return parseBigInteger(number);
-		else if (scientificNumberPattern.matcher(number).matches()) return parseDouble(number);
-		else if (ratioPattern.matcher(number).matches()) return parseRatio(number);
+		if (INT_PATTERN.matcher(number).matches()) return parseBigInteger(number);
+		else if (SCIENTIFIC_NUMBER_PATTERN.matcher(number).matches()) return parseDouble(number);
+		else if (RATIO_PATTERN.matcher(number).matches()) return parseRatio(number);
 		else throw new LispError("Parsing number failed, the number is invalid : "+number);
 	}
 
 	public static boolean isNumber(String number) {
-		return numberPattern.matcher(number).matches();
+		return NUMBER_PATTERN.matcher(number).matches();
 	}
 
 	@Override
