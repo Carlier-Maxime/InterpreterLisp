@@ -17,8 +17,12 @@ plugins {
 }
 
 repositories {
+    maven {
+        url "http://nexus.cril-k8s.lan/repository/maven-central/"
+        allowInsecureProtocol true
+    }
     // Use JCenter for resolving dependencies.
-    mavenCentral()
+    // mavenCentral()
 }
 
 dependencies {

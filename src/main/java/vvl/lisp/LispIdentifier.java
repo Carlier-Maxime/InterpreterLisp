@@ -3,6 +3,7 @@ package vvl.lisp;
 import vvl.util.ConsList;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -14,16 +15,18 @@ import java.util.regex.Pattern;
 public class LispIdentifier implements LispItem {
 	private static final String identifierRegex = "^[!$%&*/:<=>?^\\-+_~a-zA-Z][!$%&*/:<=>?^\\-+_~a-zA-Z0-9]*$";
 	private static final Pattern identifierPattern = Pattern.compile(identifierRegex);
-	private static final HashMap<String, LispFunction> functions = new HashMap<>() {{
-		put("not", LispFunction.NOT);
-		put("and", LispFunction.AND);
-		put("or", LispFunction.OR);
-		put(">", LispFunction.GREATER);
-		put(">=", LispFunction.GREATER_OR_EQUALS);
-		put("<", LispFunction.LESSER);
-		put("<=", LispFunction.LESSER_OR_EQUALS);
-		put("=", LispFunction.IS_EQUALS);
-	}};
+	private static final Map<String, LispFunction> functions = new HashMap<>() {};
+	static {
+		functions.put("not", LispFunction.NOT);
+		functions.put("and", LispFunction.AND);
+		functions.put("or", LispFunction.OR);
+		functions.put(">", LispFunction.GREATER);
+		functions.put(">=", LispFunction.GREATER_OR_EQUALS);
+		functions.put("<", LispFunction.LESSER);
+		functions.put("<=", LispFunction.LESSER_OR_EQUALS);
+		functions.put("=", LispFunction.EQUALS);
+	}
+
 	private final String id;
 	
 	public LispIdentifier(String id) throws LispError {
