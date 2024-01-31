@@ -53,6 +53,19 @@ public class LispImpl implements Lisp {
         return new Cons<>(nbClose, element);
     }
 
+    private LispExpression handleCloseExpression(String[] elems, int index, int nbClose) throws LispError {
+        for (int j=0; j<nbClose; j++) {
+            LispExpression lispExpr = lists.car();
+            lists = lists.cdr();
+            if (lists.isEmpty()) {
+                if (index==0) return lispExpr;
+                for (int k=index-1; k>=0; k--) if (!elems[k].isBlank()) throw new LispError("Element outside expression");
+                return lispExpr;
+            } else lists.car().prepend(lispExpr);
+        }
+        return null;
+    }
+
     @Override
     public LispItem parse(String expr) throws LispError {
         String[] elems = expr.split("\\s+");
@@ -71,15 +84,8 @@ public class LispImpl implements Lisp {
                     }
                     lists.car().prepend(parseSingleElement(elems[i]));
                 }
-                for (int j=0; j<nbClose; j++) {
-                    LispExpression lispExpr = lists.car();
-                    lists = lists.cdr();
-                    if (lists.isEmpty()) {
-                        if (i==0) return lispExpr;
-                        for (int k=i-1; k>=0; k--) if (!elems[k].isBlank()) throw new LispError("Element outside expression");
-                        return lispExpr;
-                    } else lists.car().prepend(lispExpr);
-                }
+                var lispExpr = handleCloseExpression(elems, i, nbClose);
+                if (lispExpr!=null) return lispExpr;
             }
         } catch (Exception e) {
             throw new LispError("Parsing expression failed : "+expr, e);
