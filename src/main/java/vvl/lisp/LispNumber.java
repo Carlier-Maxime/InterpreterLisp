@@ -1,6 +1,7 @@
 package vvl.lisp;
 
 import org.jetbrains.annotations.NotNull;
+import vvl.util.Cons;
 import vvl.util.ConsList;
 
 import java.math.BigInteger;
@@ -91,6 +92,18 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		return this;
 	}
 
+	private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(Number a, Number b) {
+		Class<? extends Number> classA = a.getClass();
+		Class<? extends Number> classB = b.getClass();
+		if (classA == BigInteger.class) {
+			if (classB != Double.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
+			return new Cons<>(1, new Cons<>((BigInteger) a, (Double) b));
+		} else if (classA == Double.class) {
+			if (classB != BigInteger.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
+			return new Cons<>(-1, new Cons<>((BigInteger) b, (Double) a));
+		} else throw new RuntimeException(new LispError("LispNumber "+classA+" not supported"));
+	}
+
 	@Override
 	public int compareTo(@NotNull LispNumber o) {
 		Number a = this.value();
@@ -102,18 +115,11 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 			else if (classA == Double.class) return ((Double) a).compareTo((Double) b);
 			else throw new RuntimeException(new LispError("LispNumber "+classA+" not supported"));
 		}
-		double d; BigInteger i;
-		int factor = 1;
-		if (classA == BigInteger.class) {
-			i = (BigInteger) a;
-			if (classB != Double.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
-			d = (Double) b;
-		} else if (classA == Double.class) {
-			factor = -1;
-			i = (BigInteger) b;
-			if (classB != BigInteger.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
-			d = (Double) a;
-		} else throw new RuntimeException(new LispError("LispNumber "+classA+" not supported"));
+		int factor; double d; BigInteger i;
+		var cons = separateBigIntAndDouble(a, b);
+		factor = cons.left();
+		i = cons.right().left();
+		d = cons.right().right();
 		int r = i.compareTo(BigInteger.valueOf((long) d));
 		if (r==0) {
 			double decimal = d - (long) d;
