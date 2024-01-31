@@ -92,20 +92,20 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		return this;
 	}
 
-	private static LispError classNotSupported(Class<?> clazz) {
-		return new LispError("LispNumber "+clazz+" not supported");
+	private static RuntimeException classNotSupported(Class<?> clazz) {
+		return new LispRuntimeError("LispNumber "+clazz+" not supported");
 	}
 
 	private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(Number a, Number b) {
 		Class<? extends Number> classA = a.getClass();
 		Class<? extends Number> classB = b.getClass();
 		if (classA == BigInteger.class) {
-			if (classB != Double.class) throw new RuntimeException(classNotSupported(classB));
+			if (classB != Double.class) throw classNotSupported(classB);
 			return new Cons<>(1, new Cons<>((BigInteger) a, (Double) b));
 		} else if (classA == Double.class) {
-			if (classB != BigInteger.class) throw new RuntimeException(classNotSupported(classB));
+			if (classB != BigInteger.class) throw classNotSupported(classB);
 			return new Cons<>(-1, new Cons<>((BigInteger) b, (Double) a));
-		} else throw new RuntimeException(classNotSupported(classA));
+		} else throw classNotSupported(classA);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		if (classA == classB) {
 			if (classA == BigInteger.class) return ((BigInteger) a).compareTo((BigInteger) b);
 			else if (classA == Double.class) return ((Double) a).compareTo((Double) b);
-			else throw new RuntimeException(classNotSupported(classA));
+			else throw classNotSupported(classA);
 		}
 		var cons = separateBigIntAndDouble(a, b);
 		int factor = cons.left();
