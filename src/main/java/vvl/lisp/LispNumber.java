@@ -69,8 +69,8 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 
 	public static LispNumber parseRatio(String ratio) throws LispError {
 		try {
-			String[] r_part = ratio.split("/");
-			return new LispNumber(Double.parseDouble(r_part[0]) / Double.parseDouble(r_part[1]));
+			String[] ratioPart = ratio.split("/");
+			return new LispNumber(Double.parseDouble(ratioPart[0]) / Double.parseDouble(ratioPart[1]));
 		} catch (Exception e) {
 			throw new LispError("Parsing Ratio failed", e);
 		}
@@ -92,16 +92,20 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		return this;
 	}
 
+	private static LispError classNotSupported(Class<?> clazz) {
+		return new LispError("LispNumber "+clazz+" not supported");
+	}
+
 	private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(Number a, Number b) {
 		Class<? extends Number> classA = a.getClass();
 		Class<? extends Number> classB = b.getClass();
 		if (classA == BigInteger.class) {
-			if (classB != Double.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
+			if (classB != Double.class) throw new RuntimeException(classNotSupported(classB));
 			return new Cons<>(1, new Cons<>((BigInteger) a, (Double) b));
 		} else if (classA == Double.class) {
-			if (classB != BigInteger.class) throw new RuntimeException(new LispError("LispNumber "+classB+" not supported"));
+			if (classB != BigInteger.class) throw new RuntimeException(classNotSupported(classB));
 			return new Cons<>(-1, new Cons<>((BigInteger) b, (Double) a));
-		} else throw new RuntimeException(new LispError("LispNumber "+classA+" not supported"));
+		} else throw new RuntimeException(classNotSupported(classA));
 	}
 
 	@Override
@@ -113,7 +117,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		if (classA == classB) {
 			if (classA == BigInteger.class) return ((BigInteger) a).compareTo((BigInteger) b);
 			else if (classA == Double.class) return ((Double) a).compareTo((Double) b);
-			else throw new RuntimeException(new LispError("LispNumber "+classA+" not supported"));
+			else throw new RuntimeException(classNotSupported(classA));
 		}
 		int factor; double d; BigInteger i;
 		var cons = separateBigIntAndDouble(a, b);
