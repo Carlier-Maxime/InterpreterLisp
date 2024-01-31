@@ -119,11 +119,10 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 			else if (classA == Double.class) return ((Double) a).compareTo((Double) b);
 			else throw new RuntimeException(classNotSupported(classA));
 		}
-		int factor; double d; BigInteger i;
 		var cons = separateBigIntAndDouble(a, b);
-		factor = cons.left();
-		i = cons.right().left();
-		d = cons.right().right();
+		int factor = cons.left();
+		BigInteger i = cons.right().left();
+		double d = cons.right().right();
 		int r = i.compareTo(BigInteger.valueOf((long) d));
 		if (r==0) {
 			double decimal = d - (long) d;
