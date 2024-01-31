@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
  * 
  */
 public class LispNumber implements LispItem, Comparable<LispNumber> {
-	private static final Pattern INT_PATTERN = Pattern.compile("^[+-]?\\d+$");
-	private static final Pattern SCIENTIFIC_NUMBER_PATTERN = Pattern.compile("^[+-]?\\d+\\.?\\d*([eE][+-]?\\d+)?$");
-	private static final Pattern RATIO_PATTERN = Pattern.compile("^[+-]?\\d+\\.?\\d*(/[+-]?\\d+\\.?\\d*)?$");
-	private static final Pattern NUMBER_PATTERN = Pattern.compile("^[+-]?\\d+\\.?\\d*([/eE][+-]?\\d+\\.?\\d*)?$");
+	private static final Pattern INT_PATTERN = Pattern.compile("^[+-]?\\d++$");
+	private static final Pattern SCIENTIFIC_NUMBER_PATTERN = Pattern.compile("^[+-]?\\d++(\\.\\d*+)?+([eE][+-]?\\d++)?$");
+	private static final Pattern RATIO_PATTERN = Pattern.compile("^[+-]?\\d++(\\.\\d*+)?+(/[+-]?\\d++(\\.\\d*+)?+)?$");
+	private static final Pattern NUMBER_PATTERN = Pattern.compile("^[+-]?\\d++(\\.\\d*+)?+([/eE][+-]?\\d++(\\.\\d*+)?+)?$");
 	private final Number element;
 	
 	public LispNumber(Number element) {
