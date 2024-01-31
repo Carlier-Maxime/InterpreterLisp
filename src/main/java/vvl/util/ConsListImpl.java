@@ -101,8 +101,8 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("(");
-        boolean empty = true;
+        var sb = new StringBuilder("(");
+        var empty = true;
         for (E e : this) {
             if (!empty) sb.append(' ');
             else empty=false;
