@@ -111,6 +111,13 @@ class LispFunction implements LispItem {
     public LispItem eval(ConsList<LispItem> items) throws LispError {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
+        items = items.map(lispItem -> {
+            try {
+                return lispItem.getClass() == LispExpression.class ? lispItem.eval(null) : lispItem;
+            } catch (LispError e) {
+                throw new RuntimeException(e);
+            }
+        });
         ConsList<LispItem> tmp = items;
         for (var i=0; i<size; i++) {
             if (tmp.car().getClass() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
