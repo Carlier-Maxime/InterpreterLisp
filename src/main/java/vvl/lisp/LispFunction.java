@@ -53,6 +53,16 @@ class LispFunction implements LispItem {
         return result;
     }, true, LispNumber.class);
 
+    public static final LispFunction MUL = new LispFunction(items -> {
+        var result = new LispNumber(BigInteger.valueOf(1));
+        var size = items.size();
+        for (var i=0; i<size; i++) {
+            result = result.mul((LispNumber) items.car());
+            items = items.cdr();
+        }
+        return result;
+    }, true, LispNumber.class);
+
     private final LispEvalFunction function;
     private final int nbArgs;
     private final Class<? extends LispItem>[] types;
