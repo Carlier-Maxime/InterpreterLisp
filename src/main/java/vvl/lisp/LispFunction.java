@@ -3,6 +3,8 @@ package vvl.lisp;
 import org.jetbrains.annotations.NotNull;
 import vvl.util.ConsList;
 
+import java.math.BigInteger;
+
 @FunctionalInterface
 interface LispEvalFunction {
     LispItem apply(ConsList<LispItem> items) throws LispError;
@@ -40,6 +42,16 @@ class LispFunction implements LispItem {
     public static final LispFunction IS_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(EQUALS_CONDITION)), true, LispNumber.class);
     public static final LispFunction GREATER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_OR_EQUALS_CONDITION)), true, LispNumber.class);
     public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_OR_EQUALS_CONDITION)), true, LispNumber.class);
+
+    public static final LispFunction ADD = new LispFunction(items -> {
+        LispNumber result = new LispNumber(BigInteger.valueOf(0));
+        var size = items.size();
+        for (var i=0; i<size; i++) {
+            result = result.add((LispNumber) items.car());
+            items = items.cdr();
+        }
+        return result;
+    }, true, LispNumber.class);
 
     private final LispEvalFunction function;
     private final int nbArgs;
