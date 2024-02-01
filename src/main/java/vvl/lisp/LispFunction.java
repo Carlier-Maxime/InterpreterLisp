@@ -44,7 +44,7 @@ class LispFunction implements LispItem {
     public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_OR_EQUALS_CONDITION)), true, LispNumber.class);
 
     public static final LispFunction ADD = new LispFunction(items -> {
-        LispNumber result = new LispNumber(BigInteger.valueOf(0));
+        var result = new LispNumber(BigInteger.valueOf(0));
         var size = items.size();
         for (var i=0; i<size; i++) {
             result = result.add((LispNumber) items.car());
