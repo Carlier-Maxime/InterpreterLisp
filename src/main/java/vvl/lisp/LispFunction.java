@@ -11,6 +11,7 @@ interface LispEvalFunction {
 }
 
 class LispFunction implements LispItem {
+    public static final LispError INVALID_NUMBER_OF_OPERAND = new LispError("Invalid number of operands");
     public static final LispFunction NOT = new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class);
 
     public static final LispFunction AND = new LispFunction(items -> {
@@ -25,7 +26,7 @@ class LispFunction implements LispItem {
 
     public static final LispFunction CHECK_CONDITION_FOR_PAIRS = new LispFunction(items -> {
         int size = items.size()-2;
-        if (size<0) throw new LispError("Invalid number of operands");
+        if (size<0) throw INVALID_NUMBER_OF_OPERAND;
         LispFunction cdn = (LispFunction) items.car();
         items = items.cdr();
         for (var i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), (items = items.cdr()).car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
@@ -64,7 +65,7 @@ class LispFunction implements LispItem {
     }, true, LispNumber.class);
 
     public static final LispFunction SUB = new LispFunction(items -> {
-        if (items.isEmpty()) throw new LispError("Invalid number of operands");
+        if (items.isEmpty()) throw INVALID_NUMBER_OF_OPERAND;
         var result = (LispNumber) items.car();
         items = items.cdr();
         var size = items.size();
@@ -97,7 +98,7 @@ class LispFunction implements LispItem {
     @Override
     public LispItem eval(ConsList<LispItem> items) throws LispError {
         int size = items.size();
-        if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw new LispError("Invalid number of operands");
+        if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
         ConsList<LispItem> tmp = items;
         for (var i=0; i<size; i++) {
             if (tmp.car().getClass() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
