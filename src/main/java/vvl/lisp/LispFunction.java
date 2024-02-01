@@ -115,7 +115,7 @@ class LispFunction implements LispItem {
             try {
                 return lispItem.getClass() == LispExpression.class ? lispItem.eval(null) : lispItem;
             } catch (LispError e) {
-                throw new RuntimeException(e);
+                throw new LispRuntimeError(e);
             }
         });
         ConsList<LispItem> tmp = items;

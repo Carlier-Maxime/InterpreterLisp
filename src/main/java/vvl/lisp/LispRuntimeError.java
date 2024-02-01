@@ -27,4 +27,12 @@ public class LispRuntimeError extends RuntimeException {
     public LispRuntimeError(String message) {
         super(message);
     }
+
+    /**
+     * Create a new exception with a cause.
+     *
+     * @param cause
+     *            the reason of the exception (e.g. another exception).
+     */
+    public LispRuntimeError(Throwable cause) {super(cause);}
 }
