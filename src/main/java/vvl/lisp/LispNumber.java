@@ -181,4 +181,22 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		if (cons.left() == -1) return new LispNumber(d - i.doubleValue());
 		return new LispNumber(i.doubleValue() - d);
 	}
+
+	public LispNumber div(LispNumber number) throws LispError {
+		if (number.compareTo(new LispNumber(BigInteger.valueOf(0))) == 0) throw new LispError("Division by zero");
+		Number a = this.value();
+		Number b = number.value();
+		Class<? extends Number> classA = a.getClass();
+		Class<? extends Number> classB = b.getClass();
+		if (classA == classB) {
+			if (classA == BigInteger.class) return new LispNumber(((BigInteger) a).divide((BigInteger) b));
+			else if (classA == Double.class) return new LispNumber((Double) a / (Double) b);
+			else throw classNotSupported(classA);
+		}
+		var cons = separateBigIntAndDouble(a, b);
+		BigInteger i = cons.right().left();
+		double d = cons.right().right();
+		if (cons.left() == -1) return new LispNumber(d / i.doubleValue());
+		return new LispNumber(i.doubleValue() / d);
+	}
 }

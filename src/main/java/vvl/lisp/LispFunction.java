@@ -76,6 +76,18 @@ class LispFunction implements LispItem {
         return size==0 ? result.sub(null) : result ;
     }, true, LispNumber.class);
 
+    public static final LispFunction DIV = new LispFunction(items -> {
+        if (items.size() < 2) throw INVALID_NUMBER_OF_OPERAND;
+        var result = (LispNumber) items.car();
+        items = items.cdr();
+        var size = items.size();
+        for (var i=0; i<size; i++) {
+            result = result.div((LispNumber) items.car());
+            items = items.cdr();
+        }
+        return result ;
+    }, true, LispNumber.class);
+
     private final LispEvalFunction function;
     private final int nbArgs;
     private final Class<? extends LispItem>[] types;
