@@ -63,6 +63,18 @@ class LispFunction implements LispItem {
         return result;
     }, true, LispNumber.class);
 
+    public static final LispFunction SUB = new LispFunction(items -> {
+        if (items.isEmpty()) throw new LispError("Invalid number of operands");
+        var result = (LispNumber) items.car();
+        items = items.cdr();
+        var size = items.size();
+        for (var i=0; i<size; i++) {
+            result = result.sub((LispNumber) items.car());
+            items = items.cdr();
+        }
+        return size==0 ? result.sub(null) : result ;
+    }, true, LispNumber.class);
+
     private final LispEvalFunction function;
     private final int nbArgs;
     private final Class<? extends LispItem>[] types;
