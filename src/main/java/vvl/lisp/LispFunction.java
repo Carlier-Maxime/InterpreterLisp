@@ -3,8 +3,11 @@ package vvl.lisp;
 import org.jetbrains.annotations.NotNull;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
+import vvl.util.ConsListLispItem;
 
 import java.math.BigInteger;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @FunctionalInterface
 interface LispEvalFunction {
@@ -126,9 +129,11 @@ class LispFunction implements LispItem {
     protected void checkParameter(ConsList<LispItem> items) throws LispError {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
-        ConsList<LispItem> tmp = items;
+        var tmp = items;
+        var noEval = tmp.getClass() == ConsListLispItem.class;
         for (var i=0; i<size; i++) {
-            var itemType = tmp.car().outputType(items);
+            Supplier<LispItem> car = (noEval) ? ((ConsListLispItem) tmp)::carNoEval :  tmp::car;
+            var itemType = car.get().outputType(items);
             if (!(types[i >= types.length ? types.length-1 : i].isAssignableFrom(itemType))) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+itemType);
             tmp = tmp.cdr();
         }
@@ -137,17 +142,7 @@ class LispFunction implements LispItem {
     @Override
     public LispItem eval(ConsList<LispItem> items) throws LispError {
         checkParameter(items);
-        return function.apply(new ConsListImpl<>((ConsListImpl<LispItem>) items) {
-            @Override
-            public LispItem car() {
-                try {
-                    var item = super.car();
-                    return item.getClass() == LispExpression.class ? item.eval(null) : item;
-                } catch (LispError e) {
-                    throw new LispRuntimeError(e);
-                }
-            }
-        });
+        return function.apply(new ConsListLispItem((ConsListImpl<LispItem>) items));
     }
 
     @Override

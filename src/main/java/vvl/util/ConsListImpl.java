@@ -17,7 +17,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
         this(first, null);
     }
 
-    private ConsListImpl(E first, ConsList<E> list) {
+    protected ConsListImpl(E first, ConsList<E> list) {
         if (list==null && first!=null) this.list = new Cons<>(first, ConsList.nil());
         else this.list = new Cons<>(first, list);
     }
