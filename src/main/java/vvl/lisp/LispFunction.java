@@ -129,7 +129,7 @@ class LispFunction implements LispItem {
         ConsList<LispItem> tmp = items;
         for (var i=0; i<size; i++) {
             var itemType = tmp.car().outputType(items);
-            if (itemType != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+itemType);
+            if (!(types[i >= types.length ? types.length-1 : i].isAssignableFrom(itemType))) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+itemType);
             tmp = tmp.cdr();
         }
     }
