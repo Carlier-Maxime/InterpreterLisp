@@ -6,7 +6,6 @@ import vvl.util.ConsListImpl;
 import vvl.util.ConsListLispItem;
 
 import java.math.BigInteger;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @FunctionalInterface
