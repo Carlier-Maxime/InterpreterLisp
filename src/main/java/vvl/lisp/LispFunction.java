@@ -53,11 +53,11 @@ class LispFunction implements LispItem {
     public static final LispFunction EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) == 0), LispBoolean.class, LispNumber.class, LispNumber.class);
     public static final LispFunction GREATER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) >= 0), LispBoolean.class, LispNumber.class, LispNumber.class);
     public static final LispFunction LESSER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) <= 0), LispBoolean.class, LispNumber.class, LispNumber.class);
-    public static final LispFunction GREATER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_CONDITION)), LispBoolean.class, true, LispNumber.class);
-    public static final LispFunction LESSER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_CONDITION)), LispBoolean.class, true, LispNumber.class);
-    public static final LispFunction IS_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(EQUALS_CONDITION)), LispBoolean.class, true, LispNumber.class);
-    public static final LispFunction GREATER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_OR_EQUALS_CONDITION)), LispBoolean.class, true, LispNumber.class);
-    public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_OR_EQUALS_CONDITION)), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction GREATER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_CONDITION.quote())), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction LESSER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_CONDITION.quote())), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction IS_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(EQUALS_CONDITION.quote())), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction GREATER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_OR_EQUALS_CONDITION.quote())), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_OR_EQUALS_CONDITION.quote())), LispBoolean.class, true, LispNumber.class);
 
     public static final LispFunction ADD = new LispFunction(items -> {
         var result = new LispNumber(BigInteger.valueOf(0));
@@ -157,5 +157,9 @@ class LispFunction implements LispItem {
 
     public LispEvalFunction getFunction() {
         return function;
+    }
+
+    public LispExpression quote() {
+        return new LispExpression(QUOTE, this);
     }
 }
