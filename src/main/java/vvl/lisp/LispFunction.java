@@ -109,9 +109,7 @@ class LispFunction implements LispItem {
         this.lastArgIsVarargs = lastArgIsVarargs;
     }
 
-
-    @Override
-    public LispItem eval(ConsList<LispItem> items) throws LispError {
+    protected void checkParameter(ConsList<LispItem> items) throws LispError {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
         ConsList<LispItem> tmp = items;
@@ -119,6 +117,11 @@ class LispFunction implements LispItem {
             if (tmp.car().outputType() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
             tmp = tmp.cdr();
         }
+    }
+
+    @Override
+    public LispItem eval(ConsList<LispItem> items) throws LispError {
+        checkParameter(items);
         return function.apply(new ConsListImpl<>((ConsListImpl<LispItem>) items) {
             @Override
             public LispItem car() {
