@@ -10,4 +10,5 @@ import vvl.util.ConsList;
  */
 public interface LispItem {
     LispItem eval(ConsList<LispItem> items) throws LispError;
+    Class<? extends LispItem> outputType();
 }

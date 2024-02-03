@@ -56,4 +56,10 @@ public class LispExpression implements LispItem {
 		if (values().isEmpty()) return this;
 		return values().car().eval(values().cdr());
 	}
+
+	@Override
+	public Class<? extends LispItem> outputType() {
+		if (values().isEmpty()) return this.getClass();
+		return values().car().outputType();
+	}
 }

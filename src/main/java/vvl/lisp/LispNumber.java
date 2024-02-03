@@ -92,6 +92,11 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		return this;
 	}
 
+	@Override
+	public Class<? extends LispItem> outputType() {
+		return this.getClass();
+	}
+
 	private static RuntimeException classNotSupported(Class<?> clazz) {
 		return new LispRuntimeError("LispNumber "+clazz+" not supported");
 	}

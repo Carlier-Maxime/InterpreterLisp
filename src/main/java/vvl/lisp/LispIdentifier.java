@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class LispIdentifier implements LispItem {
 	private static final String IDENTIFIER_REGEX = "^[!$%&*/:<=>?^\\-+_~a-zA-Z][!$%&*/:<=>?^\\-+_~a-zA-Z0-9]*$";
 	private static final Pattern IDENTIFIER_PATTERN = Pattern.compile(IDENTIFIER_REGEX);
-	private static final Map<String, LispFunction> FUNCTIONS = new HashMap<>() {};
+	private static final Map<String, LispItem> FUNCTIONS = new HashMap<>() {};
 	static {
 		FUNCTIONS.put("not", LispFunction.NOT);
 		FUNCTIONS.put("and", LispFunction.AND);
@@ -57,8 +57,13 @@ public class LispIdentifier implements LispItem {
 
 	@Override
 	public LispItem eval(ConsList<LispItem> items) throws LispError {
-		LispItem func = FUNCTIONS.get(id);
+		var func = FUNCTIONS.get(id);
 		if (func==null) throw new LispError("Identifier '"+id+"' not implemented");
 		return func.eval(items);
+	}
+
+	@Override
+	public Class<? extends LispItem> outputType() {
+		return FUNCTIONS.get(id).outputType();
 	}
 }
