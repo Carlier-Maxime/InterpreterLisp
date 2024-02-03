@@ -1,5 +1,9 @@
 package vvl.lisp;
 
+import vvl.lisp.functions.ComparisonOperations;
+import vvl.lisp.functions.LispFunction;
+import vvl.lisp.functions.LogicalOperations;
+import vvl.lisp.functions.MathOperations;
 import vvl.util.ConsList;
 
 import java.util.HashMap;
@@ -17,18 +21,18 @@ public class LispIdentifier implements LispItem {
 	private static final Pattern IDENTIFIER_PATTERN = Pattern.compile(IDENTIFIER_REGEX);
 	private static final Map<String, LispItem> FUNCTIONS = new HashMap<>() {};
 	static {
-		FUNCTIONS.put("not", LispFunction.NOT);
-		FUNCTIONS.put("and", LispFunction.AND);
-		FUNCTIONS.put("or", LispFunction.OR);
-		FUNCTIONS.put(">", LispFunction.GREATER);
-		FUNCTIONS.put(">=", LispFunction.GREATER_OR_EQUALS);
-		FUNCTIONS.put("<", LispFunction.LESSER);
-		FUNCTIONS.put("<=", LispFunction.LESSER_OR_EQUALS);
-		FUNCTIONS.put("=", LispFunction.IS_EQUALS);
-		FUNCTIONS.put("+", LispFunction.ADD);
-		FUNCTIONS.put("*", LispFunction.MUL);
-		FUNCTIONS.put("-", LispFunction.SUB);
-		FUNCTIONS.put("/", LispFunction.DIV);
+		FUNCTIONS.put("not", LogicalOperations.NOT);
+		FUNCTIONS.put("and", LogicalOperations.AND);
+		FUNCTIONS.put("or", LogicalOperations.OR);
+		FUNCTIONS.put(">", ComparisonOperations.GREATER);
+		FUNCTIONS.put(">=", ComparisonOperations.GREATER_OR_EQUALS);
+		FUNCTIONS.put("<", ComparisonOperations.LESSER);
+		FUNCTIONS.put("<=", ComparisonOperations.LESSER_OR_EQUALS);
+		FUNCTIONS.put("=", ComparisonOperations.IS_EQUALS);
+		FUNCTIONS.put("+", MathOperations.ADD);
+		FUNCTIONS.put("*", MathOperations.MUL);
+		FUNCTIONS.put("-", MathOperations.SUB);
+		FUNCTIONS.put("/", MathOperations.DIV);
 		FUNCTIONS.put("quote", LispFunction.QUOTE);
 	}
 
