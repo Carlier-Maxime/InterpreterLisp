@@ -2,6 +2,7 @@ package vvl.lisp;
 
 import org.jetbrains.annotations.NotNull;
 import vvl.util.ConsList;
+import vvl.util.ConsListImpl;
 
 import java.math.BigInteger;
 
@@ -12,17 +13,17 @@ interface LispEvalFunction {
 
 class LispFunction implements LispItem {
     public static final LispError INVALID_NUMBER_OF_OPERAND = new LispError("Invalid number of operands");
-    public static final LispFunction NOT = new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class);
+    public static final LispFunction NOT = new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class, LispBoolean.class);
 
     public static final LispFunction AND = new LispFunction(items -> {
         for (LispItem item: items) if (item == LispBoolean.FALSE) return LispBoolean.FALSE;
         return LispBoolean.TRUE;
-    }, true, LispBoolean.class);
+    }, LispBoolean.class, true, LispBoolean.class);
 
     public static final LispFunction OR = new LispFunction(items -> {
         for (LispItem item: items) if (item == LispBoolean.TRUE) return LispBoolean.TRUE;
         return LispBoolean.FALSE;
-    }, true, LispBoolean.class);
+    }, LispBoolean.class, true, LispBoolean.class);
 
     public static final LispFunction CHECK_CONDITION_FOR_PAIRS = new LispFunction(items -> {
         int size = items.size()-2;
@@ -31,18 +32,18 @@ class LispFunction implements LispItem {
         items = items.cdr();
         for (var i=0; i<size; i++) if (cdn.eval(ConsList.asList(items.car(), (items = items.cdr()).car()))==LispBoolean.FALSE) return LispBoolean.FALSE;
         return LispBoolean.TRUE;
-    }, true, LispFunction.class, LispNumber.class);
+    }, LispBoolean.class, true, LispFunction.class, LispNumber.class);
 
-    public static final LispFunction GREATER_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) > 0), LispNumber.class, LispNumber.class);
-    public static final LispFunction LESSER_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) < 0), LispNumber.class, LispNumber.class);
-    public static final LispFunction EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) == 0), LispNumber.class, LispNumber.class);
-    public static final LispFunction GREATER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) >= 0), LispNumber.class, LispNumber.class);
-    public static final LispFunction LESSER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) <= 0), LispNumber.class, LispNumber.class);
-    public static final LispFunction GREATER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_CONDITION)), true, LispNumber.class);
-    public static final LispFunction LESSER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_CONDITION)), true, LispNumber.class);
-    public static final LispFunction IS_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(EQUALS_CONDITION)), true, LispNumber.class);
-    public static final LispFunction GREATER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_OR_EQUALS_CONDITION)), true, LispNumber.class);
-    public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_OR_EQUALS_CONDITION)), true, LispNumber.class);
+    public static final LispFunction GREATER_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) > 0), LispBoolean.class, LispNumber.class, LispNumber.class);
+    public static final LispFunction LESSER_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) < 0), LispBoolean.class, LispNumber.class, LispNumber.class);
+    public static final LispFunction EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) == 0), LispBoolean.class, LispNumber.class, LispNumber.class);
+    public static final LispFunction GREATER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) >= 0), LispBoolean.class, LispNumber.class, LispNumber.class);
+    public static final LispFunction LESSER_OR_EQUALS_CONDITION = new LispFunction(items -> LispBoolean.valueOf(((LispNumber) items.car()).compareTo((LispNumber) items.cdr().car()) <= 0), LispBoolean.class, LispNumber.class, LispNumber.class);
+    public static final LispFunction GREATER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_CONDITION)), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction LESSER = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_CONDITION)), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction IS_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(EQUALS_CONDITION)), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction GREATER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(GREATER_OR_EQUALS_CONDITION)), LispBoolean.class, true, LispNumber.class);
+    public static final LispFunction LESSER_OR_EQUALS = new LispFunction(items -> CHECK_CONDITION_FOR_PAIRS.eval(items.prepend(LESSER_OR_EQUALS_CONDITION)), LispBoolean.class, true, LispNumber.class);
 
     public static final LispFunction ADD = new LispFunction(items -> {
         var result = new LispNumber(BigInteger.valueOf(0));
@@ -52,7 +53,7 @@ class LispFunction implements LispItem {
             items = items.cdr();
         }
         return result;
-    }, true, LispNumber.class);
+    }, LispNumber.class, true, LispNumber.class);
 
     public static final LispFunction MUL = new LispFunction(items -> {
         var result = new LispNumber(BigInteger.valueOf(1));
@@ -62,7 +63,7 @@ class LispFunction implements LispItem {
             items = items.cdr();
         }
         return result;
-    }, true, LispNumber.class);
+    }, LispNumber.class, true, LispNumber.class);
 
     public static final LispFunction SUB = new LispFunction(items -> {
         if (items.isEmpty()) throw INVALID_NUMBER_OF_OPERAND;
@@ -74,7 +75,7 @@ class LispFunction implements LispItem {
             items = items.cdr();
         }
         return size==0 ? result.sub(null) : result ;
-    }, true, LispNumber.class);
+    }, LispNumber.class, true, LispNumber.class);
 
     public static final LispFunction DIV = new LispFunction(items -> {
         if (items.size() < 2) throw INVALID_NUMBER_OF_OPERAND;
@@ -86,21 +87,23 @@ class LispFunction implements LispItem {
             items = items.cdr();
         }
         return result ;
-    }, true, LispNumber.class);
+    }, LispNumber.class, true, LispNumber.class);
 
     private final LispEvalFunction function;
+    private final Class<? extends LispItem> output;
     private final int nbArgs;
     private final Class<? extends LispItem>[] types;
     private final boolean lastArgIsVarargs;
 
     @SafeVarargs
-    public LispFunction(@NotNull LispEvalFunction function, Class<? extends LispItem>... types) {
-        this(function, false, types);
+    public LispFunction(@NotNull LispEvalFunction function, Class<? extends LispItem> output, Class<? extends LispItem>... types) {
+        this(function, output, false, types);
     }
 
     @SafeVarargs
-    public LispFunction(@NotNull LispEvalFunction function, boolean lastArgIsVarargs, Class<? extends LispItem>... types) {
+    public LispFunction(@NotNull LispEvalFunction function, Class<? extends LispItem> output, boolean lastArgIsVarargs, Class<? extends LispItem>... types) {
         this.function = function;
+        this.output = output;
         this.nbArgs = types.length;
         this.types = types;
         this.lastArgIsVarargs = lastArgIsVarargs;
@@ -111,18 +114,26 @@ class LispFunction implements LispItem {
     public LispItem eval(ConsList<LispItem> items) throws LispError {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
-        items = items.map(lispItem -> {
-            try {
-                return lispItem.getClass() == LispExpression.class ? lispItem.eval(null) : lispItem;
-            } catch (LispError e) {
-                throw new LispRuntimeError(e);
-            }
-        });
         ConsList<LispItem> tmp = items;
         for (var i=0; i<size; i++) {
-            if (tmp.car().getClass() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
+            if (tmp.car().outputType() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
             tmp = tmp.cdr();
         }
-        return function.apply(items);
+        return function.apply(new ConsListImpl<>((ConsListImpl<LispItem>) items) {
+            @Override
+            public LispItem car() {
+                try {
+                    var item = super.car();
+                    return item.getClass() == LispExpression.class ? item.eval(null) : item;
+                } catch (LispError e) {
+                    throw new LispRuntimeError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Class<? extends LispItem> outputType() {
+        return output;
     }
 }
