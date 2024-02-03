@@ -30,7 +30,6 @@ public class LispIdentifier implements LispItem {
 		FUNCTIONS.put("-", LispFunction.SUB);
 		FUNCTIONS.put("/", LispFunction.DIV);
 		FUNCTIONS.put("quote", LispFunction.QUOTE);
-		FUNCTIONS.put("'", LispFunction.QUOTE);
 	}
 
 	private final String id;
