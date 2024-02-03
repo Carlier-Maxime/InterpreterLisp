@@ -13,6 +13,19 @@ interface LispEvalFunction {
 
 class LispFunction implements LispItem {
     public static final LispError INVALID_NUMBER_OF_OPERAND = new LispError("Invalid number of operands");
+
+    public static final LispFunction QUOTE = new LispFunction(ConsList::car, LispItem.class, LispItem.class) {
+        @Override
+        public LispItem eval(ConsList<LispItem> items) throws LispError {
+            checkParameter(items);
+            return getFunction().apply(items);
+        }
+
+        @Override
+        public Class<? extends LispItem> outputType() {
+            return super.outputType();
+        }
+    };
     public static final LispFunction NOT = new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class, LispBoolean.class);
 
     public static final LispFunction AND = new LispFunction(items -> {
@@ -138,5 +151,9 @@ class LispFunction implements LispItem {
     @Override
     public Class<? extends LispItem> outputType() {
         return output;
+    }
+
+    public LispEvalFunction getFunction() {
+        return function;
     }
 }
