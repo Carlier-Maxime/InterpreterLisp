@@ -128,7 +128,8 @@ class LispFunction implements LispItem {
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
         ConsList<LispItem> tmp = items;
         for (var i=0; i<size; i++) {
-            if (tmp.car().outputType(items) != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
+            var itemType = tmp.car().outputType(items);
+            if (itemType != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+itemType);
             tmp = tmp.cdr();
         }
     }
