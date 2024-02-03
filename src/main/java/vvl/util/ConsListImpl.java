@@ -22,6 +22,10 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
         else this.list = new Cons<>(first, list);
     }
 
+    public ConsListImpl(ConsListImpl<E> consList) {
+        list=consList.list;
+    }
+
     @Override
     public ConsList<E> prepend(E e) {
         return new ConsListImpl<>(e, this);
