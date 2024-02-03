@@ -22,8 +22,9 @@ class LispFunction implements LispItem {
         }
 
         @Override
-        public Class<? extends LispItem> outputType() {
-            return super.outputType();
+        public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
+            if (items==null || items.isEmpty()) return LispItem.class;
+            return items.car().getClass();
         }
     };
     public static final LispFunction NOT = new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class, LispBoolean.class);
@@ -127,7 +128,7 @@ class LispFunction implements LispItem {
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
         ConsList<LispItem> tmp = items;
         for (var i=0; i<size; i++) {
-            if (tmp.car().outputType() != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
+            if (tmp.car().outputType(items) != types[i >= types.length ? types.length-1 : i]) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+tmp.car().getClass());
             tmp = tmp.cdr();
         }
     }
@@ -149,7 +150,7 @@ class LispFunction implements LispItem {
     }
 
     @Override
-    public Class<? extends LispItem> outputType() {
+    public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
         return output;
     }
 

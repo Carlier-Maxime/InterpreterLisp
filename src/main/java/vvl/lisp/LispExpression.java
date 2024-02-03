@@ -58,8 +58,8 @@ public class LispExpression implements LispItem {
 	}
 
 	@Override
-	public Class<? extends LispItem> outputType() {
+	public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
 		if (values().isEmpty()) return this.getClass();
-		return values().car().outputType();
+		return values().car().outputType(items);
 	}
 }

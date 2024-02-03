@@ -65,7 +65,7 @@ public class LispIdentifier implements LispItem {
 	}
 
 	@Override
-	public Class<? extends LispItem> outputType() {
-		return FUNCTIONS.get(id).outputType();
+	public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
+		return FUNCTIONS.get(id).outputType(items);
 	}
 }

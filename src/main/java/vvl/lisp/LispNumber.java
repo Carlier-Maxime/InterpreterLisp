@@ -93,7 +93,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	}
 
 	@Override
-	public Class<? extends LispItem> outputType() {
+	public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
 		return this.getClass();
 	}
 
