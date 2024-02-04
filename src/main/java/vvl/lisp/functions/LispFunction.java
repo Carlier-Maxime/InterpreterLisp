@@ -49,6 +49,8 @@ public class LispFunction implements LispItem {
         }
     };
 
+    public static final LispFunction CONS = new LispFunction(items -> new LispCons(items.car(), items.cdr().car()), LispCons.class, LispItem.class, LispItem.class);
+
     private final LispEvalFunction function;
     private final Class<? extends LispItem> output;
     private final int nbArgs;
