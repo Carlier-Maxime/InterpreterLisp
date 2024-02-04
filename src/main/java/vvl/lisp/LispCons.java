@@ -3,7 +3,7 @@ package vvl.lisp;
 import vvl.util.Cons;
 import vvl.util.ConsList;
 
-public class LispCons extends Cons<LispItem, LispItem> implements LispItem {
+public class LispCons extends Cons<LispItem, LispItem> implements LispPair {
 
     /**
      * Generic constructor for the cons data structure.
@@ -23,5 +23,15 @@ public class LispCons extends Cons<LispItem, LispItem> implements LispItem {
     @Override
     public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
         return this.getClass();
+    }
+
+    @Override
+    public LispItem car() {
+        return left();
+    }
+
+    @Override
+    public LispItem cdr() {
+        return right();
     }
 }

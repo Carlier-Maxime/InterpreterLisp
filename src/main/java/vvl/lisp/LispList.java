@@ -3,7 +3,7 @@ package vvl.lisp;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
 
-public class LispList extends ConsListImpl<LispItem> implements LispItem {
+public class LispList extends ConsListImpl<LispItem> implements LispPair {
     public static final LispList NIL = new LispList();
 
     public LispList(ConsListImpl<LispItem> consList) {
@@ -32,9 +32,9 @@ public class LispList extends ConsListImpl<LispItem> implements LispItem {
     }
 
     @Override
-    public ConsList<LispItem> cdr() {
+    public LispList cdr() {
         var out = super.cdr();
-        return out.getClass() == LispList.class ? out : new LispList((ConsListImpl<LispItem>) out);
+        return out.getClass() == LispList.class ? (LispList) out : new LispList((ConsListImpl<LispItem>) out);
     }
 
     @Override
