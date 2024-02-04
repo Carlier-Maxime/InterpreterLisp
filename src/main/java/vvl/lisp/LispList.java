@@ -25,7 +25,7 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
     public LispItem car() {
         try {
             var item = super.car();
-            return item.getClass() == LispExpression.class ? item.eval(null) : item;
+            return item.eval(null);
         } catch (LispError e) {
             throw new LispRuntimeError(e);
         }
