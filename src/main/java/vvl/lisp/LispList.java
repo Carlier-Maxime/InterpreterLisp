@@ -38,7 +38,7 @@ public class LispList extends ConsListImpl<LispItem> implements LispItem {
     }
 
     @Override
-    public ConsList<LispItem> prepend(LispItem e) {
+    public LispList prepend(LispItem e) {
         return new LispList((ConsListImpl<LispItem>) super.prepend(e));
     }
 
