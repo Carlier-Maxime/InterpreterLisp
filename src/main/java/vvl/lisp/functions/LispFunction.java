@@ -49,7 +49,11 @@ public class LispFunction implements LispItem {
         }
     };
 
-    public static final LispFunction CONS = new LispFunction(items -> new LispCons(items.car(), items.cdr().car()), LispCons.class, LispItem.class, LispItem.class);
+    public static final LispFunction CONS = new LispFunction(items -> {
+        LispItem left = items.car(), right = items.cdr().car();
+        if (LispList.class.isAssignableFrom(right.getClass())) return ((LispList) right).prepend(left);
+        return new LispCons(left, right);
+    }, LispCons.class, LispItem.class, LispItem.class);
 
     private final LispEvalFunction function;
     private final Class<? extends LispItem> output;
