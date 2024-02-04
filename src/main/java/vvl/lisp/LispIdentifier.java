@@ -34,6 +34,7 @@ public class LispIdentifier implements LispItem {
 		FUNCTIONS.put("-", MathOperations.SUB);
 		FUNCTIONS.put("/", MathOperations.DIV);
 		FUNCTIONS.put("quote", LispFunction.QUOTE);
+		FUNCTIONS.put("if", LispFunction.IF);
 	}
 
 	private final String id;
