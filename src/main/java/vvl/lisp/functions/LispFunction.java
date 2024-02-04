@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
-import vvl.util.ConsListLispItem;
+import vvl.lisp.LispList;
 
 import java.util.function.Supplier;
 
@@ -30,9 +30,9 @@ public class LispFunction implements LispItem {
         protected void checkParameter(ConsList<LispItem> items) throws LispError {
             super.checkParameter(items);
             Class<?> a, b;
-            if (items.getClass() == ConsListLispItem.class) {
-                a = ((ConsListLispItem) (items.cdr())).carNoEval().outputType(null);
-                b = ((ConsListLispItem) (items.cdr().cdr())).carNoEval().outputType(null);
+            if (items.getClass() == LispList.class) {
+                a = ((LispList) (items.cdr())).carNoEval().outputType(null);
+                b = ((LispList) (items.cdr().cdr())).carNoEval().outputType(null);
             } else {
                 a = items.cdr().car().outputType(null);
                 b = items.cdr().cdr().car().outputType(null);
@@ -75,9 +75,9 @@ public class LispFunction implements LispItem {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
         var tmp = items;
-        var noEval = tmp.getClass() == ConsListLispItem.class;
+        var noEval = tmp.getClass() == LispList.class;
         for (var i=0; i<size; i++) {
-            Supplier<LispItem> car = (noEval) ? ((ConsListLispItem) tmp)::carNoEval :  tmp::car;
+            Supplier<LispItem> car = (noEval) ? ((LispList) tmp)::carNoEval :  tmp::car;
             var itemType = car.get().outputType(items);
             if (!(types[i >= types.length ? types.length-1 : i].isAssignableFrom(itemType))) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+itemType);
             tmp = tmp.cdr();
@@ -87,7 +87,7 @@ public class LispFunction implements LispItem {
     @Override
     public LispItem eval(ConsList<LispItem> items) throws LispError {
         checkParameter(items);
-        return function.apply(new ConsListLispItem((ConsListImpl<LispItem>) items));
+        return function.apply(new LispList((ConsListImpl<LispItem>) items));
     }
 
     @Override
