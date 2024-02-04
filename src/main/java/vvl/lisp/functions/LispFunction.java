@@ -55,6 +55,8 @@ public class LispFunction implements LispItem {
         return new LispCons(left, right);
     }, LispCons.class, LispItem.class, LispItem.class);
 
+    public static final LispFunction LIST = new LispFunction(items -> new LispList((ConsListImpl<LispItem>) items), LispList.class, true, LispItem.class);
+
     private final LispEvalFunction function;
     private final Class<? extends LispItem> output;
     private final int nbArgs;
