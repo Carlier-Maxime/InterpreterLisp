@@ -39,6 +39,7 @@ public class LispIdentifier implements LispItem {
 		FUNCTIONS.put("list", LispFunction.LIST);
 		FUNCTIONS.put("car", LispFunction.CAR);
 		FUNCTIONS.put("cdr", LispFunction.CDR);
+		FUNCTIONS.put("nil", LispList.NIL);
 	}
 
 	private final String id;
