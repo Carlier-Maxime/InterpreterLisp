@@ -53,7 +53,7 @@ public class LispExpression implements LispItem {
 
 	@Override
 	public LispItem eval(ConsList<LispItem> items) throws LispError {
-		if (values().isEmpty()) return this;
+		if (values().isEmpty()) return LispList.NIL;
 		return values().car().eval(values().cdr());
 	}
 

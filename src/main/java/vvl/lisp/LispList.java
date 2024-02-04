@@ -4,14 +4,13 @@ import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
 
 public class LispList extends ConsListImpl<LispItem> implements LispItem {
+    public static final LispList NIL = new LispList();
+
     public LispList(ConsListImpl<LispItem> consList) {
         super(consList);
     }
-    public LispList() {
+    private LispList() {
         this(null, null);
-    }
-    public LispList(LispItem first) {
-        this(first, null);
     }
 
     private LispList(LispItem first, ConsList<LispItem> list) {
