@@ -57,6 +57,9 @@ public class LispFunction implements LispItem {
 
     public static final LispFunction LIST = new LispFunction(items -> new LispList((ConsListImpl<LispItem>) items), LispList.class, true, LispItem.class);
 
+    public static final LispFunction CAR = new LispFunction(items -> ((LispPair) items.car()).car(), LispItem.class, LispPair.class);
+    public static final LispFunction CDR = new LispFunction(items -> ((LispPair) items.car()).cdr(), LispItem.class, LispPair.class);
+
     private final LispEvalFunction function;
     private final Class<? extends LispItem> output;
     private final int nbArgs;
