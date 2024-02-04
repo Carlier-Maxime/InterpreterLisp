@@ -88,7 +88,8 @@ public class LispFunction implements LispItem {
         for (var i=0; i<size; i++) {
             Supplier<LispItem> car = (noEval) ? ((LispList) tmp)::carNoEval :  tmp::car;
             var itemType = car.get().outputType(items);
-            if (!(types[i >= types.length ? types.length-1 : i].isAssignableFrom(itemType))) throw new LispError("Invalid Type of argument at index "+i+" , expected "+types[i]+", got "+itemType);
+            var expectedType = types[i >= types.length ? types.length-1 : i];
+            if (!(expectedType.isAssignableFrom(itemType))) throw new LispError("Invalid Type of argument at index "+i+" , expected "+expectedType+", got "+itemType);
             tmp = tmp.cdr();
         }
     }
