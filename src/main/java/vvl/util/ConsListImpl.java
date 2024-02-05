@@ -65,8 +65,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     @Override
     public <T> ConsList<T> map(Function<E, T> f) {
         if (isEmpty()) return ConsList.nil();
-        if (list.right()==null) return new ConsListImpl<>(f.apply(list.left()), null);
-        return new ConsListImpl<>(f.apply(list.left()), list.right().map(f));
+        return new ConsListImpl<>(f.apply(car()), cdr().map(f));
     }
 
     @Override
