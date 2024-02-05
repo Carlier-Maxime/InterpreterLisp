@@ -18,11 +18,6 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
     }
 
     @Override
-    public LispItem car() {
-        return super.car();
-    }
-
-    @Override
     public LispList cdr() {
         var out = super.cdr();
         return out.getClass() == LispList.class ? (LispList) out : new LispList((ConsListImpl<LispItem>) out);
