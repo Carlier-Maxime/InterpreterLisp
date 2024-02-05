@@ -25,7 +25,7 @@ public class LispParams extends LispList {
             var item = super.car().eval(null);
             var itemType = item.getClass();
             var expectedType = types.car();
-            if (!expectedType.isAssignableFrom(itemType)) throw new LispError("Invalid Type of argument, expected "+expectedType+", got "+itemType);
+            if (!expectedType.isAssignableFrom(itemType)) throw new LispError("Not a "+expectedType.toString().split("\\.Lisp")[1]);
             return item;
         } catch (LispError e) {
             throw new LispRuntimeError(e);
