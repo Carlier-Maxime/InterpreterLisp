@@ -15,7 +15,7 @@ public class LispOperations {
         if (LispList.class.isAssignableFrom(right.getClass())) return ((LispList) right).prepend(left);
         return new LispCons(left, right);
     }, LispCons.class, LispItem.class, LispItem.class);
-    public static final LispFunction LIST = new LispFunction(items -> new LispList((ConsListImpl<LispItem>) items), LispList.class, true, LispItem.class);
+    public static final LispFunction LIST = new LispFunction(items -> new LispList((ConsListImpl<LispItem>) items.map((item) -> item)), LispList.class, true, LispItem.class);
     public static final LispFunction CAR = new LispFunction(items -> ((LispPair) items.car()).car(), LispItem.class, LispPair.class);
     public static final LispFunction CDR = new LispFunction(items -> ((LispPair) items.car()).cdr(), LispItem.class, LispPair.class);
 }
