@@ -9,20 +9,18 @@ public class LispFunction implements LispItem {
     public static final LispError INVALID_NUMBER_OF_OPERAND = new LispError("Invalid number of operands");
 
     private final LispEvalFunction function;
-    private final Class<? extends LispItem> output;
     private final int nbArgs;
     private final ConsList<Class<? extends LispItem>> types;
     private final boolean lastArgIsVarargs;
 
     @SafeVarargs
-    public LispFunction(@NotNull LispEvalFunction function, Class<? extends LispItem> output, Class<? extends LispItem>... types) {
-        this(function, output, false, types);
+    public LispFunction(@NotNull LispEvalFunction function, Class<? extends LispItem>... types) {
+        this(function, false, types);
     }
 
     @SafeVarargs
-    public LispFunction(@NotNull LispEvalFunction function, Class<? extends LispItem> output, boolean lastArgIsVarargs, Class<? extends LispItem>... types) {
+    public LispFunction(@NotNull LispEvalFunction function, boolean lastArgIsVarargs, Class<? extends LispItem>... types) {
         this.function = function;
-        this.output = output;
         this.nbArgs = types.length;
         this.types = ConsList.asList(types);
         this.lastArgIsVarargs = lastArgIsVarargs;

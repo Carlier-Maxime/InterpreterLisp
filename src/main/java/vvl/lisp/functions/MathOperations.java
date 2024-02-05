@@ -14,7 +14,7 @@ public class MathOperations {
             params = params.cdr();
         }
         return result;
-    }, LispNumber.class, true, LispNumber.class);
+    }, true, LispNumber.class);
     public static final LispFunction MUL = new LispFunction(params -> {
         var result = new LispNumber(BigInteger.valueOf(1));
         var size = params.size();
@@ -23,7 +23,7 @@ public class MathOperations {
             params = params.cdr();
         }
         return result;
-    }, LispNumber.class, true, LispNumber.class);
+    }, true, LispNumber.class);
     public static final LispFunction SUB = new LispFunction(params -> {
         if (params.isEmpty()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var result = (LispNumber) params.car();
@@ -34,7 +34,7 @@ public class MathOperations {
             params = params.cdr();
         }
         return size == 0 ? result.sub(null) : result;
-    }, LispNumber.class, true, LispNumber.class);
+    }, true, LispNumber.class);
     public static final LispFunction DIV = new LispFunction(params -> {
         if (params.size() < 2) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var result = (LispNumber) params.car();
@@ -45,5 +45,5 @@ public class MathOperations {
             params = params.cdr();
         }
         return result;
-    }, LispNumber.class, true, LispNumber.class);
+    }, true, LispNumber.class);
 }
