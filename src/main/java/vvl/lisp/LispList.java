@@ -23,12 +23,7 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
 
     @Override
     public LispItem car() {
-        try {
-            var item = super.car();
-            return item.eval(null);
-        } catch (LispError e) {
-            throw new LispRuntimeError(e);
-        }
+        return super.car();
     }
 
     @Override
