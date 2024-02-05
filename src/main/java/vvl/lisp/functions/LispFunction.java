@@ -11,58 +11,6 @@ import java.util.function.Supplier;
 public class LispFunction implements LispItem {
     public static final LispError INVALID_NUMBER_OF_OPERAND = new LispError("Invalid number of operands");
 
-    public static final LispFunction QUOTE = new LispFunction(ConsList::car, LispItem.class, LispItem.class) {
-        @Override
-        public LispItem eval(ConsList<LispItem> items) throws LispError {
-            checkParameter(items);
-            return getFunction().apply(items);
-        }
-
-        @Override
-        public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-            if (items==null || items.isEmpty()) return LispItem.class;
-            return items.car().getClass();
-        }
-    };
-
-    public static final LispFunction IF = new LispFunction(items -> (items.car() == LispBoolean.TRUE) ? items.cdr().car() : items.cdr().cdr().car(), LispItem.class, LispBoolean.class, LispItem.class, LispItem.class){
-        @Override
-        protected void checkParameter(ConsList<LispItem> items) throws LispError {
-            super.checkParameter(items);
-            Class<?> a;
-            Class<?> b;
-            if (items.getClass() == LispList.class) {
-                a = ((LispList) (items.cdr())).carNoEval().outputType(null);
-                b = ((LispList) (items.cdr().cdr())).carNoEval().outputType(null);
-            } else {
-                a = items.cdr().car().outputType(null);
-                b = items.cdr().cdr().car().outputType(null);
-            }
-            if (a!=b) throw new LispError("Not same output type for if else : "+a+", "+b);
-        }
-
-        @Override
-        public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-            if (items == null || items.size() < 3) return super.outputType(items);
-            var thenExpr = items.cdr().car();
-            var elseExpr =  items.cdr().cdr().car();
-            if (thenExpr.outputType(null) != elseExpr.outputType(null)) return super.outputType(items);
-            return thenExpr.outputType(null);
-        }
-    };
-
-    public static final LispFunction CONS = new LispFunction(items -> {
-        var left = items.car();
-        var right = items.cdr().car();
-        if (LispList.class.isAssignableFrom(right.getClass())) return ((LispList) right).prepend(left);
-        return new LispCons(left, right);
-    }, LispCons.class, LispItem.class, LispItem.class);
-
-    public static final LispFunction LIST = new LispFunction(items -> new LispList((ConsListImpl<LispItem>) items), LispList.class, true, LispItem.class);
-
-    public static final LispFunction CAR = new LispFunction(items -> ((LispPair) items.car()).car(), LispItem.class, LispPair.class);
-    public static final LispFunction CDR = new LispFunction(items -> ((LispPair) items.car()).cdr(), LispItem.class, LispPair.class);
-
     private final LispEvalFunction function;
     private final Class<? extends LispItem> output;
     private final int nbArgs;
@@ -113,6 +61,6 @@ public class LispFunction implements LispItem {
     }
 
     public LispExpression quote() {
-        return new LispExpression(QUOTE, this);
+        return new LispExpression(LispOperations.QUOTE, this);
     }
 }

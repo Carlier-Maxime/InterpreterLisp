@@ -1,9 +1,6 @@
 package vvl.lisp;
 
-import vvl.lisp.functions.ComparisonOperations;
-import vvl.lisp.functions.LispFunction;
-import vvl.lisp.functions.LogicalOperations;
-import vvl.lisp.functions.MathOperations;
+import vvl.lisp.functions.*;
 import vvl.util.ConsList;
 
 import java.util.HashMap;
@@ -33,12 +30,12 @@ public class LispIdentifier implements LispItem {
 		FUNCTIONS.put("*", MathOperations.MUL);
 		FUNCTIONS.put("-", MathOperations.SUB);
 		FUNCTIONS.put("/", MathOperations.DIV);
-		FUNCTIONS.put("quote", LispFunction.QUOTE);
-		FUNCTIONS.put("if", LispFunction.IF);
-		FUNCTIONS.put("cons", LispFunction.CONS);
-		FUNCTIONS.put("list", LispFunction.LIST);
-		FUNCTIONS.put("car", LispFunction.CAR);
-		FUNCTIONS.put("cdr", LispFunction.CDR);
+		FUNCTIONS.put("quote", LispOperations.QUOTE);
+		FUNCTIONS.put("if", LispOperations.IF);
+		FUNCTIONS.put("cons", LispOperations.CONS);
+		FUNCTIONS.put("list", LispOperations.LIST);
+		FUNCTIONS.put("car", LispOperations.CAR);
+		FUNCTIONS.put("cdr", LispOperations.CDR);
 		FUNCTIONS.put("nil", LispList.NIL);
 	}
 
