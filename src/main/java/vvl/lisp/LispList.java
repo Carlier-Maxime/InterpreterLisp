@@ -17,10 +17,6 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
         super(first, list);
     }
 
-    public LispItem carNoEval() {
-        return super.car();
-    }
-
     @Override
     public LispItem car() {
         return super.car();

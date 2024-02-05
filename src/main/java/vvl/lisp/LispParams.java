@@ -14,6 +14,11 @@ public class LispParams extends LispList {
         this.types = types;
     }
 
+    public LispItem carNoEval() {
+        return super.car();
+    }
+
+
     @Override
     public LispItem car() {
         try {
