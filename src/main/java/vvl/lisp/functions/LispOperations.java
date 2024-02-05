@@ -6,13 +6,7 @@ import vvl.util.ConsListImpl;
 
 public class LispOperations {
     private LispOperations() {}
-    public static final LispFunction QUOTE = new LispFunction(ConsList::car, LispItem.class, LispItem.class) {
-        @Override
-        public LispItem eval(ConsList<LispItem> items) throws LispError {
-            checkParameter(items);
-            return getFunction().apply(items);
-        }
-
+    public static final LispFunction QUOTE = new LispFunction(LispParams::carNoEval, LispItem.class, LispItem.class) {
         @Override
         public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
             if (items == null || items.isEmpty()) return LispItem.class;

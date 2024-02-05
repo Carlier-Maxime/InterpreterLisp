@@ -4,9 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
-import vvl.lisp.LispList;
-
-import java.util.function.Supplier;
 
 public class LispFunction implements LispItem {
     public static final LispError INVALID_NUMBER_OF_OPERAND = new LispError("Invalid number of operands");
@@ -45,10 +42,6 @@ public class LispFunction implements LispItem {
     @Override
     public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
         return output;
-    }
-
-    public LispEvalFunction getFunction() {
-        return function;
     }
 
     public LispExpression quote() {
