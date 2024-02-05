@@ -15,21 +15,6 @@ public class LispOperations {
     };
     public static final LispFunction IF = new LispFunction(items -> (items.car() == LispBoolean.TRUE) ? items.cdr().car() : items.cdr().cdr().car(), LispItem.class, LispBoolean.class, LispItem.class, LispItem.class) {
         @Override
-        protected void checkParameter(ConsList<LispItem> items) throws LispError {
-            super.checkParameter(items);
-            Class<?> a;
-            Class<?> b;
-            if (items.getClass() == LispList.class) {
-                a = ((LispList) (items.cdr())).carNoEval().outputType(null);
-                b = ((LispList) (items.cdr().cdr())).carNoEval().outputType(null);
-            } else {
-                a = items.cdr().car().outputType(null);
-                b = items.cdr().cdr().car().outputType(null);
-            }
-            if (a != b) throw new LispError("Not same output type for if else : " + a + ", " + b);
-        }
-
-        @Override
         public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
             if (items == null || items.size() < 3) return super.outputType(items);
             var thenExpr = items.cdr().car();
