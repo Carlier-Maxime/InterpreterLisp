@@ -32,7 +32,8 @@ public class LispParams extends LispList {
         var out = super.cdr();
         var nextTypes = types.cdr();
         if (nextTypes.isEmpty()) nextTypes = types;
-        if (out instanceof LispParams params) {
+        if (out instanceof LispParams) {
+            var params = (LispParams) out;
             params.setTypes(nextTypes);
             return params;
         }
