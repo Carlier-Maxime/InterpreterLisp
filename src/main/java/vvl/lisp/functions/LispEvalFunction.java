@@ -6,5 +6,5 @@ import vvl.lisp.LispParams;
 
 @FunctionalInterface
 public interface LispEvalFunction {
-    LispItem apply(LispParams items) throws LispError;
+    LispItem apply(LispParams params) throws LispError;
 }

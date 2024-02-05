@@ -6,43 +6,43 @@ import java.math.BigInteger;
 
 public class MathOperations {
     private MathOperations() {}
-    public static final LispFunction ADD = new LispFunction(items -> {
+    public static final LispFunction ADD = new LispFunction(params -> {
         var result = new LispNumber(BigInteger.valueOf(0));
-        var size = items.size();
+        var size = params.size();
         for (var i = 0; i < size; i++) {
-            result = result.add((LispNumber) items.car());
-            items = items.cdr();
+            result = result.add((LispNumber) params.car());
+            params = params.cdr();
         }
         return result;
     }, LispNumber.class, true, LispNumber.class);
-    public static final LispFunction MUL = new LispFunction(items -> {
+    public static final LispFunction MUL = new LispFunction(params -> {
         var result = new LispNumber(BigInteger.valueOf(1));
-        var size = items.size();
+        var size = params.size();
         for (var i = 0; i < size; i++) {
-            result = result.mul((LispNumber) items.car());
-            items = items.cdr();
+            result = result.mul((LispNumber) params.car());
+            params = params.cdr();
         }
         return result;
     }, LispNumber.class, true, LispNumber.class);
-    public static final LispFunction SUB = new LispFunction(items -> {
-        if (items.isEmpty()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
-        var result = (LispNumber) items.car();
-        items = items.cdr();
-        var size = items.size();
+    public static final LispFunction SUB = new LispFunction(params -> {
+        if (params.isEmpty()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
+        var result = (LispNumber) params.car();
+        params = params.cdr();
+        var size = params.size();
         for (var i = 0; i < size; i++) {
-            result = result.sub((LispNumber) items.car());
-            items = items.cdr();
+            result = result.sub((LispNumber) params.car());
+            params = params.cdr();
         }
         return size == 0 ? result.sub(null) : result;
     }, LispNumber.class, true, LispNumber.class);
-    public static final LispFunction DIV = new LispFunction(items -> {
-        if (items.size() < 2) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
-        var result = (LispNumber) items.car();
-        items = items.cdr();
-        var size = items.size();
+    public static final LispFunction DIV = new LispFunction(params -> {
+        if (params.size() < 2) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
+        var result = (LispNumber) params.car();
+        params = params.cdr();
+        var size = params.size();
         for (var i = 0; i < size; i++) {
-            result = result.div((LispNumber) items.car());
-            items = items.cdr();
+            result = result.div((LispNumber) params.car());
+            params = params.cdr();
         }
         return result;
     }, LispNumber.class, true, LispNumber.class);
