@@ -4,6 +4,7 @@ import vvl.lisp.LispBoolean;
 import vvl.lisp.LispItem;
 
 public class LogicalOperations {
+    private LogicalOperations() {}
     public static final LispFunction NOT = new LispFunction(items -> LispBoolean.valueOf(items.car()==LispBoolean.FALSE), LispBoolean.class, LispBoolean.class);
     public static final LispFunction AND = new LispFunction(items -> {
         for (LispItem item: items) if (item == LispBoolean.FALSE) return LispBoolean.FALSE;

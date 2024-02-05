@@ -5,6 +5,7 @@ import vvl.lisp.LispNumber;
 import vvl.util.ConsList;
 
 public class ComparisonOperations {
+    private ComparisonOperations() {}
     public static final LispFunction CHECK_CONDITION_FOR_PAIRS = new LispFunction(items -> {
         int size = items.size() - 2;
         if (size < 0) throw LispFunction.INVALID_NUMBER_OF_OPERAND;

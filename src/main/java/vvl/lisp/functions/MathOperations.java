@@ -5,6 +5,7 @@ import vvl.lisp.LispNumber;
 import java.math.BigInteger;
 
 public class MathOperations {
+    private MathOperations() {}
     public static final LispFunction ADD = new LispFunction(items -> {
         var result = new LispNumber(BigInteger.valueOf(0));
         var size = items.size();
