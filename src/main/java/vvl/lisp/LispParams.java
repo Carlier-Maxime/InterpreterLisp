@@ -3,6 +3,8 @@ package vvl.lisp;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
 
+import java.util.Objects;
+
 public class LispParams extends LispList {
     private ConsList<Class<? extends LispItem>> types;
     public LispParams(ConsListImpl<LispItem> params, ConsList<Class<? extends LispItem>> types) {
@@ -60,5 +62,10 @@ public class LispParams extends LispList {
         if (!super.equals(o)) return false;
         var params = (LispParams) o;
         return types.equals(params.types);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), types);
     }
 }
