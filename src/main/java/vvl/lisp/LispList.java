@@ -43,7 +43,7 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
     }
 
     @Override
-    public ConsList<LispItem> append(LispItem e) {
+    public LispList append(LispItem e) {
         return new LispList((ConsListImpl<LispItem>) super.append(e));
     }
 
