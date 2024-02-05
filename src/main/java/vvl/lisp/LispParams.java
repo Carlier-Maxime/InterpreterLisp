@@ -54,4 +54,11 @@ public class LispParams extends LispList {
     public LispParams append(LispItem e) {
         return new LispParams(super.append(e), types);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!super.equals(o)) return false;
+        var params = (LispParams) o;
+        return types.equals(params.types);
+    }
 }
