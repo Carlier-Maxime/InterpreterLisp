@@ -14,7 +14,7 @@ public class LispFunction implements LispItem {
     private final LispEvalFunction function;
     private final Class<? extends LispItem> output;
     private final int nbArgs;
-    private final Class<? extends LispItem>[] types;
+    private final ConsList<Class<? extends LispItem>> types;
     private final boolean lastArgIsVarargs;
 
     @SafeVarargs
@@ -27,28 +27,19 @@ public class LispFunction implements LispItem {
         this.function = function;
         this.output = output;
         this.nbArgs = types.length;
-        this.types = types;
+        this.types = ConsList.asList(types);
         this.lastArgIsVarargs = lastArgIsVarargs;
     }
 
     protected void checkParameter(ConsList<LispItem> items) throws LispError {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
-        var tmp = items;
-        var noEval = tmp.getClass() == LispList.class;
-        for (var i=0; i<size; i++) {
-            Supplier<LispItem> car = (noEval) ? ((LispList) tmp)::carNoEval :  tmp::car;
-            var itemType = car.get().outputType(items);
-            var expectedType = types[i >= types.length ? types.length-1 : i];
-            if (!(expectedType.isAssignableFrom(itemType))) throw new LispError("Invalid Type of argument at index "+i+" , expected "+expectedType+", got "+itemType);
-            tmp = tmp.cdr();
-        }
     }
 
     @Override
     public LispItem eval(ConsList<LispItem> items) throws LispError {
         checkParameter(items);
-        return function.apply(new LispList((ConsListImpl<LispItem>) items));
+        return function.apply(new LispParams((ConsListImpl<LispItem>) items, types));
     }
 
     @Override
