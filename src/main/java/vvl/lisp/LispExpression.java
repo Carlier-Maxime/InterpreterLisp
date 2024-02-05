@@ -57,9 +57,4 @@ public class LispExpression implements LispItem {
 		return values().car().eval(values().cdr());
 	}
 
-	@Override
-	public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-		if (values().isEmpty()) return this.getClass();
-		return values().car().outputType(items);
-	}
 }

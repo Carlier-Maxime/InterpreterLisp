@@ -47,8 +47,4 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
         return this;
     }
 
-    @Override
-    public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-        return this.getClass();
-    }
 }

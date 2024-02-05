@@ -21,11 +21,6 @@ public class LispCons extends Cons<LispItem, LispItem> implements LispPair {
     }
 
     @Override
-    public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-        return this.getClass();
-    }
-
-    @Override
     public LispItem car() {
         return left();
     }

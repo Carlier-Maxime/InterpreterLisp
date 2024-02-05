@@ -70,8 +70,4 @@ public class LispIdentifier implements LispItem {
 		return func.eval(items);
 	}
 
-	@Override
-	public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-		return FUNCTIONS.get(id).outputType(items);
-	}
 }

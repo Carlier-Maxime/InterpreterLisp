@@ -95,8 +95,4 @@ public final class LispBoolean implements LispItem {
         return this;
     }
 
-    @Override
-    public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-        return this.getClass();
-    }
 }

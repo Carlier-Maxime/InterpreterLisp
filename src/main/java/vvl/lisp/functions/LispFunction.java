@@ -39,11 +39,6 @@ public class LispFunction implements LispItem {
         return function.apply(new LispParams((ConsListImpl<LispItem>) items, types));
     }
 
-    @Override
-    public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
-        return output;
-    }
-
     public LispExpression quote() {
         return new LispExpression(LispOperations.QUOTE, this);
     }
