@@ -29,7 +29,8 @@ public class LispFunction implements LispItem {
         @Override
         protected void checkParameter(ConsList<LispItem> items) throws LispError {
             super.checkParameter(items);
-            Class<?> a, b;
+            Class<?> a;
+            Class<?> b;
             if (items.getClass() == LispList.class) {
                 a = ((LispList) (items.cdr())).carNoEval().outputType(null);
                 b = ((LispList) (items.cdr().cdr())).carNoEval().outputType(null);
@@ -43,14 +44,16 @@ public class LispFunction implements LispItem {
         @Override
         public Class<? extends LispItem> outputType(ConsList<LispItem> items) {
             if (items == null || items.size() < 3) return super.outputType(items);
-            LispItem thenExpr = items.cdr().car(), elseExpr =  items.cdr().cdr().car();
+            var thenExpr = items.cdr().car();
+            var elseExpr =  items.cdr().cdr().car();
             if (thenExpr.outputType(null) != elseExpr.outputType(null)) return super.outputType(items);
             return thenExpr.outputType(null);
         }
     };
 
     public static final LispFunction CONS = new LispFunction(items -> {
-        LispItem left = items.car(), right = items.cdr().car();
+        var left = items.car();
+        var right = items.cdr().car();
         if (LispList.class.isAssignableFrom(right.getClass())) return ((LispList) right).prepend(left);
         return new LispCons(left, right);
     }, LispCons.class, LispItem.class, LispItem.class);
