@@ -1,5 +1,6 @@
 package vvl.lisp.functions;
 
+import vvl.lisp.LispError;
 import vvl.lisp.LispNumber;
 
 import java.math.BigInteger;
@@ -25,6 +26,7 @@ public class MathOperations {
         return result;
     }, true, LispNumber.class);
     public static final LispFunction SUB = new LispFunction(params -> {
+        if (params.size() > 2) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var result = (LispNumber) params.car();
         params = params.cdr();
         var size = params.size();
@@ -43,5 +45,5 @@ public class MathOperations {
             params = params.cdr();
         }
         return result;
-    }, true, LispNumber.class, LispNumber.class, LispNumber.class);
+    }, LispNumber.class, LispNumber.class);
 }
