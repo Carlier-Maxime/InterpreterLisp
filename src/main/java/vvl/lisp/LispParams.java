@@ -68,4 +68,16 @@ public class LispParams extends LispList {
     public int hashCode() {
         return Objects.hash(super.hashCode(), types);
     }
+
+    @Override
+    public String toString() {
+        var sb = new StringBuilder("(").append(carNoEval());
+        var next = cdr();
+        while (!next.isEmpty()) {
+            sb.append(' ').append(next.carNoEval());
+            next = next.cdr();
+        }
+        sb.append(')');
+        return sb.toString();
+    }
 }
