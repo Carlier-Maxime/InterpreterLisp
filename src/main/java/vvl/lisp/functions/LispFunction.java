@@ -38,7 +38,7 @@ public class LispFunction implements LispItem {
         return function.apply(new LispParams((ConsListImpl<LispItem>) items, types));
     }
 
-    public LispExpression quote() {
-        return new LispExpression(LispOperations.QUOTE, this);
+    public LispExpression quote() throws LispError {
+        return new LispExpression(new LispIdentifier("quote"), this);
     }
 }
