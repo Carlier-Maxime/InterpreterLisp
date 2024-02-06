@@ -67,7 +67,10 @@ public class LispIdentifier implements LispItem {
 	public LispItem eval(ConsList<LispItem> items) throws LispError {
 		var func = FUNCTIONS.get(id);
 		if (func==null) throw new LispError("Identifier '"+id+"' not implemented");
-		return func.eval(items);
+		return func;
 	}
 
+	public String getId() {
+		return id;
+	}
 }
