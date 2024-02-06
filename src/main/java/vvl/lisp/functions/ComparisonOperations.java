@@ -8,14 +8,13 @@ public class ComparisonOperations {
     private ComparisonOperations() {}
     public static final LispFunction CHECK_CONDITION_FOR_PAIRS = new LispFunction(params -> {
         int size = params.size() - 2;
-        if (size < 0) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         LispFunction cdn = (LispFunction) params.car();
         params = params.cdr();
         for (var i = 0; i < size; i++)
             if (cdn.eval(ConsList.asList(params.car(), (params = params.cdr()).car())) == LispBoolean.FALSE)
                 return LispBoolean.FALSE;
         return LispBoolean.TRUE;
-    }, true, LispFunction.class, LispNumber.class);
+    }, true, LispFunction.class, LispNumber.class, LispNumber.class);
     public static final LispFunction GREATER_CONDITION = new LispFunction(params -> LispBoolean.valueOf(((LispNumber) params.car()).compareTo((LispNumber) params.cdr().car()) > 0), LispNumber.class, LispNumber.class);
     public static final LispFunction GREATER = new LispFunction(params -> CHECK_CONDITION_FOR_PAIRS.eval(params.prepend(GREATER_CONDITION.quote())), true, LispNumber.class);
     public static final LispFunction LESSER_CONDITION = new LispFunction(params -> LispBoolean.valueOf(((LispNumber) params.car()).compareTo((LispNumber) params.cdr().car()) < 0), LispNumber.class, LispNumber.class);

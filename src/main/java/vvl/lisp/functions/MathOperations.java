@@ -25,7 +25,6 @@ public class MathOperations {
         return result;
     }, true, LispNumber.class);
     public static final LispFunction SUB = new LispFunction(params -> {
-        if (params.isEmpty()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var result = (LispNumber) params.car();
         params = params.cdr();
         var size = params.size();
@@ -34,9 +33,8 @@ public class MathOperations {
             params = params.cdr();
         }
         return size == 0 ? result.sub(null) : result;
-    }, true, LispNumber.class);
+    }, true, LispNumber.class, LispNumber.class);
     public static final LispFunction DIV = new LispFunction(params -> {
-        if (params.size() < 2) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var result = (LispNumber) params.car();
         params = params.cdr();
         var size = params.size();
@@ -45,5 +43,5 @@ public class MathOperations {
             params = params.cdr();
         }
         return result;
-    }, true, LispNumber.class);
+    }, true, LispNumber.class, LispNumber.class, LispNumber.class);
 }
