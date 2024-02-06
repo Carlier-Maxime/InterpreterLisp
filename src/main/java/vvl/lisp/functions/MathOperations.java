@@ -1,6 +1,5 @@
 package vvl.lisp.functions;
 
-import vvl.lisp.LispError;
 import vvl.lisp.LispNumber;
 
 import java.math.BigInteger;
