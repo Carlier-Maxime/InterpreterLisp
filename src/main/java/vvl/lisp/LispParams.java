@@ -27,7 +27,12 @@ public class LispParams extends LispList {
             var item = super.car().eval(null);
             var itemType = item.getClass();
             var expectedType = types.car();
-            if (!expectedType.isAssignableFrom(itemType)) throw new LispError("Not a "+expectedType.toString().split("\\.Lisp")[1]);
+            if (!expectedType.isAssignableFrom(itemType)) {
+                var type = expectedType.toString().split("\\.Lisp")[1];
+                if ("Number".equals(type)) type = type.toLowerCase();
+                if ("Pair".equals(type)) type = "Cons";
+                throw new LispError("Not a "+type);
+            }
             return item;
         } catch (LispError e) {
             throw new LispRuntimeError(e);
