@@ -3,6 +3,8 @@ package vvl.lisp.functions;
 import vvl.lisp.*;
 import vvl.util.ConsListImpl;
 
+import java.util.NoSuchElementException;
+
 public class LispOperations {
     private LispOperations() {}
     public static final LispFunction QUOTE = new LispFunction(LispParams::carNoEval, LispItem.class);
@@ -14,6 +16,12 @@ public class LispOperations {
         return new LispCons(left, right);
     }, LispItem.class, LispItem.class);
     public static final LispFunction LIST = new LispFunction(params -> new LispList((ConsListImpl<LispItem>) params.map(item -> item)), true, LispItem.class);
-    public static final LispFunction CAR = new LispFunction(params -> ((LispPair) params.car()).car(), LispPair.class);
+    public static final LispFunction CAR = new LispFunction(params -> {
+        try {
+            return ((LispPair) params.car()).car();
+        } catch (NoSuchElementException e) {
+            return LispList.NIL;
+        }
+    }, LispPair.class);
     public static final LispFunction CDR = new LispFunction(params -> ((LispPair) params.car()).cdr(), LispPair.class);
 }
