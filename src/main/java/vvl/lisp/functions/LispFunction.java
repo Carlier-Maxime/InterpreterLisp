@@ -2,6 +2,7 @@ package vvl.lisp.functions;
 
 import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
+import vvl.lisp.pairs.LispParams;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
 

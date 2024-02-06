@@ -1,4 +1,6 @@
-package vvl.lisp;
+package vvl.lisp.pairs;
+
+import vvl.lisp.LispItem;
 
 public interface LispPair extends LispItem {
     LispItem car();

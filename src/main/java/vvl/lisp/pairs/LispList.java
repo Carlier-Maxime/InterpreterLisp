@@ -1,5 +1,7 @@
-package vvl.lisp;
+package vvl.lisp.pairs;
 
+import vvl.lisp.LispError;
+import vvl.lisp.LispItem;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
 

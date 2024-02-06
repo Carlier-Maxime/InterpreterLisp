@@ -1,6 +1,10 @@
 package vvl.lisp.functions;
 
 import vvl.lisp.*;
+import vvl.lisp.pairs.LispCons;
+import vvl.lisp.pairs.LispList;
+import vvl.lisp.pairs.LispPair;
+import vvl.lisp.pairs.LispParams;
 import vvl.util.ConsListImpl;
 
 import java.util.NoSuchElementException;

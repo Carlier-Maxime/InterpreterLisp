@@ -2,7 +2,7 @@ package vvl.lisp.functions;
 
 import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
-import vvl.lisp.LispParams;
+import vvl.lisp.pairs.LispParams;
 
 @FunctionalInterface
 public interface LispEvalFunction {

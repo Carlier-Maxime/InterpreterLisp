@@ -1,6 +1,7 @@
 package vvl.lisp;
 
 import vvl.lisp.functions.LispFunction;
+import vvl.lisp.pairs.LispList;
 import vvl.util.ConsList;
 
 /**
