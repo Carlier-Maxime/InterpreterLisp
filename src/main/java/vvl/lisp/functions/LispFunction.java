@@ -27,6 +27,7 @@ public class LispFunction implements LispItem {
     }
 
     protected void checkParameter(ConsList<LispItem> items) throws LispError {
+        if (items==null) throw INVALID_NUMBER_OF_OPERAND;
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
     }
