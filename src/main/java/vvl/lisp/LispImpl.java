@@ -95,6 +95,18 @@ public class LispImpl implements Lisp {
 
     @Override
     public LispItem evaluate(LispItem ex) throws LispError {
-        return ex.eval(null);
+        try {
+            return ex.eval(null);
+        } catch (Exception e) {
+            Exception exception = e;
+            if (!(exception instanceof LispError || exception instanceof LispRuntimeError)) throw e;
+            var cause = exception.getCause();
+            while (cause instanceof LispError || cause instanceof LispRuntimeError) {
+                exception = (Exception) cause;
+                cause = exception.getCause();
+            }
+            if (exception instanceof LispError) throw (LispError) exception;
+            else throw new LispError(exception.getMessage());
+        }
     }
 }
