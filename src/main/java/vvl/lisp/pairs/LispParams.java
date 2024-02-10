@@ -34,6 +34,7 @@ public class LispParams extends LispList {
             var type = expectedType.toString().split("\\.Lisp")[1];
             if ("Number".equals(type)) type = type.toLowerCase();
             if ("Pair".equals(type)) type = "Cons";
+            if ("Identifier".equals(type)) throw LispContext.notValidIdentifier(item.toString());
             throw new LispError("Not a "+type);
         }
     }
