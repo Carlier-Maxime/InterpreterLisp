@@ -27,9 +27,27 @@ public class LispParams extends LispList {
         this.types = types;
     }
 
+    private void checkType(LispItem item) throws LispError {
+        var itemType = item.getClass();
+        var expectedType = types.car();
+        if (!expectedType.isAssignableFrom(itemType)) {
+            var type = expectedType.toString().split("\\.Lisp")[1];
+            if ("Number".equals(type)) type = type.toLowerCase();
+            if ("Pair".equals(type)) type = "Cons";
+            throw new LispError("Not a "+type);
+        }
+    }
+
     @NotNull
-    public LispItem carNoEval() {
+    private LispItem carRaw() {
         return super.car();
+    }
+
+    @NotNull
+    public LispItem carNoEval() throws LispError {
+        var item = super.car();
+        checkType(item);
+        return item;
     }
 
 
@@ -38,14 +56,7 @@ public class LispParams extends LispList {
     public LispItem car() {
         try {
             var item = super.car().eval(context);
-            var itemType = item.getClass();
-            var expectedType = types.car();
-            if (!expectedType.isAssignableFrom(itemType)) {
-                var type = expectedType.toString().split("\\.Lisp")[1];
-                if ("Number".equals(type)) type = type.toLowerCase();
-                if ("Pair".equals(type)) type = "Cons";
-                throw new LispError("Not a "+type);
-            }
+            checkType(item);
             return item;
         } catch (LispError e) {
             throw new LispRuntimeError(e);
@@ -92,10 +103,10 @@ public class LispParams extends LispList {
 
     @Override
     public String toString() {
-        var sb = new StringBuilder("(").append(carNoEval());
+        var sb = new StringBuilder("(").append(carRaw());
         var next = cdr();
         while (!next.isEmpty()) {
-            sb.append(' ').append(next.carNoEval());
+            sb.append(' ').append(next.carRaw());
             next = next.cdr();
         }
         sb.append(')');
