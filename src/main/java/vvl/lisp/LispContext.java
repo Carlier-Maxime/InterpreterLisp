@@ -42,6 +42,10 @@ public class LispContext {
         vars = new HashMap<>() {};
     }
 
+    public LispContext(LispContext context) {
+        this.vars = new HashMap<>(context.vars);
+    }
+
     public boolean isBuiltin(String id) {
         return BUILTIN.get(id)!=null;
     }
