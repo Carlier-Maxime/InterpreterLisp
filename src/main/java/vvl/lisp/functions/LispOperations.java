@@ -28,6 +28,11 @@ public class LispOperations {
         }
     }, LispPair.class);
     public static final LispFunction CDR = new LispFunction(params -> ((LispPair) params.car()).cdr(), LispPair.class);
-    public static final LispFunction DEFINE = new LispFunction(params -> params.getContext().setVar(((LispIdentifier) params.carNoEval()).getId(), params.cdr().car(), false), LispIdentifier.class, LispItem.class);
-    public static final LispFunction SET = new LispFunction(params -> params.getContext().setVar(((LispIdentifier) params.carNoEval()).getId(), params.cdr().car(), true), LispIdentifier.class, LispItem.class);
+    public static final LispFunction SET_VAR = new LispFunction(params -> {
+        var identifier = params.cdr().carNoEval();
+        if (identifier instanceof LispIdentifier) return params.getContext().setVar(((LispIdentifier) identifier).getId(), params.cdr().cdr().car(), ((LispBoolean) params.car()).value());
+        throw LispContext.notValidIdentifier(identifier.toString());
+    }, LispBoolean.class, LispIdentifier.class, LispItem.class);
+    public static final LispFunction DEFINE = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.FALSE)), LispIdentifier.class, LispItem.class);
+    public static final LispFunction SET = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.TRUE)), LispIdentifier.class, LispItem.class);
 }
