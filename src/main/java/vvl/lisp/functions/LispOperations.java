@@ -35,4 +35,5 @@ public class LispOperations {
     }, LispBoolean.class, LispIdentifier.class, LispItem.class);
     public static final LispFunction DEFINE = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.FALSE)), LispIdentifier.class, LispItem.class);
     public static final LispFunction SET = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.TRUE)), LispIdentifier.class, LispItem.class);
+    public static final LispFunction LAMBDA = new LispFunction(params -> new LispLambda(((LispExpression) params.carNoEval()), params.cdr().carNoEval()), LispExpression.class, LispItem.class);
 }
