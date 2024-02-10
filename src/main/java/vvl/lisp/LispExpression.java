@@ -23,15 +23,16 @@ public class LispExpression implements LispItem {
 		this.expression = ConsList.asList(items);
 	}
 
-	public void prepend(LispItem item) {
+	public void prepend(@NotNull LispItem item) {
 		this.expression = this.expression.prepend(item);
 	}
 	
-	public void append(LispItem item) {
+	public void append(@NotNull LispItem item) {
 		this.expression = this.expression.append(item);
 	}
 	
-	public ConsList<LispItem> values() {
+	@NotNull
+public ConsList<LispItem> values() {
 		return expression;
 	}
 
@@ -55,7 +56,8 @@ public class LispExpression implements LispItem {
     }
 
 	@Override
-	public LispItem eval(@NotNull LispContext context) throws LispError {
+	@NotNull
+public LispItem eval(@NotNull LispContext context) throws LispError {
 		if (values().isEmpty()) return LispList.NIL;
 		var func = values().car().eval(context);
 		if (func instanceof LispFunction) return ((LispFunction) func).apply(context, values().cdr());

@@ -1,5 +1,7 @@
 package vvl.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
@@ -23,7 +25,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @param e an element.
 	 * @return a new list containing e in front of the current one.
 	 */
-	ConsList<E> prepend(E e);
+	@NotNull ConsList<E> prepend(E e);
 
 	/**
 	 * Insert a new element e at the end of the list
@@ -31,7 +33,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @param e an element
 	 * @return a new list containing e at the end of the current one.
 	 */
-	ConsList<E> append(E e);
+	@NotNull ConsList<E> append(E e);
 
 	/**
 	 * Check if the list is empty or not.
@@ -52,7 +54,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * 
 	 * @return all but the first element of the list.
 	 */
-	ConsList<E> cdr();
+	@NotNull ConsList<E> cdr();
 
 	/**
 	 * Returns the size of the list (the number of elements it contains).
@@ -68,7 +70,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @return a list where each element is the result of applying f to an element
 	 *         of the original list.
 	 */
-	<T> ConsList<T> map(Function<E, T> f);
+	@NotNull <T> ConsList<T> map(@NotNull Function<E, T> f);
 
 	/**
 	 * Performs a reduction on the elements of this list, using the provided
@@ -80,7 +82,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 *                    values
 	 * @return the result of the reduction
 	 */
-	default E reduce(E identity, BinaryOperator<E> accumulator) {
+	default E reduce(E identity, @NotNull BinaryOperator<E> accumulator) {
 		E result = identity;
 		for (E element : this) result = accumulator.apply(result, element);
 		return result;
@@ -109,7 +111,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * 
 	 * @return an empty list
 	 */
-	static <T> ConsList<T> nil() {
+	static @NotNull <T> ConsList<T> nil() {
 		return new ConsListImpl<>();
 	}
 
@@ -119,7 +121,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @param t an object
 	 * @return a list containing only t
 	 */
-	static <T> ConsList<T> singleton(T t) {
+	static @NotNull <T> ConsList<T> singleton(T t) {
 		return new ConsListImpl<>(t);
 	}
 
@@ -130,7 +132,7 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @return a list containing those elements
 	 */
 	@SafeVarargs
-	static <T> ConsList<T> asList(T... ts) {
+	static @NotNull <T> ConsList<T> asList(T... ts) {
 		ConsList<T> list = nil();
 		for (int i = ts.length - 1; i >= 0; i--) list = list.prepend(ts[i]);
 		return list;

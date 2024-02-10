@@ -1,5 +1,7 @@
 package vvl.lisp;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A simple abstraction for a lisp interpreter.
  * 
@@ -17,7 +19,7 @@ public interface Lisp {
      * @throws LispError
      *             if the expression is not a valid Lisp/scheme expression
      */
-    LispItem parse(String expr) throws LispError;
+    @NotNull LispItem parse(@NotNull String expr) throws LispError;
 
     /**
      * Evaluate the expression returned by the {@link #parse(String)} method.
@@ -28,7 +30,7 @@ public interface Lisp {
      * @throws LispError
      *             if the expression cannot be evaluated
      */
-    LispItem evaluate(LispItem ex) throws LispError;
+    @NotNull LispItem evaluate(@NotNull LispItem ex) throws LispError;
 
     /**
      * Evaluate a lisp expression.
@@ -39,7 +41,7 @@ public interface Lisp {
      * @throws LispError
      *             if the expression is malformed or cannot be evaluated.
      */
-    default LispItem eval(String expr) throws LispError {
+    default @NotNull LispItem eval(@NotNull String expr) throws LispError {
         return evaluate(parse(expr));
     }
     
@@ -48,7 +50,7 @@ public interface Lisp {
      * 
      * @return a new lisp interpreter.
      */
-    static Lisp makeInterpreter() {
+    static @NotNull Lisp makeInterpreter() {
     	return new LispImpl();
     }
 }

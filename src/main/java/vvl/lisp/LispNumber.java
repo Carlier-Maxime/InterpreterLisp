@@ -19,7 +19,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	private static final Pattern NUMBER_PATTERN = Pattern.compile("^[+-]?\\d++(\\.\\d*+)?+([/eE][+-]?\\d++(\\.\\d*+)?+)?$");
 	private final Number element;
 	
-	public LispNumber(Number element) {
+	public LispNumber(@NotNull Number element) {
 		this.element = element;
 	}
 	
@@ -46,7 +46,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
         return element.hashCode();
     }
 
-	public static LispNumber parseBigInteger(String bigInt, int radix) throws LispError {
+	public static @NotNull LispNumber parseBigInteger(@NotNull String bigInt, int radix) throws LispError {
 		try {
 			return new LispNumber(new BigInteger(bigInt, radix));
 		} catch (Exception e) {
@@ -54,11 +54,11 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		}
 	}
 
-	public static LispNumber parseBigInteger(String bigInt) throws LispError {
+	public static @NotNull LispNumber parseBigInteger(@NotNull String bigInt) throws LispError {
 		return parseBigInteger(bigInt, 10);
 	}
 
-	public static LispNumber parseDouble(String str) throws LispError {
+	public static @NotNull LispNumber parseDouble(@NotNull String str) throws LispError {
 		try {
 			return new LispNumber(Double.parseDouble(str));
 		} catch (Exception e) {
@@ -66,7 +66,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		}
 	}
 
-	public static LispNumber parseRatio(String ratio) throws LispError {
+	public static @NotNull LispNumber parseRatio(@NotNull String ratio) throws LispError {
 		try {
 			String[] ratioPart = ratio.split("/");
 			return new LispNumber(Double.parseDouble(ratioPart[0]) / Double.parseDouble(ratioPart[1]));
@@ -75,27 +75,30 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		}
 	}
 
-	public static LispNumber parseNumber(String number) throws LispError {
+	public static @NotNull LispNumber parseNumber(@NotNull String number) throws LispError {
 		if (INT_PATTERN.matcher(number).matches()) return parseBigInteger(number);
 		else if (SCIENTIFIC_NUMBER_PATTERN.matcher(number).matches()) return parseDouble(number);
 		else if (RATIO_PATTERN.matcher(number).matches()) return parseRatio(number);
 		else throw new LispError("Parsing number failed, the number is invalid : "+number);
 	}
 
-	public static boolean isNumber(String number) {
+	public static boolean isNumber(@NotNull String number) {
 		return NUMBER_PATTERN.matcher(number).matches();
 	}
 
 	@Override
-	public LispItem eval(@NotNull LispContext context) {
+	@NotNull
+public LispItem eval(@NotNull LispContext context) {
 		return this;
 	}
 
-	private static RuntimeException classNotSupported(Class<?> clazz) {
+	@NotNull
+private static RuntimeException classNotSupported(Class<?> clazz) {
 		return new LispRuntimeError("LispNumber "+clazz+" not supported");
 	}
 
-	private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(Number a, Number b) {
+	@NotNull
+private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(@NotNull Number a, @NotNull Number b) {
 		Class<? extends Number> classA = a.getClass();
 		Class<? extends Number> classB = b.getClass();
 		if (classA == BigInteger.class) {
@@ -131,7 +134,8 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		return r*factor;
 	}
 
-	public LispNumber add(LispNumber number) {
+	@NotNull
+public LispNumber add(@NotNull LispNumber number) {
 		Number a = this.value();
 		Number b = number.value();
 		Class<? extends Number> classA = a.getClass();
@@ -147,7 +151,8 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
         return new LispNumber(i.doubleValue() + d);
     }
 
-	public LispNumber mul(LispNumber number) {
+	@NotNull
+public LispNumber mul(@NotNull LispNumber number) {
 		Number a = this.value();
 		Number b = number.value();
 		Class<? extends Number> classA = a.getClass();
@@ -163,7 +168,8 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		return new LispNumber(i.doubleValue() * d);
 	}
 
-	public LispNumber sub(LispNumber number) {
+	@NotNull
+public LispNumber sub(LispNumber number) {
 		if (number==null) return mul(new LispNumber(BigInteger.valueOf(-1)));
 		Number a = this.value();
 		Number b = number.value();
@@ -181,7 +187,8 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		return new LispNumber(i.doubleValue() - d);
 	}
 
-	public LispNumber div(LispNumber number) throws LispError {
+	@NotNull
+public LispNumber div(@NotNull LispNumber number) throws LispError {
 		if (number.compareTo(new LispNumber(BigInteger.valueOf(0))) == 0) throw new LispError("Division by zero");
 		Number a = this.value();
 		Number b = number.value();

@@ -66,7 +66,7 @@ public final class LispBoolean implements LispItem {
      *            a Boolean value
      * @return the corresponding {@link LispBoolean} object.
      */
-    public static LispBoolean valueOf(boolean b) {
+    public static @NotNull LispBoolean valueOf(boolean b) {
         return b ? TRUE : FALSE;
     }
 
@@ -79,7 +79,7 @@ public final class LispBoolean implements LispItem {
      * @throws IllegalArgumentException
      *             if s does not correspond to a valid textual representation.
      */
-    public static LispBoolean valueOf(String s) {
+    public static @NotNull LispBoolean valueOf(@NotNull String s) {
         switch (s.toLowerCase()) {
         case "#t":
             return TRUE;
@@ -91,6 +91,7 @@ public final class LispBoolean implements LispItem {
     }
 
     @Override
+    @NotNull
     public LispItem eval(@NotNull LispContext context) {
         return this;
     }

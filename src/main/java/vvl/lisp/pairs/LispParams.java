@@ -1,5 +1,6 @@
 package vvl.lisp.pairs;
 
+import org.jetbrains.annotations.NotNull;
 import vvl.lisp.LispContext;
 import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
@@ -12,26 +13,28 @@ import java.util.Objects;
 public class LispParams extends LispList {
     private final LispContext context;
     private ConsList<Class<? extends LispItem>> types;
-    public LispParams(LispContext context, ConsListImpl<LispItem> params) {
+    public LispParams(@NotNull LispContext context, @NotNull ConsListImpl<LispItem> params) {
         this(context, params, ConsList.nil());
     }
 
-    public LispParams(LispContext context, ConsListImpl<LispItem> params, ConsList<Class<? extends LispItem>> types) {
+    public LispParams(@NotNull LispContext context, @NotNull ConsListImpl<LispItem> params, @NotNull ConsList<Class<? extends LispItem>> types) {
         super(params);
         this.context = context;
         this.types = types;
     }
 
-    public void setTypes(ConsList<Class<? extends LispItem>> types) {
+    public void setTypes(@NotNull ConsList<Class<? extends LispItem>> types) {
         this.types = types;
     }
 
+    @NotNull
     public LispItem carNoEval() {
         return super.car();
     }
 
 
     @Override
+    @NotNull
     public LispItem car() {
         try {
             var item = super.car().eval(context);
@@ -50,6 +53,7 @@ public class LispParams extends LispList {
     }
 
     @Override
+    @NotNull
     public LispParams cdr() {
         var out = super.cdr();
         var nextTypes = types.cdr();
@@ -63,11 +67,13 @@ public class LispParams extends LispList {
     }
 
     @Override
+    @NotNull
     public LispParams prepend(LispItem e) {
         return new LispParams(context, super.prepend(e), types);
     }
 
     @Override
+    @NotNull
     public LispParams append(LispItem e) {
         return new LispParams(context, super.append(e), types);
     }
@@ -96,6 +102,7 @@ public class LispParams extends LispList {
         return sb.toString();
     }
 
+    @NotNull
     public LispContext getContext() {
         return context;
     }

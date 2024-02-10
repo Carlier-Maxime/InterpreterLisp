@@ -1,5 +1,6 @@
 package vvl.lisp;
 
+import org.jetbrains.annotations.NotNull;
 import vvl.util.Cons;
 import vvl.util.ConsList;
 
@@ -7,7 +8,8 @@ public class LispImpl implements Lisp {
 
     private ConsList<LispExpression> lists = ConsList.nil();
     private final LispContext context = new LispContext();
-    private LispItem parseSpecialNotation(String expr) throws LispError {
+    @NotNull
+    private LispItem parseSpecialNotation(@NotNull String expr) throws LispError {
         assert expr.charAt(0)=='#';
         try {
             if ("#t".equals(expr) || "#f".equals(expr)) return LispBoolean.valueOf(expr);
@@ -24,7 +26,8 @@ public class LispImpl implements Lisp {
         throw new LispError("Special notation unknown : "+expr);
     }
 
-    private LispItem parseSingleElement(String expr) throws LispError {
+    @NotNull
+    private LispItem parseSingleElement(@NotNull String expr) throws LispError {
         try {
             if (expr.charAt(0)=='#') return parseSpecialNotation(expr);
             if (LispNumber.isNumber(expr)) return LispNumber.parseNumber(expr);
@@ -36,7 +39,8 @@ public class LispImpl implements Lisp {
         }
     }
 
-    private String handleClosingParenthesis(String element) {
+    @NotNull
+    private String handleClosingParenthesis(@NotNull String element) {
         while (element.endsWith(")")) {
             lists = lists.prepend(new LispExpression());
             element = element.substring(0, element.length()-1);
@@ -44,7 +48,8 @@ public class LispImpl implements Lisp {
         return element;
     }
 
-    private Cons<Integer, String> handleOpeningParenthesis(String element) throws LispError {
+    @NotNull
+    private Cons<Integer, String> handleOpeningParenthesis(@NotNull String element) throws LispError {
         int nbClose = 0;
         while (element.startsWith("(")) {
             if (lists.isEmpty()) throw new LispError("Parenthesis incorrect");
@@ -54,7 +59,7 @@ public class LispImpl implements Lisp {
         return new Cons<>(nbClose, element);
     }
 
-    private LispExpression handleCloseExpression(String[] elems, int index, int nbClose) throws LispError {
+    private LispExpression handleCloseExpression(@NotNull String[] elems, int index, int nbClose) throws LispError {
         for (int j=0; j<nbClose; j++) {
             LispExpression lispExpr = lists.car();
             lists = lists.cdr();
@@ -68,7 +73,8 @@ public class LispImpl implements Lisp {
     }
 
     @Override
-    public LispItem parse(String expr) throws LispError {
+    @NotNull
+    public LispItem parse(@NotNull String expr) throws LispError {
         String[] elems = expr.split("\\s+");
         if (elems.length==0) throw new LispError("Empty expression is invalid !");
         lists = ConsList.nil();
@@ -95,7 +101,8 @@ public class LispImpl implements Lisp {
     }
 
     @Override
-    public LispItem evaluate(LispItem ex) throws LispError {
+    @NotNull
+    public LispItem evaluate(@NotNull LispItem ex) throws LispError {
         try {
             return ex.eval(context);
         } catch (Exception e) {

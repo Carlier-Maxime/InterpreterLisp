@@ -1,5 +1,6 @@
 package vvl.lisp;
 
+import org.jetbrains.annotations.NotNull;
 import vvl.lisp.functions.ComparisonOperations;
 import vvl.lisp.functions.LispOperations;
 import vvl.lisp.functions.LogicalOperations;
@@ -49,11 +50,12 @@ public class LispContext {
         return vars.get(id)!=null;
     }
 
-    public static LispError notValidIdentifier(String id) {
+    public static @NotNull LispError notValidIdentifier(String id) {
         return new LispError(id+" is not a valid identifier");
     }
 
-    public LispItem setVar(String id, LispItem item, boolean replace) throws LispError {
+    @NotNull
+    public LispItem setVar(String id, @NotNull LispItem item, boolean replace) throws LispError {
         if (isBuiltin(id)) throw notValidIdentifier(id);
         if (isVars(id)) {
             if (!replace) throw notValidIdentifier(id);
@@ -65,9 +67,11 @@ public class LispContext {
         return item;
     }
 
-    public LispItem getVar(String id) {
+    @NotNull
+    public LispItem getVar(String id) throws LispError {
         var item = BUILTIN.get(id);
         if (item==null) item = vars.get(id);
+        if (item==null) throw notValidIdentifier(id);
         return item;
     }
 }

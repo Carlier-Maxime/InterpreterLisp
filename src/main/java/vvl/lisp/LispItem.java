@@ -9,5 +9,5 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 public interface LispItem {
-    LispItem eval(@NotNull LispContext context) throws LispError;
+    @NotNull LispItem eval(@NotNull LispContext context) throws LispError;
 }

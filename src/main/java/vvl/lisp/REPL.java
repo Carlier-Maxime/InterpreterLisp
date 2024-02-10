@@ -1,5 +1,7 @@
 package vvl.lisp;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -18,7 +20,7 @@ public class REPL {
         // to prevent instantiation
     }
 
-    public static void readEvalPrintLoop(Lisp lisp) {
+    public static void readEvalPrintLoop(@NotNull Lisp lisp) {
     	try (var scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
             System.out.println("My super own Lisp/Scheme interpreter 2024");
             System.out.println("Enter a valid Lisp expression followed by Enter. type 'quit' to exit.");

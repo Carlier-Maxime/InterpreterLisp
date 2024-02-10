@@ -16,7 +16,7 @@ public class LispIdentifier implements LispItem {
 
 	private final String id;
 	
-	public LispIdentifier(String id) throws LispError {
+	public LispIdentifier(@NotNull String id) throws LispError {
 		if (!IDENTIFIER_PATTERN.matcher(id).matches()) throw new LispError("This identifier '"+id+"' not respect regex : "+ IDENTIFIER_REGEX);
 		this.id = id;
 	}
@@ -39,7 +39,8 @@ public class LispIdentifier implements LispItem {
     }
 
 	@Override
-	public LispItem eval(@NotNull LispContext context) throws LispError {
+	@NotNull
+public LispItem eval(@NotNull LispContext context) throws LispError {
 		return context.getVar(id);
 	}
 

@@ -19,6 +19,7 @@ public class LispCons extends Cons<LispItem, LispItem> implements LispPair {
     }
 
     @Override
+    @NotNull
     public LispItem eval(@NotNull LispContext context) throws LispError {
         return this;
     }

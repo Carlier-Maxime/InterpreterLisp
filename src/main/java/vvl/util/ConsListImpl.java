@@ -22,16 +22,18 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
         else this.list = new Cons<>(first, list);
     }
 
-    public ConsListImpl(ConsListImpl<E> consList) {
+    public ConsListImpl(@NotNull ConsListImpl<E> consList) {
         list=consList.list;
     }
 
     @Override
+    @NotNull
     public ConsList<E> prepend(E e) {
         return new ConsListImpl<>(e, this);
     }
 
     @Override
+    @NotNull
     public ConsList<E> append(E e) {
         ConsList<E> l = new ConsListImpl<>(e);
         E[] elems = this.toArrayTyped();
@@ -51,6 +53,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     }
 
     @Override
+    @NotNull
     public ConsList<E> cdr() {
         ConsList<E> l = list.right();
         return l==null ? ConsList.nil() : l;
@@ -63,7 +66,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     }
 
     @Override
-    public <T> ConsList<T> map(Function<E, T> f) {
+    public <T> @NotNull ConsList<T> map(@NotNull Function<E, T> f) {
         if (isEmpty()) return ConsList.nil();
         return new ConsListImpl<>(f.apply(car()), cdr().map(f));
     }

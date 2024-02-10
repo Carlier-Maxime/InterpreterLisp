@@ -27,28 +27,31 @@ public class LispFunction implements LispItem {
         this.lastArgIsVarargs = lastArgIsVarargs;
     }
 
-    protected void checkParameter(ConsList<LispItem> items) throws LispError {
-        if (items==null) throw INVALID_NUMBER_OF_OPERAND;
+    protected void checkParameter(@NotNull ConsList<LispItem> items) throws LispError {
         int size = items.size();
         if ((size!=nbArgs && !lastArgIsVarargs) || (lastArgIsVarargs && size<nbArgs-1)) throw INVALID_NUMBER_OF_OPERAND;
     }
 
     @Override
+    @NotNull
     public LispItem eval(@NotNull LispContext context) throws LispError {
         return apply(new LispParams(context, LispParams.NIL));
     }
 
-    public LispItem apply(LispContext context, ConsList<LispItem> items) throws LispError {
+    @NotNull
+    public LispItem apply(@NotNull LispContext context, @NotNull ConsList<LispItem> items) throws LispError {
         checkParameter(items);
         return function.apply(new LispParams(context, (ConsListImpl<LispItem>) items, types));
     }
 
-    public LispItem apply(LispParams params) throws LispError {
+    @NotNull
+    public LispItem apply(@NotNull LispParams params) throws LispError {
         checkParameter(params);
         params.setTypes(types);
         return function.apply(params);
     }
 
+    @NotNull
     public LispExpression quote() throws LispError {
         return new LispExpression(new LispIdentifier("quote"), this);
     }
