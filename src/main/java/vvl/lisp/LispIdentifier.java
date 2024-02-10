@@ -39,6 +39,8 @@ public class LispIdentifier implements LispItem {
 		BUILTIN.put("car", LispOperations.CAR);
 		BUILTIN.put("cdr", LispOperations.CDR);
 		BUILTIN.put("nil", LispList.NIL);
+		BUILTIN.put("define", LispOperations.DEFINE);
+		BUILTIN.put("set!", LispOperations.SET);
 	}
 
 	private final String id;
