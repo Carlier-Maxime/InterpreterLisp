@@ -70,6 +70,7 @@ public class LispIdentifier implements LispItem {
 	@Override
 	public LispItem eval(ConsList<LispItem> items) throws LispError {
 		var func = BUILTIN.get(id);
+		if (func==null) func = VARS.get(id);
 		if (func==null) throw new LispError("Identifier '"+id+"' not implemented");
 		return func;
 	}
