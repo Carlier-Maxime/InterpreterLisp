@@ -24,12 +24,12 @@ public class LispLambda extends LispFunction {
         checkParameter(params);
         var context = new LispContext(params.getContext());
         int size = params.size();
-        var args = this.args;
+        var ids = args;
         if (size != args.size()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         for (var i=0; i<size; i++) {
-            var id = args.car();
+            var id = ids.car();
             context.setVar(id, params.car(), context.isVars(id));
-            args = args.cdr();
+            ids = ids.cdr();
             params = params.cdr();
         }
         return func.eval(context);
