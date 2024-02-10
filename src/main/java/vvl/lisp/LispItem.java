@@ -1,6 +1,6 @@
 package vvl.lisp;
 
-import vvl.util.ConsList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A marker class for representing a lisp value.
@@ -9,5 +9,5 @@ import vvl.util.ConsList;
  *
  */
 public interface LispItem {
-    LispItem eval(ConsList<LispItem> items) throws LispError;
+    LispItem eval(@NotNull LispContext context) throws LispError;
 }

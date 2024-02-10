@@ -6,6 +6,7 @@ import vvl.util.ConsList;
 public class LispImpl implements Lisp {
 
     private ConsList<LispExpression> lists = ConsList.nil();
+    private final LispContext context = new LispContext();
     private LispItem parseSpecialNotation(String expr) throws LispError {
         assert expr.charAt(0)=='#';
         try {
@@ -96,7 +97,7 @@ public class LispImpl implements Lisp {
     @Override
     public LispItem evaluate(LispItem ex) throws LispError {
         try {
-            return ex.eval(null);
+            return ex.eval(context);
         } catch (Exception e) {
             var exception = e;
             if (!(exception instanceof LispError || exception instanceof LispRuntimeError)) throw e;

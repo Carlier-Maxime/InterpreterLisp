@@ -28,6 +28,6 @@ public class LispOperations {
         }
     }, LispPair.class);
     public static final LispFunction CDR = new LispFunction(params -> ((LispPair) params.car()).cdr(), LispPair.class);
-    public static final LispFunction DEFINE = new LispFunction(params -> ((LispIdentifier) params.carNoEval()).setVar(params.cdr().car(), false), LispIdentifier.class, LispItem.class);
-    public static final LispFunction SET = new LispFunction(params -> ((LispIdentifier) params.carNoEval()).setVar(params.cdr().car(), true), LispIdentifier.class, LispItem.class);
+    public static final LispFunction DEFINE = new LispFunction(params -> params.getContext().setVar(((LispIdentifier) params.carNoEval()).getId(), params.cdr().car(), false), LispIdentifier.class, LispItem.class);
+    public static final LispFunction SET = new LispFunction(params -> params.getContext().setVar(((LispIdentifier) params.carNoEval()).getId(), params.cdr().car(), true), LispIdentifier.class, LispItem.class);
 }

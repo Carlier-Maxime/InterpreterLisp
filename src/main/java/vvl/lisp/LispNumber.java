@@ -2,7 +2,6 @@ package vvl.lisp;
 
 import org.jetbrains.annotations.NotNull;
 import vvl.util.Cons;
-import vvl.util.ConsList;
 
 import java.math.BigInteger;
 import java.util.regex.Pattern;
@@ -88,7 +87,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	}
 
 	@Override
-	public LispItem eval(ConsList<LispItem> items) {
+	public LispItem eval(@NotNull LispContext context) {
 		return this;
 	}
 

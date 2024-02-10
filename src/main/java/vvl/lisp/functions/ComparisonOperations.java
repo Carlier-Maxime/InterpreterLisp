@@ -11,7 +11,7 @@ public class ComparisonOperations {
         LispFunction cdn = (LispFunction) params.car();
         params = params.cdr();
         for (var i = 0; i < size; i++)
-            if (cdn.apply(ConsList.asList(params.car(), (params = params.cdr()).car())) == LispBoolean.FALSE)
+            if (cdn.apply(params.getContext(), ConsList.asList(params.car(), (params = params.cdr()).car())) == LispBoolean.FALSE)
                 return LispBoolean.FALSE;
         return LispBoolean.TRUE;
     }, true, LispFunction.class, LispNumber.class, LispNumber.class);

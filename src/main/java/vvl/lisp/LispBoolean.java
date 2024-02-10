@@ -1,6 +1,6 @@
 package vvl.lisp;
 
-import vvl.util.ConsList;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Simple Boolean type for our lisp interpreter.
@@ -91,7 +91,7 @@ public final class LispBoolean implements LispItem {
     }
 
     @Override
-    public LispItem eval(ConsList<LispItem> items) {
+    public LispItem eval(@NotNull LispContext context) {
         return this;
     }
 

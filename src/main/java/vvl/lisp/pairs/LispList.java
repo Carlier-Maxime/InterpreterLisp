@@ -1,5 +1,7 @@
 package vvl.lisp.pairs;
 
+import org.jetbrains.annotations.NotNull;
+import vvl.lisp.LispContext;
 import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
 import vvl.util.ConsList;
@@ -36,7 +38,7 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
     }
 
     @Override
-    public LispItem eval(ConsList<LispItem> items) throws LispError {
+    public LispItem eval(@NotNull LispContext context) throws LispError {
         return this;
     }
 

@@ -1,5 +1,6 @@
 package vvl.lisp;
 
+import org.jetbrains.annotations.NotNull;
 import vvl.lisp.functions.LispFunction;
 import vvl.lisp.pairs.LispList;
 import vvl.util.ConsList;
@@ -54,10 +55,10 @@ public class LispExpression implements LispItem {
     }
 
 	@Override
-	public LispItem eval(ConsList<LispItem> items) throws LispError {
+	public LispItem eval(@NotNull LispContext context) throws LispError {
 		if (values().isEmpty()) return LispList.NIL;
-		var func = values().car().eval(null);
-		if (func instanceof LispFunction) return ((LispFunction) func).apply(values().cdr());
+		var func = values().car().eval(context);
+		if (func instanceof LispFunction) return ((LispFunction) func).apply(context, values().cdr());
 		throw new LispError(((LispIdentifier) values().car()).getId()+" is not a valid operator");
 	}
 

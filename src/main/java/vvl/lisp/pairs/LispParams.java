@@ -1,5 +1,6 @@
 package vvl.lisp.pairs;
 
+import vvl.lisp.LispContext;
 import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
 import vvl.lisp.LispRuntimeError;
@@ -9,9 +10,15 @@ import vvl.util.ConsListImpl;
 import java.util.Objects;
 
 public class LispParams extends LispList {
+    private final LispContext context;
     private ConsList<Class<? extends LispItem>> types;
-    public LispParams(ConsListImpl<LispItem> params, ConsList<Class<? extends LispItem>> types) {
+    public LispParams(LispContext context, ConsListImpl<LispItem> params) {
+        this(context, params, ConsList.nil());
+    }
+
+    public LispParams(LispContext context, ConsListImpl<LispItem> params, ConsList<Class<? extends LispItem>> types) {
         super(params);
+        this.context = context;
         this.types = types;
     }
 
@@ -27,7 +34,7 @@ public class LispParams extends LispList {
     @Override
     public LispItem car() {
         try {
-            var item = super.car().eval(null);
+            var item = super.car().eval(context);
             var itemType = item.getClass();
             var expectedType = types.car();
             if (!expectedType.isAssignableFrom(itemType)) {
@@ -52,17 +59,17 @@ public class LispParams extends LispList {
             params.setTypes(nextTypes);
             return params;
         }
-        return new LispParams(out, nextTypes);
+        return new LispParams(context, out, nextTypes);
     }
 
     @Override
     public LispParams prepend(LispItem e) {
-        return new LispParams(super.prepend(e), types);
+        return new LispParams(context, super.prepend(e), types);
     }
 
     @Override
     public LispParams append(LispItem e) {
-        return new LispParams(super.append(e), types);
+        return new LispParams(context, super.append(e), types);
     }
 
     @Override
@@ -87,5 +94,9 @@ public class LispParams extends LispList {
         }
         sb.append(')');
         return sb.toString();
+    }
+
+    public LispContext getContext() {
+        return context;
     }
 }
