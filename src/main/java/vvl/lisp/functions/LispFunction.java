@@ -41,8 +41,7 @@ public class LispFunction implements LispItem {
 
     @NotNull
     public LispItem apply(@NotNull LispContext context, @NotNull ConsList<LispItem> items) throws LispError {
-        checkParameter(items);
-        return function.apply(new LispParams(context, (ConsListImpl<LispItem>) items, types));
+        return apply(new LispParams(context, (ConsListImpl<LispItem>) items, types));
     }
 
     @NotNull
