@@ -15,7 +15,7 @@ public class LispParams extends LispList {
         this.types = types;
     }
 
-    private void setTypes(ConsList<Class<? extends LispItem>> types) {
+    public void setTypes(ConsList<Class<? extends LispItem>> types) {
         this.types = types;
     }
 

@@ -57,7 +57,7 @@ public class LispExpression implements LispItem {
 	public LispItem eval(ConsList<LispItem> items) throws LispError {
 		if (values().isEmpty()) return LispList.NIL;
 		var func = values().car().eval(null);
-		if (func instanceof LispFunction) return func.eval(values().cdr());
+		if (func instanceof LispFunction) return ((LispFunction) func).apply(values().cdr());
 		throw new LispError(((LispIdentifier) values().car()).getId()+" is not a valid operator");
 	}
 

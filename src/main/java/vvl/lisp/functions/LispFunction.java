@@ -35,8 +35,18 @@ public class LispFunction implements LispItem {
 
     @Override
     public LispItem eval(ConsList<LispItem> items) throws LispError {
+        return apply(LispParams.NIL);
+    }
+
+    public LispItem apply(ConsList<LispItem> items) throws LispError {
         checkParameter(items);
         return function.apply(new LispParams((ConsListImpl<LispItem>) items, types));
+    }
+
+    public LispItem apply(LispParams params) throws LispError {
+        checkParameter(params);
+        params.setTypes(types);
+        return function.apply(params);
     }
 
     public LispExpression quote() throws LispError {
