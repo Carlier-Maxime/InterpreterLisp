@@ -50,8 +50,14 @@ public class LispContext {
         return vars.get(id)!=null;
     }
 
-    public static @NotNull LispError notValidIdentifier(String id) {
+    @NotNull
+    public static LispError notValidIdentifier(String id) {
         return new LispError(id+" is not a valid identifier");
+    }
+
+    @NotNull
+    public static LispError undefinedError(String id) {
+        return new LispError(id+" is undefined");
     }
 
     @NotNull
@@ -61,7 +67,7 @@ public class LispContext {
             if (!replace) throw notValidIdentifier(id);
             vars.replace(id, item);
         } else {
-            if (replace) throw new LispError(id+" is undefined");
+            if (replace) throw undefinedError(id);
             vars.put(id, item);
         }
         return item;
@@ -71,7 +77,7 @@ public class LispContext {
     public LispItem getVar(String id) throws LispError {
         var item = BUILTIN.get(id);
         if (item==null) item = vars.get(id);
-        if (item==null) throw notValidIdentifier(id);
+        if (item==null) throw undefinedError(id);
         return item;
     }
 }
