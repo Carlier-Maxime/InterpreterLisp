@@ -2,6 +2,7 @@ package vvl.lisp.functions;
 
 import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
+import vvl.lisp.pairs.LispList;
 import vvl.lisp.pairs.LispParams;
 import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
@@ -35,7 +36,7 @@ public class LispFunction implements LispItem {
     @Override
     @NotNull
     public LispItem eval(@NotNull LispContext context) throws LispError {
-        return apply(new LispParams(context, LispParams.NIL));
+        return apply(new LispParams(context, LispList.NIL));
     }
 
     @NotNull
