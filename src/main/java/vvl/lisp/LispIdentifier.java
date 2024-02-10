@@ -17,27 +17,27 @@ import java.util.regex.Pattern;
 public class LispIdentifier implements LispItem {
 	private static final String IDENTIFIER_REGEX = "^[!$%&*/:<=>?^\\-+_~a-zA-Z][!$%&*/:<=>?^\\-+_~a-zA-Z0-9]*$";
 	private static final Pattern IDENTIFIER_PATTERN = Pattern.compile(IDENTIFIER_REGEX);
-	private static final Map<String, LispItem> FUNCTIONS = new HashMap<>() {};
+	private static final Map<String, LispItem> BUILTIN = new HashMap<>() {};
 	static {
-		FUNCTIONS.put("not", LogicalOperations.NOT);
-		FUNCTIONS.put("and", LogicalOperations.AND);
-		FUNCTIONS.put("or", LogicalOperations.OR);
-		FUNCTIONS.put(">", ComparisonOperations.GREATER);
-		FUNCTIONS.put(">=", ComparisonOperations.GREATER_OR_EQUALS);
-		FUNCTIONS.put("<", ComparisonOperations.LESSER);
-		FUNCTIONS.put("<=", ComparisonOperations.LESSER_OR_EQUALS);
-		FUNCTIONS.put("=", ComparisonOperations.IS_EQUALS);
-		FUNCTIONS.put("+", MathOperations.ADD);
-		FUNCTIONS.put("*", MathOperations.MUL);
-		FUNCTIONS.put("-", MathOperations.SUB);
-		FUNCTIONS.put("/", MathOperations.DIV);
-		FUNCTIONS.put("quote", LispOperations.QUOTE);
-		FUNCTIONS.put("if", LispOperations.IF);
-		FUNCTIONS.put("cons", LispOperations.CONS);
-		FUNCTIONS.put("list", LispOperations.LIST);
-		FUNCTIONS.put("car", LispOperations.CAR);
-		FUNCTIONS.put("cdr", LispOperations.CDR);
-		FUNCTIONS.put("nil", LispList.NIL);
+		BUILTIN.put("not", LogicalOperations.NOT);
+		BUILTIN.put("and", LogicalOperations.AND);
+		BUILTIN.put("or", LogicalOperations.OR);
+		BUILTIN.put(">", ComparisonOperations.GREATER);
+		BUILTIN.put(">=", ComparisonOperations.GREATER_OR_EQUALS);
+		BUILTIN.put("<", ComparisonOperations.LESSER);
+		BUILTIN.put("<=", ComparisonOperations.LESSER_OR_EQUALS);
+		BUILTIN.put("=", ComparisonOperations.IS_EQUALS);
+		BUILTIN.put("+", MathOperations.ADD);
+		BUILTIN.put("*", MathOperations.MUL);
+		BUILTIN.put("-", MathOperations.SUB);
+		BUILTIN.put("/", MathOperations.DIV);
+		BUILTIN.put("quote", LispOperations.QUOTE);
+		BUILTIN.put("if", LispOperations.IF);
+		BUILTIN.put("cons", LispOperations.CONS);
+		BUILTIN.put("list", LispOperations.LIST);
+		BUILTIN.put("car", LispOperations.CAR);
+		BUILTIN.put("cdr", LispOperations.CDR);
+		BUILTIN.put("nil", LispList.NIL);
 	}
 
 	private final String id;
@@ -66,7 +66,7 @@ public class LispIdentifier implements LispItem {
 
 	@Override
 	public LispItem eval(ConsList<LispItem> items) throws LispError {
-		var func = FUNCTIONS.get(id);
+		var func = BUILTIN.get(id);
 		if (func==null) throw new LispError("Identifier '"+id+"' not implemented");
 		return func;
 	}
