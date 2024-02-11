@@ -1,8 +1,8 @@
 package vvl.lisp.functions;
 
-import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
 import vvl.lisp.pairs.*;
+import vvl.util.ConsList;
 import vvl.util.ConsListImpl;
 
 import java.util.NoSuchElementException;
@@ -36,6 +36,12 @@ public class LispOperations {
         if (func.getNbArgs() != lists.size()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var size = ((LispList) lists.car()).size();
         for (var list : lists) if (((LispList) list).size()!=size) throw new LispError("All lists must be same size");
-        return func.apply(new LispMapParams(params.getContext(), lists.map(item -> (LispList) item), params.getTypes()));
+        var array = new LispItem[size];
+        var mapParams = new LispMapParams(params.getContext(), lists.map(item -> (LispList) item), params.getTypes());
+        for (var i=0; i<size; i++) {
+            array[i]=func.apply(mapParams);
+            mapParams.cdrListInPlace();
+        }
+        return new LispList((ConsListImpl<LispItem>) ConsList.asList(array));
     }, true, LispLambda.class, LispList.class, LispList.class);
 }

@@ -8,8 +8,8 @@ import vvl.lisp.LispRuntimeError;
 import vvl.util.ConsList;
 
 public class LispMapParams extends LispParams {
-    private final ConsList<LispList> lists;
-    private final ConsList<LispList> current;
+    private ConsList<LispList> lists;
+    private ConsList<LispList> current;
 
     public LispMapParams(LispContext context, ConsList<LispList> lists, ConsList<Class<? extends LispItem>> types) {
         this(context, lists, types, lists);
@@ -26,12 +26,17 @@ public class LispMapParams extends LispParams {
         return current.car().car();
     }
 
+    public void cdrListInPlace() {
+        lists = lists.map(LispList::cdr);
+        current = lists;
+    }
+
     @Override
     @NotNull
     public LispMapParams cdr() {
         var next = current.cdr();
         if (next.isEmpty()) return new LispMapParams(getContext(), lists.map(LispList::cdr), getTypes());
-        return new LispMapParams(getContext(), lists.map(LispList::cdr), getTypes(), current);
+        return new LispMapParams(getContext(), lists, getTypes(), current);
     }
 
     @Override
