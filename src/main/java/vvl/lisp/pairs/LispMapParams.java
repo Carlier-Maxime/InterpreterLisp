@@ -7,6 +7,8 @@ import vvl.lisp.LispItem;
 import vvl.lisp.LispRuntimeError;
 import vvl.util.ConsList;
 
+import java.util.Objects;
+
 public class LispMapParams extends LispParams {
     private ConsList<LispList> lists;
     private ConsList<LispList> current;
@@ -76,5 +78,19 @@ public class LispMapParams extends LispParams {
     @Override
     public int size() {
         return lists.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        LispMapParams lispItems = (LispMapParams) o;
+        return Objects.equals(lists, lispItems.lists) && Objects.equals(current, lispItems.current);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), lists, current);
     }
 }
