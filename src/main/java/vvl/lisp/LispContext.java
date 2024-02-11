@@ -39,13 +39,16 @@ public class LispContext {
     }
 
     private final Map<String, LispItem> vars;
+    private final Map<String, LispItem> args;
 
     public LispContext() {
         vars = new HashMap<>() {};
+        args = new HashMap<>() {};
     }
 
     public LispContext(LispContext context) {
         this.vars = new HashMap<>(context.vars);
+        this.args = new HashMap<>(context.args);
     }
 
     public boolean isBuiltin(String id) {
@@ -54,6 +57,9 @@ public class LispContext {
 
     public boolean isVars(String id) {
         return vars.get(id)!=null;
+    }
+    public boolean isArgs(String id) {
+        return args.get(id)!=null;
     }
 
     @NotNull
@@ -80,10 +86,23 @@ public class LispContext {
     }
 
     @NotNull
-    public LispItem getVar(String id) throws LispError {
-        var item = BUILTIN.get(id);
-        if (item==null) item = vars.get(id);
-        if (item==null) throw undefinedError(id);
+    public LispItem setArg(String id, @NotNull LispItem item) throws LispError {
+        if (isBuiltin(id)) throw notValidIdentifier(id);
+        if (isArgs(id)) args.replace(id, item);
+        else args.put(id, item);
+        return item;
+    }
+
+    @NotNull
+    public LispItem getValue(String id) throws LispError {
+        var item = args.get(id);
+        if (item==null) {
+            item = vars.get(id);
+            if (item==null) {
+                item = BUILTIN.get(id);
+                if (item==null) throw undefinedError(id);
+            }
+        }
         return item;
     }
 }

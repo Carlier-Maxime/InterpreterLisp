@@ -41,7 +41,7 @@ public class LispIdentifier implements LispItem {
 	@Override
 	@NotNull
 public LispItem eval(@NotNull LispContext context) throws LispError {
-		return context.getVar(id);
+		return context.getValue(id);
 	}
 
 	public String getId() {

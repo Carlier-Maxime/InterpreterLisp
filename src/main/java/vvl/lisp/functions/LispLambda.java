@@ -29,7 +29,7 @@ public class LispLambda extends LispFunction {
         if (size != args.size()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         for (var i=0; i<size; i++) {
             var id = ids.car();
-            context.setVar(id, params.car(), context.isVars(id));
+            context.setArg(id, params.car());
             ids = ids.cdr();
             params = params.cdr();
         }
