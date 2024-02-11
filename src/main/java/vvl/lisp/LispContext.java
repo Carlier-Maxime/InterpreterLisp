@@ -37,6 +37,7 @@ public class LispContext {
         BUILTIN.put("lambda", LispOperations.LAMBDA);
         BUILTIN.put("map", LispOperations.MAP);
         BUILTIN.put("abs", MathOperations.ABS);
+        BUILTIN.put("cbrt", MathOperations.CBRT);
     }
 
     private final Map<String, LispItem> vars;
