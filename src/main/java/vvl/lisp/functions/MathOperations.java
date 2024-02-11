@@ -45,4 +45,6 @@ public class MathOperations {
         }
         return result;
     }, LispNumber.class, LispNumber.class);
+
+    public static final LispFunction ABS = new LispFunction(params -> ((LispNumber) params.car()).abs(), LispNumber.class);
 }

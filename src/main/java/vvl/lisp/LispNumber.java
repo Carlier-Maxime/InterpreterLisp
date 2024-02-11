@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import vvl.util.Cons;
 
 import java.math.BigInteger;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 /**
@@ -88,17 +89,17 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 
 	@Override
 	@NotNull
-public LispItem eval(@NotNull LispContext context) {
+	public LispItem eval(@NotNull LispContext context) {
 		return this;
 	}
 
 	@NotNull
-private static RuntimeException classNotSupported(Class<?> clazz) {
+	private static RuntimeException classNotSupported(Class<?> clazz) {
 		return new LispRuntimeError("LispNumber "+clazz+" not supported");
 	}
 
 	@NotNull
-private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(@NotNull Number a, @NotNull Number b) {
+	private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(@NotNull Number a, @NotNull Number b) {
 		Class<? extends Number> classA = a.getClass();
 		Class<? extends Number> classB = b.getClass();
 		if (classA == BigInteger.class) {
@@ -135,7 +136,7 @@ private Cons<Integer, Cons<BigInteger, Double>> separateBigIntAndDouble(@NotNull
 	}
 
 	@NotNull
-public LispNumber add(@NotNull LispNumber number) {
+	public LispNumber add(@NotNull LispNumber number) {
 		Number a = this.value();
 		Number b = number.value();
 		Class<? extends Number> classA = a.getClass();
@@ -152,7 +153,7 @@ public LispNumber add(@NotNull LispNumber number) {
     }
 
 	@NotNull
-public LispNumber mul(@NotNull LispNumber number) {
+	public LispNumber mul(@NotNull LispNumber number) {
 		Number a = this.value();
 		Number b = number.value();
 		Class<? extends Number> classA = a.getClass();
@@ -169,7 +170,7 @@ public LispNumber mul(@NotNull LispNumber number) {
 	}
 
 	@NotNull
-public LispNumber sub(LispNumber number) {
+	public LispNumber sub(LispNumber number) {
 		if (number==null) return mul(new LispNumber(BigInteger.valueOf(-1)));
 		Number a = this.value();
 		Number b = number.value();
@@ -188,7 +189,7 @@ public LispNumber sub(LispNumber number) {
 	}
 
 	@NotNull
-public LispNumber div(@NotNull LispNumber number) throws LispError {
+	public LispNumber div(@NotNull LispNumber number) throws LispError {
 		if (number.compareTo(new LispNumber(BigInteger.valueOf(0))) == 0) throw new LispError("Division by zero");
 		Number a = this.value();
 		Number b = number.value();
@@ -204,5 +205,18 @@ public LispNumber div(@NotNull LispNumber number) throws LispError {
 		double d = cons.right().right();
 		if (cons.left() == -1) return new LispNumber(d / i.doubleValue());
 		return new LispNumber(i.doubleValue() / d);
+	}
+
+	@NotNull
+	public LispNumber unaryOperation(UnaryOperator<Double> opd, UnaryOperator<BigInteger> opi) {
+		var a = value();
+		if (a instanceof Double) return new LispNumber(opd.apply((Double) a));
+		else if (a instanceof BigInteger) return new LispNumber(opi.apply((BigInteger) a));
+		else throw classNotSupported(a.getClass());
+	}
+
+	@NotNull
+	public LispNumber abs() {
+		return unaryOperation(Math::abs, BigInteger::abs);
 	}
 }
