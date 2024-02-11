@@ -55,4 +55,8 @@ public class LispFunction implements LispItem {
     public LispExpression quote() throws LispError {
         return new LispExpression(new LispIdentifier("quote"), this);
     }
+
+    public int getNbArgs() {
+        return nbArgs;
+    }
 }
