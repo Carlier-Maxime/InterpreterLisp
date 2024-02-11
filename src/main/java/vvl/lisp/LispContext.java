@@ -38,6 +38,11 @@ public class LispContext {
         BUILTIN.put("map", LispOperations.MAP);
         BUILTIN.put("abs", MathOperations.ABS);
         BUILTIN.put("cbrt", MathOperations.CBRT);
+        BUILTIN.put("ceil", MathOperations.CEIL);
+        BUILTIN.put("floor", MathOperations.FLOOR);
+        BUILTIN.put("log10", MathOperations.LOG10);
+        BUILTIN.put("cos", MathOperations.COS);
+        BUILTIN.put("sin", MathOperations.SIN);
     }
 
     private final Map<String, LispItem> vars;

@@ -230,4 +230,29 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	public LispNumber cbrt() {
 		return unaryOperation(Math::cbrt, null);
 	}
+
+	@NotNull
+	public LispNumber ceil() {
+		return unaryOperation(Math::ceil, null);
+	}
+
+	@NotNull
+	public LispNumber floor() {
+		return unaryOperation(Math::floor, null);
+	}
+
+	@NotNull
+	public LispNumber log10() {
+		return unaryOperation(Math::log10, null);
+	}
+
+	@NotNull
+	public LispNumber cos() {
+		return unaryOperation(Math::cos, null);
+	}
+
+	@NotNull
+	public LispNumber sin() {
+		return unaryOperation(Math::sin, null);
+	}
 }

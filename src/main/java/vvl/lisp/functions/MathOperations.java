@@ -48,4 +48,9 @@ public class MathOperations {
 
     public static final LispFunction ABS = new LispFunction(params -> ((LispNumber) params.car()).abs(), LispNumber.class);
     public static final LispFunction CBRT = new LispFunction(params -> ((LispNumber) params.car()).cbrt(), LispNumber.class);
+    public static final LispFunction CEIL = new LispFunction(params -> ((LispNumber) params.car()).ceil(), LispNumber.class);
+    public static final LispFunction FLOOR = new LispFunction(params -> ((LispNumber) params.car()).floor(), LispNumber.class);
+    public static final LispFunction LOG10 = new LispFunction(params -> ((LispNumber) params.car()).log10(), LispNumber.class);
+    public static final LispFunction COS = new LispFunction(params -> ((LispNumber) params.car()).cos(), LispNumber.class);
+    public static final LispFunction SIN = new LispFunction(params -> ((LispNumber) params.car()).sin(), LispNumber.class);
 }
