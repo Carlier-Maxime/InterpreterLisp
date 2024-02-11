@@ -22,6 +22,7 @@ public class LispLambda extends LispFunction {
     @Override
     public @NotNull LispItem apply(@NotNull LispParams params) throws LispError {
         checkParameter(params);
+        params.setTypes(ConsList.asList(LispItem.class));
         var context = new LispContext(params.getContext());
         int size = params.size();
         var ids = args;
