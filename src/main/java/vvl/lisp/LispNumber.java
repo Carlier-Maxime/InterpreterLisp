@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import vvl.util.Cons;
 
 import java.math.BigInteger;
+import java.util.function.DoubleUnaryOperator;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -208,11 +209,11 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	}
 
 	@NotNull
-	public LispNumber unaryOperation(UnaryOperator<Double> opd, UnaryOperator<BigInteger> opi) {
+	public LispNumber unaryOperation(DoubleUnaryOperator opd, UnaryOperator<BigInteger> opi) {
 		var a = value();
 		if (a instanceof Double) {
 			if (opd==null) throw classNotSupported(a.getClass());
-			return new LispNumber(opd.apply((Double) a));
+			return new LispNumber(opd.applyAsDouble((Double) a));
 		}
 		else if (a instanceof BigInteger) {
 			if (opi==null) throw classNotSupported(a.getClass());
