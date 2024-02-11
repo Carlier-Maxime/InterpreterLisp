@@ -29,7 +29,7 @@ public class LispOperations {
     public static final LispFunction SET_VAR = new LispFunction(params -> params.getContext().setVar(((LispIdentifier) params.cdr().carNoEval()).getId(), params.cdr().cdr().car(), ((LispBoolean) params.car()).value()), LispBoolean.class, LispIdentifier.class, LispItem.class);
     public static final LispFunction DEFINE = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.FALSE)), LispIdentifier.class, LispItem.class);
     public static final LispFunction SET = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.TRUE)), LispIdentifier.class, LispItem.class);
-    public static final LispFunction LAMBDA = new LispFunction(params -> new LispLambda(((LispExpression) params.carNoEval()), params.cdr().carNoEval()), LispExpression.class, LispItem.class);
+    public static final LispFunction LAMBDA = new LispFunction(params -> new LispLambda(params.getContext(), ((LispExpression) params.carNoEval()), params.cdr().carNoEval()), LispExpression.class, LispItem.class);
     public static final LispFunction MAP = new LispFunction(params -> {
         var func = (LispLambda) params.car();
         var lists = params.cdr();

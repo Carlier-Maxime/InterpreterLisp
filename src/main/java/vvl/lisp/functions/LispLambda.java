@@ -6,17 +6,21 @@ import vvl.lisp.pairs.LispList;
 import vvl.lisp.pairs.LispParams;
 import vvl.util.ConsList;
 
+import java.util.Map;
+
 public class LispLambda extends LispFunction {
     private final ConsList<String> args;
+    private final Map<String, LispItem> defaultArgs;
     private final LispItem func;
 
-    public LispLambda(LispExpression args, LispItem func) {
+    public LispLambda(LispContext context, LispExpression args, LispItem func) {
         super(params -> LispList.NIL, true, LispItem.class);
         this.func = func;
         this.args = args.values().map(param -> {
-            if (param instanceof LispIdentifier) return ((LispIdentifier) param).getId();
+            if (param instanceof LispIdentifier) return  ((LispIdentifier) param).getId();
             else throw new LispRuntimeError(LispContext.notValidIdentifier(param.toString()));
         });
+        this.defaultArgs = context.getArgs();
     }
 
     @Override
@@ -24,6 +28,7 @@ public class LispLambda extends LispFunction {
         checkParameter(params);
         params.setTypes(ConsList.asList(LispItem.class));
         var context = new LispContext(params.getContext());
+        for (var arg : defaultArgs.entrySet()) context.setArg(arg.getKey(), arg.getValue());
         int size = params.size();
         var ids = args;
         if (size != args.size()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
@@ -38,6 +43,6 @@ public class LispLambda extends LispFunction {
 
     @Override
     public String toString() {
-        return "lambda "+args.toString()+" "+func.toString();
+        return "lambda "+args+" "+func;
     }
 }

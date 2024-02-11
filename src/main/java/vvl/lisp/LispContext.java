@@ -85,12 +85,14 @@ public class LispContext {
         return item;
     }
 
-    @NotNull
-    public LispItem setArg(String id, @NotNull LispItem item) throws LispError {
+    public void setArg(String id, @NotNull LispItem item) throws LispError {
         if (isBuiltin(id)) throw notValidIdentifier(id);
         if (isArgs(id)) args.replace(id, item);
         else args.put(id, item);
-        return item;
+    }
+
+    public Map<String, LispItem> getArgs() {
+        return args;
     }
 
     @NotNull
