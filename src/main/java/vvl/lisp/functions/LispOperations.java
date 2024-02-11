@@ -1,5 +1,6 @@
 package vvl.lisp.functions;
 
+import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
 import vvl.lisp.pairs.LispCons;
 import vvl.lisp.pairs.LispList;
@@ -32,4 +33,12 @@ public class LispOperations {
     public static final LispFunction DEFINE = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.FALSE)), LispIdentifier.class, LispItem.class);
     public static final LispFunction SET = new LispFunction(params -> SET_VAR.apply(params.prepend(LispBoolean.TRUE)), LispIdentifier.class, LispItem.class);
     public static final LispFunction LAMBDA = new LispFunction(params -> new LispLambda(((LispExpression) params.carNoEval()), params.cdr().carNoEval()), LispExpression.class, LispItem.class);
+    public static final LispFunction MAP = new LispFunction(params -> {
+        var func = (LispLambda) params.car();
+        var lists = params.cdr();
+        if (func.getNbArgs() != lists.size()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
+        var size = ((LispList) lists.car()).size();
+        for (var list : lists) if (((LispList) list).size()!=size) throw new LispError("All lists must be same size");
+        return func.apply(new LispParams(params.getContext(), (LispList) lists.car()));
+    }, true, LispLambda.class, LispList.class, LispList.class);
 }
