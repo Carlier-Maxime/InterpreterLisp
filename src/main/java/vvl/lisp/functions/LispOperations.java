@@ -2,10 +2,7 @@ package vvl.lisp.functions;
 
 import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
-import vvl.lisp.pairs.LispCons;
-import vvl.lisp.pairs.LispList;
-import vvl.lisp.pairs.LispPair;
-import vvl.lisp.pairs.LispParams;
+import vvl.lisp.pairs.*;
 import vvl.util.ConsListImpl;
 
 import java.util.NoSuchElementException;
@@ -39,6 +36,6 @@ public class LispOperations {
         if (func.getNbArgs() != lists.size()) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var size = ((LispList) lists.car()).size();
         for (var list : lists) if (((LispList) list).size()!=size) throw new LispError("All lists must be same size");
-        return func.apply(new LispParams(params.getContext(), (LispList) lists.car()));
+        return func.apply(new LispMapParams(params.getContext(), lists.map(item -> (LispList) item), params.getTypes()));
     }, true, LispLambda.class, LispList.class, LispList.class);
 }
