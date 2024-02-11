@@ -37,7 +37,7 @@ public class LispOperations {
         var size = ((LispList) lists.car()).size();
         for (var list : lists) if (((LispList) list).size()!=size) throw new LispError("All lists must be same size");
         var array = new LispItem[size];
-        var mapParams = new LispMapParams(params.getContext(), lists.map(item -> (LispList) item), params.getTypes());
+        var mapParams = new LispMapParams(params.getContext(), lists.map(LispList.class::cast), params.getTypes());
         for (var i=0; i<size; i++) {
             array[i]=func.apply(mapParams);
             mapParams.cdrListInPlace();
