@@ -27,7 +27,7 @@ public class LispParams extends LispList {
         this.types = types;
     }
 
-    private void checkType(LispItem item) throws LispError {
+    protected void checkType(LispItem item) throws LispError {
         var itemType = item.getClass();
         var expectedType = types.car();
         if (!expectedType.isAssignableFrom(itemType)) {
@@ -40,7 +40,7 @@ public class LispParams extends LispList {
     }
 
     @NotNull
-    private LispItem carRaw() {
+    protected LispItem carRaw() {
         return super.car();
     }
 
@@ -117,5 +117,9 @@ public class LispParams extends LispList {
     @NotNull
     public LispContext getContext() {
         return context;
+    }
+
+    public ConsList<Class<? extends LispItem>> getTypes() {
+        return types;
     }
 }
