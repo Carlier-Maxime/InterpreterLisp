@@ -61,7 +61,7 @@ public class LispMapParams extends LispParams {
             checkType(item);
             return item;
         } catch (LispError e) {
-            throw new RuntimeException(e);
+            throw new LispRuntimeError(e);
         }
     }
 
