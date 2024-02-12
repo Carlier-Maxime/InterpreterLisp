@@ -263,4 +263,9 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	public LispNumber sin() {
 		return unaryOperation(Math::sin, null);
 	}
+
+	@NotNull
+	public LispNumber rint() {
+		return unaryOperation(Math::rint, n -> n);
+	}
 }
