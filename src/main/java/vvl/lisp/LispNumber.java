@@ -211,7 +211,12 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 
 	@NotNull
 	public LispNumber pow(@NotNull LispNumber number) {
-		return binaryOperation(number, Math::pow, (a, b) -> a.pow(b.intValue()));
+		var r = binaryOperation(number, Math::pow, (a, b) -> a.pow(b.intValue()));
+		if (r.value() instanceof BigInteger) {
+			var d = r.value().doubleValue();
+			if (r.value().equals(BigInteger.valueOf((long) d))) return new LispNumber(d);
+		}
+		return r;
 	}
 
 	@NotNull
