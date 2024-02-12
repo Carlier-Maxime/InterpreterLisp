@@ -44,6 +44,7 @@ public class LispContext {
         BUILTIN.put("cos", MathOperations.COS);
         BUILTIN.put("sin", MathOperations.SIN);
         BUILTIN.put("rint", MathOperations.RINT);
+        BUILTIN.put("round", MathOperations.ROUND);
     }
 
     private final Map<String, LispItem> vars;

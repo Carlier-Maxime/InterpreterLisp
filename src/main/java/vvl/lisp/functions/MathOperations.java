@@ -54,4 +54,5 @@ public class MathOperations {
     public static final LispFunction COS = new LispFunction(params -> ((LispNumber) params.car()).cos(), LispNumber.class);
     public static final LispFunction SIN = new LispFunction(params -> ((LispNumber) params.car()).sin(), LispNumber.class);
     public static final LispFunction RINT = new LispFunction(params -> ((LispNumber) params.car()).rint(), LispNumber.class);
+    public static final LispFunction ROUND = new LispFunction(params -> ((LispNumber) params.car()).round(), LispNumber.class);
 }
