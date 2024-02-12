@@ -46,6 +46,10 @@ public class MathOperations {
         return result;
     }, LispNumber.class, LispNumber.class);
 
+    public static final LispFunction MAX = new LispFunction(params -> ((LispNumber) params.car()).max((LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
+    public static final LispFunction MIN = new LispFunction(params -> ((LispNumber) params.car()).min((LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
+    public static final LispFunction POW = new LispFunction(params -> ((LispNumber) params.car()).pow((LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
+
     public static final LispFunction ABS = new LispFunction(params -> ((LispNumber) params.car()).abs(), LispNumber.class);
     public static final LispFunction CBRT = new LispFunction(params -> ((LispNumber) params.car()).cbrt(), LispNumber.class);
     public static final LispFunction CEIL = new LispFunction(params -> ((LispNumber) params.car()).ceil(), LispNumber.class);

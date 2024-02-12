@@ -200,6 +200,21 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	}
 
 	@NotNull
+	public LispNumber max(@NotNull LispNumber number) {
+		return binaryOperation(number, Double::max, BigInteger::max);
+	}
+
+	@NotNull
+	public LispNumber min(@NotNull LispNumber number) {
+		return binaryOperation(number, Double::min, BigInteger::min);
+	}
+
+	@NotNull
+	public LispNumber pow(@NotNull LispNumber number) {
+		return binaryOperation(number, Math::pow, (a, b) -> a.pow(b.intValue()));
+	}
+
+	@NotNull
 	public LispNumber abs() {
 		return unaryOperation(Math::abs, BigInteger::abs);
 	}

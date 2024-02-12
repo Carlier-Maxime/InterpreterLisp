@@ -47,6 +47,9 @@ public class LispContext {
         BUILTIN.put("round", MathOperations.ROUND);
         BUILTIN.put("signum", MathOperations.SIGNUM);
         BUILTIN.put("sqrt", MathOperations.SQRT);
+        BUILTIN.put("max", MathOperations.MAX);
+        BUILTIN.put("min", MathOperations.MIN);
+        BUILTIN.put("pow", MathOperations.POW);
     }
 
     private final Map<String, LispItem> vars;
