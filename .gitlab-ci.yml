@@ -13,8 +13,8 @@ gradle:
   image: registry.cril-k8s.lan/docker-hub/library/gradle:8.5-jdk17
   stage: build
   script:
-      - "gradle $PROXY $SONARINFO sonar"
       - "gradle --warning-mode all -Dsonar.gradle.skipCompile=true $PROXY test"
+      - "gradle $PROXY $SONARINFO sonar"
   tags: 
      - k8s
   artifacts:
