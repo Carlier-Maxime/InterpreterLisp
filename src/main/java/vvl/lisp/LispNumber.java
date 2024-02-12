@@ -114,6 +114,45 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		} else throw classNotSupported(classA);
 	}
 
+	@NotNull
+	public LispNumber binaryOperation(@NotNull LispNumber number, DoubleBinaryOperator opd, BinaryOperator<BigInteger> opi) {
+		Number a = this.value();
+		Number b = number.value();
+		Class<? extends Number> classA = a.getClass();
+		Class<? extends Number> classB = b.getClass();
+		if (classA == classB) {
+			if (classA == BigInteger.class) return new LispNumber(opi.apply((BigInteger) a, (BigInteger) b));
+			else if (classA == Double.class) return new LispNumber(opd.applyAsDouble((Double) a, (Double) b));
+			else throw classNotSupported(classA);
+		}
+		var cons = separateBigIntAndDouble(a, b);
+		BigInteger i = cons.right().left();
+		double d = cons.right().right();
+		if (cons.left() == -1) return new LispNumber(opd.applyAsDouble(d, i.doubleValue()));
+		return new LispNumber(opd.applyAsDouble(i.doubleValue(), d));
+	}
+
+	@NotNull
+	public LispNumber unaryOperation(DoubleUnaryOperator opd, UnaryOperator<BigInteger> opi) {
+		var a = value();
+		if (a instanceof Double) {
+			if (opd==null) {
+				if (opi!=null) return new LispNumber(opi.apply(BigInteger.valueOf((long) a)));
+				throw classNotSupported(a.getClass());
+			}
+			return new LispNumber(opd.applyAsDouble((Double) a));
+		}
+		else if (a instanceof BigInteger) {
+			if (opi==null) {
+				var d = a.doubleValue();
+				if (a.equals(BigInteger.valueOf((long) d))) return new LispNumber(opd.applyAsDouble(d));
+				throw classNotSupported(a.getClass());
+			}
+			return new LispNumber(opi.apply((BigInteger) a));
+		}
+		else throw classNotSupported(a.getClass());
+	}
+
 	@Override
 	public int compareTo(@NotNull LispNumber o) {
 		Number a = this.value();
@@ -158,45 +197,6 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	public LispNumber div(@NotNull LispNumber number) throws LispError {
 		if (number.compareTo(new LispNumber(BigInteger.valueOf(0))) == 0) throw new LispError("Division by zero");
 		return binaryOperation(number, (a, b) -> a / b, BigInteger::divide);
-	}
-
-	@NotNull
-	public LispNumber binaryOperation(@NotNull LispNumber number, DoubleBinaryOperator opd, BinaryOperator<BigInteger> opi) {
-		Number a = this.value();
-		Number b = number.value();
-		Class<? extends Number> classA = a.getClass();
-		Class<? extends Number> classB = b.getClass();
-		if (classA == classB) {
-			if (classA == BigInteger.class) return new LispNumber(opi.apply((BigInteger) a, (BigInteger) b));
-			else if (classA == Double.class) return new LispNumber(opd.applyAsDouble((Double) a, (Double) b));
-			else throw classNotSupported(classA);
-		}
-		var cons = separateBigIntAndDouble(a, b);
-		BigInteger i = cons.right().left();
-		double d = cons.right().right();
-		if (cons.left() == -1) return new LispNumber(opd.applyAsDouble(d, i.doubleValue()));
-		return new LispNumber(opd.applyAsDouble(i.doubleValue(), d));
-	}
-
-	@NotNull
-	public LispNumber unaryOperation(DoubleUnaryOperator opd, UnaryOperator<BigInteger> opi) {
-		var a = value();
-		if (a instanceof Double) {
-			if (opd==null) {
-				if (opi!=null) return new LispNumber(opi.apply(BigInteger.valueOf((long) a)));
-				throw classNotSupported(a.getClass());
-			}
-			return new LispNumber(opd.applyAsDouble((Double) a));
-		}
-		else if (a instanceof BigInteger) {
-			if (opi==null) {
-				var d = a.doubleValue();
-				if (a.equals(BigInteger.valueOf((long) d))) return new LispNumber(opd.applyAsDouble(d));
-				throw classNotSupported(a.getClass());
-			}
-			return new LispNumber(opi.apply((BigInteger) a));
-		}
-		else throw classNotSupported(a.getClass());
 	}
 
 	@NotNull
