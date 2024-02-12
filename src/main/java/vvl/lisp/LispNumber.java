@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import vvl.util.Cons;
 
 import java.math.BigInteger;
+import java.util.function.BinaryOperator;
+import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -138,74 +140,42 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 
 	@NotNull
 	public LispNumber add(@NotNull LispNumber number) {
-		Number a = this.value();
-		Number b = number.value();
-		Class<? extends Number> classA = a.getClass();
-		Class<? extends Number> classB = b.getClass();
-		if (classA == classB) {
-			if (classA == BigInteger.class) return new LispNumber(((BigInteger) a).add((BigInteger) b));
-			else if (classA == Double.class) return new LispNumber((Double) a + (Double) b);
-			else throw classNotSupported(classA);
-		}
-		var cons = separateBigIntAndDouble(a, b);
-		BigInteger i = cons.right().left();
-		double d = cons.right().right();
-        return new LispNumber(i.doubleValue() + d);
+		return binaryOperation(number, Double::sum, BigInteger::add);
     }
 
 	@NotNull
 	public LispNumber mul(@NotNull LispNumber number) {
-		Number a = this.value();
-		Number b = number.value();
-		Class<? extends Number> classA = a.getClass();
-		Class<? extends Number> classB = b.getClass();
-		if (classA == classB) {
-			if (classA == BigInteger.class) return new LispNumber(((BigInteger) a).multiply((BigInteger) b));
-			else if (classA == Double.class) return new LispNumber((Double) a * (Double) b);
-			else throw classNotSupported(classA);
-		}
-		var cons = separateBigIntAndDouble(a, b);
-		BigInteger i = cons.right().left();
-		double d = cons.right().right();
-		return new LispNumber(i.doubleValue() * d);
+		return binaryOperation(number, (a, b) -> a * b, BigInteger::multiply);
 	}
 
 	@NotNull
 	public LispNumber sub(LispNumber number) {
 		if (number==null) return mul(new LispNumber(BigInteger.valueOf(-1)));
-		Number a = this.value();
-		Number b = number.value();
-		Class<? extends Number> classA = a.getClass();
-		Class<? extends Number> classB = b.getClass();
-		if (classA == classB) {
-			if (classA == BigInteger.class) return new LispNumber(((BigInteger) a).subtract((BigInteger) b));
-			else if (classA == Double.class) return new LispNumber((Double) a - (Double) b);
-			else throw classNotSupported(classA);
-		}
-		var cons = separateBigIntAndDouble(a, b);
-		BigInteger i = cons.right().left();
-		double d = cons.right().right();
-		if (cons.left() == -1) return new LispNumber(d - i.doubleValue());
-		return new LispNumber(i.doubleValue() - d);
+		return binaryOperation(number, (a, b) -> a - b, BigInteger::subtract);
 	}
 
 	@NotNull
 	public LispNumber div(@NotNull LispNumber number) throws LispError {
 		if (number.compareTo(new LispNumber(BigInteger.valueOf(0))) == 0) throw new LispError("Division by zero");
+		return binaryOperation(number, (a, b) -> a / b, BigInteger::divide);
+	}
+
+	@NotNull
+	public LispNumber binaryOperation(@NotNull LispNumber number, DoubleBinaryOperator opd, BinaryOperator<BigInteger> opi) {
 		Number a = this.value();
 		Number b = number.value();
 		Class<? extends Number> classA = a.getClass();
 		Class<? extends Number> classB = b.getClass();
 		if (classA == classB) {
-			if (classA == BigInteger.class) return new LispNumber(((BigInteger) a).divide((BigInteger) b));
-			else if (classA == Double.class) return new LispNumber((Double) a / (Double) b);
+			if (classA == BigInteger.class) return new LispNumber(opi.apply((BigInteger) a, (BigInteger) b));
+			else if (classA == Double.class) return new LispNumber(opd.applyAsDouble((Double) a, (Double) b));
 			else throw classNotSupported(classA);
 		}
 		var cons = separateBigIntAndDouble(a, b);
 		BigInteger i = cons.right().left();
 		double d = cons.right().right();
-		if (cons.left() == -1) return new LispNumber(d / i.doubleValue());
-		return new LispNumber(i.doubleValue() / d);
+		if (cons.left() == -1) return new LispNumber(opd.applyAsDouble(d, i.doubleValue()));
+		return new LispNumber(opd.applyAsDouble(i.doubleValue(), d));
 	}
 
 	@NotNull
