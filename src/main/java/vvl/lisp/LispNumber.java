@@ -241,12 +241,12 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 
 	@NotNull
 	public LispNumber ceil() {
-		return unaryOperation(Math::ceil, null);
+		return unaryOperation(Math::ceil, n -> n);
 	}
 
 	@NotNull
 	public LispNumber floor() {
-		return unaryOperation(Math::floor, null);
+		return unaryOperation(Math::floor, n -> n);
 	}
 
 	@NotNull
