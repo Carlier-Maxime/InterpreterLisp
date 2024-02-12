@@ -212,11 +212,18 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	public LispNumber unaryOperation(DoubleUnaryOperator opd, UnaryOperator<BigInteger> opi) {
 		var a = value();
 		if (a instanceof Double) {
-			if (opd==null) throw classNotSupported(a.getClass());
+			if (opd==null) {
+				if (opi!=null) return new LispNumber(opi.apply(BigInteger.valueOf((long) a)));
+				throw classNotSupported(a.getClass());
+			}
 			return new LispNumber(opd.applyAsDouble((Double) a));
 		}
 		else if (a instanceof BigInteger) {
-			if (opi==null) throw classNotSupported(a.getClass());
+			if (opi==null) {
+				var d = a.doubleValue();
+				if (a.equals(BigInteger.valueOf((long) d))) return new LispNumber(opd.applyAsDouble(d));
+				throw classNotSupported(a.getClass());
+			}
 			return new LispNumber(opi.apply((BigInteger) a));
 		}
 		else throw classNotSupported(a.getClass());
