@@ -278,4 +278,9 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	public LispNumber signum() {
 		return unaryOperation(Math::signum, n -> BigInteger.valueOf(n.signum()));
 	}
+
+	@NotNull
+	public LispNumber sqrt() {
+		return unaryOperation(Math::sqrt, BigInteger::sqrt);
+	}
 }

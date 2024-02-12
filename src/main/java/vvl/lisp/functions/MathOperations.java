@@ -56,4 +56,5 @@ public class MathOperations {
     public static final LispFunction RINT = new LispFunction(params -> ((LispNumber) params.car()).rint(), LispNumber.class);
     public static final LispFunction ROUND = new LispFunction(params -> ((LispNumber) params.car()).round(), LispNumber.class);
     public static final LispFunction SIGNUM = new LispFunction(params -> ((LispNumber) params.car()).signum(), LispNumber.class);
+    public static final LispFunction SQRT = new LispFunction(params -> ((LispNumber) params.car()).sqrt(), LispNumber.class);
 }
