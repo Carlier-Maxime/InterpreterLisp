@@ -282,6 +282,11 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 
 	@NotNull
 	public LispNumber sqrt() {
-		return unaryOperation(Math::sqrt, BigInteger::sqrt);
+		var r = unaryOperation(Math::sqrt, BigInteger::sqrt);
+		if (r.value() instanceof BigInteger) {
+			var d = r.value().doubleValue();
+			if (r.value().equals(BigInteger.valueOf((long) d))) return new LispNumber(d);
+		}
+		return r;
 	}
 }
