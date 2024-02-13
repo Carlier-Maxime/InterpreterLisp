@@ -29,14 +29,14 @@ public class MathOperations {
     private static LispFunction makeUnary(@NotNull UnaryOperator<LispNumber> op) {
         return new LispFunction(params -> op.apply((LispNumber) params.car()), LispNumber.class);
     }
-    public static final LispFunction ADD = makeVariadic(LispNumber::add, new LispNumber(BigInteger.valueOf(0)));
-    public static final LispFunction MUL =  makeVariadic(LispNumber::mul, new LispNumber(BigInteger.valueOf(1)));
+
     public static final LispFunction SUB = new LispFunction(params -> {
         if (params.size() > 2) throw LispFunction.INVALID_NUMBER_OF_OPERAND;
         var result = (LispNumber) params.car();
         return result.sub(params.size()==1 ? null : (LispNumber) params.cdr().car());
     }, true, LispNumber.class, LispNumber.class);
-
+    public static final LispFunction ADD = makeVariadic(LispNumber::add, new LispNumber(BigInteger.valueOf(0)));
+    public static final LispFunction MUL =  makeVariadic(LispNumber::mul, new LispNumber(BigInteger.valueOf(1)));
     public static final LispFunction DIV = makeBinary(LispNumber::div);
     public static final LispFunction MAX = makeBinary(LispNumber::max);
     public static final LispFunction MIN = makeBinary(LispNumber::min);
