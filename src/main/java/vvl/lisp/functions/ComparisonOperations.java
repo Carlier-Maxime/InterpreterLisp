@@ -2,7 +2,6 @@ package vvl.lisp.functions;
 
 import vvl.lisp.LispBoolean;
 import vvl.lisp.LispNumber;
-import vvl.util.ConsList;
 
 import java.util.function.BiFunction;
 
