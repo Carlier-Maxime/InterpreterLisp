@@ -113,7 +113,7 @@ public interface ConsList<E> extends Iterable<E> {
 
 	@NotNull
 	default Iterator<E> iterator() {
-		final ConsList<E> consList = this;
+		final var consList = this;
 		return new Iterator<>() {
 			private ConsList<E> list = consList;
 			@Override
