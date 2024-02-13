@@ -3,15 +3,15 @@ package vvl.lisp.functions;
 import vvl.lisp.LispBoolean;
 import vvl.lisp.LispNumber;
 
-import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public class ComparisonOperations {
     private ComparisonOperations() {}
 
-    private static LispFunction makeComparison(BiFunction<LispNumber, LispNumber, Boolean> cdn) {
+    private static LispFunction makeComparison(BiPredicate<LispNumber, LispNumber> cdn) {
         return new LispFunction(params -> {
             var size = params.size() - 1;
-            for (var i = 0; i < size; i++) if (!cdn.apply((LispNumber) params.car(), (LispNumber) (params = params.cdr()).car())) return LispBoolean.FALSE;
+            for (var i = 0; i < size; i++) if (!cdn.test((LispNumber) params.car(), (LispNumber) (params = params.cdr()).car())) return LispBoolean.FALSE;
             return LispBoolean.TRUE;
         }, true, LispNumber.class, LispNumber.class);
     }
