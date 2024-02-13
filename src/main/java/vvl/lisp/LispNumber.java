@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
  * 
  */
 public class LispNumber implements LispItem, Comparable<LispNumber> {
-	private static final Pattern INT_PATTERN = Pattern.compile("^[+-]?\\d++$");
-	private static final Pattern SCIENTIFIC_NUMBER_PATTERN = Pattern.compile("^[+-]?\\d++(\\.\\d*+)?+([eE][+-]?\\d++)?$");
-	private static final Pattern RATIO_PATTERN = Pattern.compile("^[+-]?\\d++(\\.\\d*+)?+(/[+-]?\\d++(\\.\\d*+)?+)?$");
+	private static final Pattern INT_PATTERN = Pattern.compile("^\\d++$");
+	private static final Pattern SCIENTIFIC_NUMBER_PATTERN = Pattern.compile("^\\d++(\\.\\d*+)?+([eE][+-]?\\d++)?$");
+	private static final Pattern RATIO_PATTERN = Pattern.compile("^\\d++(\\.\\d*+)?+(/\\d++(\\.\\d*+)?+)?$");
 	private static final Pattern NUMBER_PATTERN = Pattern.compile("^[+-]?\\d++(\\.\\d*+)?+([/eE][+-]?\\d++(\\.\\d*+)?+)?$");
 	private final Number element;
 	
@@ -83,7 +83,10 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		if (INT_PATTERN.matcher(number).matches()) return parseBigInteger(number);
 		else if (SCIENTIFIC_NUMBER_PATTERN.matcher(number).matches()) return parseDouble(number);
 		else if (RATIO_PATTERN.matcher(number).matches()) return parseRatio(number);
-		else throw new LispError("Parsing number failed, the number is invalid : "+number);
+		else {
+			for (char c : "+-".toCharArray()) if (number.startsWith(String.valueOf(c))) throw new LispError(c+" should be a lisp operator");
+			throw new LispError("Parsing number failed, the number is invalid : "+number);
+		}
 	}
 
 	public static boolean isNumber(@NotNull String number) {

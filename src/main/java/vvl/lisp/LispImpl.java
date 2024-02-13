@@ -94,6 +94,8 @@ public class LispImpl implements Lisp {
                 var lispExpr = handleCloseExpression(elems, i, nbClose);
                 if (lispExpr!=null) return lispExpr;
             }
+        } catch (LispError e) {
+            throw e;
         } catch (Exception e) {
             throw new LispError("Parsing expression failed : "+expr, e);
         }
