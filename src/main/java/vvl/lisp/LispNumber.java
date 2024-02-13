@@ -50,6 +50,10 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
         return element.hashCode();
     }
 
+	private static void checkShouldBeOperator(String number) throws LispError {
+		for (char c : "+-".toCharArray()) if (number.startsWith(String.valueOf(c))) throw new LispError(c+" should be a lisp operator");
+	}
+
 	public static @NotNull LispNumber parseBigInteger(@NotNull String bigInt, int radix) throws LispError {
 		try {
 			return new LispNumber(new BigInteger(bigInt, radix));
@@ -73,6 +77,8 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	public static @NotNull LispNumber parseRatio(@NotNull String ratio) throws LispError {
 		try {
 			String[] ratioPart = ratio.split("/");
+			checkShouldBeOperator(ratioPart[0]);
+			checkShouldBeOperator(ratioPart[1]);
 			return new LispNumber(Double.parseDouble(ratioPart[0]) / Double.parseDouble(ratioPart[1]));
 		} catch (Exception e) {
 			throw new LispError("Parsing Ratio failed", e);
@@ -84,7 +90,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		else if (SCIENTIFIC_NUMBER_PATTERN.matcher(number).matches()) return parseDouble(number);
 		else if (RATIO_PATTERN.matcher(number).matches()) return parseRatio(number);
 		else {
-			for (char c : "+-".toCharArray()) if (number.startsWith(String.valueOf(c))) throw new LispError(c+" should be a lisp operator");
+			checkShouldBeOperator(number);
 			throw new LispError("Parsing number failed, the number is invalid : "+number);
 		}
 	}
