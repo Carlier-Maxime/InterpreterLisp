@@ -6,8 +6,6 @@ import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
 import vvl.util.ConsList;
 
-import java.util.Iterator;
-
 public class LispList implements LispPair, ConsList<LispItem> {
     public static final LispList NIL = new LispList(ConsList.nil());
     private final ConsList<LispItem> list;
