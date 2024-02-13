@@ -5,39 +5,55 @@ import vvl.lisp.LispContext;
 import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
 import vvl.util.ConsList;
-import vvl.util.ConsListImpl;
 
-public class LispList extends ConsListImpl<LispItem> implements LispPair {
-    public static final LispList NIL = new LispList();
+import java.util.Iterator;
+import java.util.function.Function;
 
-    public LispList(@NotNull ConsListImpl<LispItem> consList) {
-        super(consList);
+public class LispList implements LispPair, ConsList<LispItem> {
+    public static final LispList NIL = new LispList(ConsList.nil());
+    private final ConsList<LispItem> list;
+
+    public LispList(@NotNull ConsList<LispItem> consList) {
+        this.list = consList;
     }
-    private LispList() {
-        this(null, null);
-    }
 
-    private LispList(LispItem first, ConsList<LispItem> list) {
-        super(first, list);
+    @Override
+    public LispItem car() {
+        return list.car();
     }
 
     @Override
     @NotNull
     public LispList cdr() {
-        var out = super.cdr();
-        return out.getClass() == LispList.class ? (LispList) out : new LispList((ConsListImpl<LispItem>) out);
+        var out = list.cdr();
+        return out.getClass() == LispList.class ? (LispList) out : new LispList(out);
+    }
+
+    @Override
+    public int size() {
+        return list.size();
+    }
+
+    @Override
+    public @NotNull <T> ConsList<T> map(@NotNull Function<LispItem, T> f) {
+        return list.map(f);
     }
 
     @Override
     @NotNull
     public LispList prepend(LispItem e) {
-        return new LispList((ConsListImpl<LispItem>) super.prepend(e));
+        return new LispList(list.prepend(e));
     }
 
     @Override
     @NotNull
     public LispList append(LispItem e) {
-        return new LispList((ConsListImpl<LispItem>) super.append(e));
+        return new LispList(list.append(e));
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return list.isEmpty();
     }
 
     @Override
@@ -46,4 +62,14 @@ public class LispList extends ConsListImpl<LispItem> implements LispPair {
         return this;
     }
 
+    @NotNull
+    @Override
+    public Iterator<LispItem> iterator() {
+        return list.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return list.toString();
+    }
 }

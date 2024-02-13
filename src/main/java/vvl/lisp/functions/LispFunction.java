@@ -5,7 +5,6 @@ import vvl.lisp.*;
 import vvl.lisp.pairs.LispList;
 import vvl.lisp.pairs.LispParams;
 import vvl.util.ConsList;
-import vvl.util.ConsListImpl;
 
 public class LispFunction implements LispItem {
     public static final LispError INVALID_NUMBER_OF_OPERAND = new LispError("Invalid number of operands");
@@ -41,7 +40,7 @@ public class LispFunction implements LispItem {
 
     @NotNull
     public LispItem apply(@NotNull LispContext context, @NotNull ConsList<LispItem> items) throws LispError {
-        return apply(new LispParams(context, (ConsListImpl<LispItem>) items, types));
+        return apply(new LispParams(context, items, types));
     }
 
     @NotNull

@@ -6,18 +6,17 @@ import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
 import vvl.lisp.LispRuntimeError;
 import vvl.util.ConsList;
-import vvl.util.ConsListImpl;
 
 import java.util.Objects;
 
 public class LispParams extends LispList {
     private final LispContext context;
     private ConsList<Class<? extends LispItem>> types;
-    public LispParams(@NotNull LispContext context, @NotNull ConsListImpl<LispItem> params) {
+    public LispParams(@NotNull LispContext context, @NotNull ConsList<LispItem> params) {
         this(context, params, ConsList.nil());
     }
 
-    public LispParams(@NotNull LispContext context, @NotNull ConsListImpl<LispItem> params, @NotNull ConsList<Class<? extends LispItem>> types) {
+    public LispParams(@NotNull LispContext context, @NotNull ConsList<LispItem> params, @NotNull ConsList<Class<? extends LispItem>> types) {
         super(params);
         this.context = context;
         this.types = types;

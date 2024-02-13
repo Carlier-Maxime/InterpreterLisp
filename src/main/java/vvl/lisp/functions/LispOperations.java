@@ -3,7 +3,6 @@ package vvl.lisp.functions;
 import vvl.lisp.*;
 import vvl.lisp.pairs.*;
 import vvl.util.ConsList;
-import vvl.util.ConsListImpl;
 
 import java.util.NoSuchElementException;
 
@@ -17,7 +16,7 @@ public class LispOperations {
         if (LispList.class.isAssignableFrom(right.getClass())) return ((LispList) right).prepend(left);
         return new LispCons(left, right);
     }, LispItem.class, LispItem.class);
-    public static final LispFunction LIST = new LispFunction(params -> new LispList((ConsListImpl<LispItem>) params.map(item -> item)), true, LispItem.class);
+    public static final LispFunction LIST = new LispFunction(params -> new LispList(params.map(item -> item)), true, LispItem.class);
     public static final LispFunction CAR = new LispFunction(params -> {
         try {
             return ((LispPair) params.car()).car();
@@ -42,6 +41,6 @@ public class LispOperations {
             array[i]=func.apply(mapParams);
             mapParams.cdrListInPlace();
         }
-        return new LispList((ConsListImpl<LispItem>) ConsList.asList(array));
+        return new LispList(ConsList.asList(array));
     }, true, LispLambda.class, LispList.class, LispList.class);
 }
