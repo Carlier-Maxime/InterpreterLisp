@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.Function;
 
 public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     private final Cons<E, ConsList<E>> list;
