@@ -2,7 +2,6 @@ package vvl.util;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
@@ -62,27 +61,6 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     public int size() {
         if (isEmpty()) return 0;
         return (list.right()==null) ? 1 : list.right().size()+1;
-    }
-
-    @Override
-    @NotNull
-    public Iterator<E> iterator() {
-        final ConsList<E> consList = this;
-        return new Iterator<>() {
-            private ConsList<E> list = consList;
-            @Override
-            public boolean hasNext() {
-                return list != null && !list.isEmpty();
-            }
-
-            @Override
-            public E next() {
-                if (!hasNext()) throw new NoSuchElementException();
-                E e = list.car();
-                list = list.cdr();
-                return e;
-            }
-        };
     }
 
     @Override

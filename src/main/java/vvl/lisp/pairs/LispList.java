@@ -56,12 +56,6 @@ public class LispList implements LispPair, ConsList<LispItem> {
         return this;
     }
 
-    @NotNull
-    @Override
-    public Iterator<LispItem> iterator() {
-        return list.iterator();
-    }
-
     @Override
     public String toString() {
         return list.toString();

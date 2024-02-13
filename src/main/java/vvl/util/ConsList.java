@@ -2,6 +2,8 @@ package vvl.util;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
@@ -107,6 +109,26 @@ public interface ConsList<E> extends Iterable<E> {
 		@SuppressWarnings("unchecked")
 		E[] array = (E[]) toArray();
 		return array;
+	}
+
+	@NotNull
+	default Iterator<E> iterator() {
+		final ConsList<E> consList = this;
+		return new Iterator<>() {
+			private ConsList<E> list = consList;
+			@Override
+			public boolean hasNext() {
+				return list != null && !list.isEmpty();
+			}
+
+			@Override
+			public E next() {
+				if (!hasNext()) throw new NoSuchElementException();
+				E e = list.car();
+				list = list.cdr();
+				return e;
+			}
+		};
 	}
 
 	/**
