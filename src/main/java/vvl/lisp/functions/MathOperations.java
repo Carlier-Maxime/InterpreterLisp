@@ -20,6 +20,10 @@ public class MathOperations {
             return result;
         }, true, LispNumber.class);
     }
+
+    private static LispFunction makeBinaryOperationFunction(@NotNull BinaryOperator<LispNumber> op) {
+        return new LispFunction(params -> op.apply(((LispNumber) params.car()), (LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
+    }
     public static final LispFunction ADD = makeVariadicFunction(LispNumber::add, new LispNumber(BigInteger.valueOf(0)));
     public static final LispFunction MUL =  makeVariadicFunction(LispNumber::mul, new LispNumber(BigInteger.valueOf(1)));
     public static final LispFunction SUB = new LispFunction(params -> {
@@ -28,10 +32,10 @@ public class MathOperations {
         return result.sub(params.size()==1 ? null : (LispNumber) params.cdr().car());
     }, true, LispNumber.class, LispNumber.class);
 
-    public static final LispFunction DIV = new LispFunction(params -> ((LispNumber) params.car()).div((LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
-    public static final LispFunction MAX = new LispFunction(params -> ((LispNumber) params.car()).max((LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
-    public static final LispFunction MIN = new LispFunction(params -> ((LispNumber) params.car()).min((LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
-    public static final LispFunction POW = new LispFunction(params -> ((LispNumber) params.car()).pow((LispNumber) params.cdr().car()), LispNumber.class, LispNumber.class);
+    public static final LispFunction DIV = makeBinaryOperationFunction(LispNumber::div);
+    public static final LispFunction MAX = makeBinaryOperationFunction(LispNumber::max);
+    public static final LispFunction MIN = makeBinaryOperationFunction(LispNumber::min);
+    public static final LispFunction POW = makeBinaryOperationFunction(LispNumber::pow);
 
     public static final LispFunction ABS = new LispFunction(params -> ((LispNumber) params.car()).abs(), LispNumber.class);
     public static final LispFunction CBRT = new LispFunction(params -> ((LispNumber) params.car()).cbrt(), LispNumber.class);

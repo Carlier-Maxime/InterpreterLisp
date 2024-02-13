@@ -203,8 +203,8 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 	}
 
 	@NotNull
-	public LispNumber div(@NotNull LispNumber number) throws LispError {
-		if (number.compareTo(new LispNumber(BigInteger.valueOf(0))) == 0) throw new LispError("Division by zero");
+	public LispNumber div(@NotNull LispNumber number) {
+		if (number.compareTo(new LispNumber(BigInteger.valueOf(0))) == 0) throw new LispRuntimeError("Division by zero");
 		return binaryOperation(number, (a, b) -> a / b, BigInteger::divide);
 	}
 
