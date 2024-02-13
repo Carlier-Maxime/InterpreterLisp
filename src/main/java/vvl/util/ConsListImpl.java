@@ -17,7 +17,7 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
         this(first, null);
     }
 
-    protected ConsListImpl(E first, ConsList<E> list) {
+    private ConsListImpl(E first, ConsList<E> list) {
         if (list==null && first!=null) this.list = new Cons<>(first, ConsList.nil());
         else this.list = new Cons<>(first, list);
     }
@@ -63,12 +63,6 @@ public class ConsListImpl<E> implements ConsList<E>, Iterable<E> {
     public int size() {
         if (isEmpty()) return 0;
         return (list.right()==null) ? 1 : list.right().size()+1;
-    }
-
-    @Override
-    public <T> @NotNull ConsList<T> map(@NotNull Function<E, T> f) {
-        if (isEmpty()) return ConsList.nil();
-        return new ConsListImpl<>(f.apply(car()), cdr().map(f));
     }
 
     @Override

@@ -35,11 +35,6 @@ public class LispList implements LispPair, ConsList<LispItem> {
     }
 
     @Override
-    public @NotNull <T> ConsList<T> map(@NotNull Function<LispItem, T> f) {
-        return list.map(f);
-    }
-
-    @Override
     @NotNull
     public LispList prepend(LispItem e) {
         return new LispList(list.prepend(e));

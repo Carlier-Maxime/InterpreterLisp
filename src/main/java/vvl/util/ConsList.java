@@ -70,7 +70,10 @@ public interface ConsList<E> extends Iterable<E> {
 	 * @return a list where each element is the result of applying f to an element
 	 *         of the original list.
 	 */
-	@NotNull <T> ConsList<T> map(@NotNull Function<E, T> f);
+	default @NotNull <T> ConsList<T> map(@NotNull Function<E, T> f) {
+		if (isEmpty()) return ConsList.nil();
+		return cdr().map(f).prepend(f.apply(car()));
+	}
 
 	/**
 	 * Performs a reduction on the elements of this list, using the provided
