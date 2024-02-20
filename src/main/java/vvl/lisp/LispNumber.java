@@ -58,7 +58,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		try {
 			return new LispNumber(new BigInteger(bigInt, radix));
 		} catch (Exception e) {
-			throw new LispError("Parsing BigInteger failed", e);
+			throw new LispParseError("Parsing BigInteger failed", e);
 		}
 	}
 
@@ -70,7 +70,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		try {
 			return new LispNumber(Double.parseDouble(str));
 		} catch (Exception e) {
-			throw new LispError("Parsing Double failed", e);
+			throw new LispParseError("Parsing Double failed", e);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 			checkShouldBeOperator(ratioPart[1]);
 			return new LispNumber(Double.parseDouble(ratioPart[0]) / Double.parseDouble(ratioPart[1]));
 		} catch (Exception e) {
-			throw new LispError("Parsing Ratio failed", e);
+			throw new LispParseError("Parsing Ratio failed", e);
 		}
 	}
 
@@ -90,13 +90,9 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		else if (SCIENTIFIC_NUMBER_PATTERN.matcher(number).matches()) return parseDouble(number);
 		else if (RATIO_PATTERN.matcher(number).matches()) return parseRatio(number);
 		else {
-			checkShouldBeOperator(number);
-			throw new LispError("Parsing number failed, the number is invalid : "+number);
+			if (NUMBER_PATTERN.matcher(number).matches()) checkShouldBeOperator(number);
+			throw new LispParseError("Parsing number failed, the number is invalid : "+number);
 		}
-	}
-
-	public static boolean isNumber(@NotNull String number) {
-		return NUMBER_PATTERN.matcher(number).matches();
 	}
 
 	@Override

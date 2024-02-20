@@ -28,14 +28,11 @@ public class LispImpl implements Lisp {
 
     @NotNull
     private LispItem parseSingleElement(@NotNull String expr) throws LispError {
+        if (expr.charAt(0)=='#') return parseSpecialNotation(expr);
         try {
-            if (expr.charAt(0)=='#') return parseSpecialNotation(expr);
-            if (LispNumber.isNumber(expr)) return LispNumber.parseNumber(expr);
+            return LispNumber.parseNumber(expr);
+        } catch (LispParseError e) {
             return new LispIdentifier(expr);
-        } catch (LispError e) {
-            throw e;
-        } catch (Exception e) {
-            throw new LispError("Parsing single element failed",e);
         }
     }
 
