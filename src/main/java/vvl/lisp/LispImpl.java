@@ -10,7 +10,6 @@ public class LispImpl implements Lisp {
     private final LispContext context = new LispContext();
     @NotNull
     private LispItem parseSpecialNotation(@NotNull String expr) throws LispError {
-        assert expr.charAt(0)=='#';
         try {
             if ("#t".equals(expr) || "#f".equals(expr)) return LispBoolean.valueOf(expr);
             else if (expr.startsWith("#e")) return LispNumber.parseDouble(expr.substring(2));
