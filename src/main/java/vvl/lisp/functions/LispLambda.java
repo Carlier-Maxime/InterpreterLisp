@@ -17,7 +17,7 @@ public class LispLambda extends LispFunction {
         super(params -> LispList.NIL, true, LispItem.class);
         this.func = func;
         this.args = args.values().map(param -> {
-            if (param instanceof LispIdentifier) return  ((LispIdentifier) param).getId();
+            if (param instanceof LispIdentifier) return  param.toString();
             else throw new LispRuntimeError(LispContext.notValidIdentifier(param.toString()));
         });
         this.defaultArgs = context.getArgs();

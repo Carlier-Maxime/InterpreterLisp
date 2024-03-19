@@ -61,7 +61,7 @@ public LispItem eval(@NotNull LispContext context) throws LispError {
 		if (values().isEmpty()) return LispList.NIL;
 		var func = values().car().eval(context);
 		if (func instanceof LispFunction) return ((LispFunction) func).apply(context, values().cdr());
-		throw new LispError(((LispIdentifier) values().car()).getId()+" is not a valid operator");
+		throw new LispError(values().car().toString()+" is not a valid operator");
 	}
 
 }
