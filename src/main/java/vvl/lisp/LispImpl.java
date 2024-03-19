@@ -19,7 +19,6 @@ public class LispImpl implements Lisp {
             else if (expr.startsWith("#d")) return LispNumber.parseBigInteger(expr.substring(2), 10);
             else if (expr.startsWith("#x")) return LispNumber.parseBigInteger(expr.substring(2), 16);
             else if (expr.startsWith("#r")) return LispNumber.parseRatio(expr.substring(2));
-            else if ("#()".equals(expr)) return new LispExpression();
         } catch (Exception e) {
             throw new LispError("Parsing special notation failed : "+expr,e);
         }
