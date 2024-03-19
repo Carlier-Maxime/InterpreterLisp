@@ -73,26 +73,20 @@ public class LispImpl implements Lisp {
         String[] elems = expr.split("\\s+");
         if (elems.length==0) throw new LispError("Empty expression is invalid !");
         lists = ConsList.nil();
-        try {
-            for (int i=elems.length-1; i>=0; i--) {
-                elems[i] = handleClosingParenthesis(elems[i]);
-                var cons = handleOpeningParenthesis(elems[i]);
-                int nbClose = cons.left();
-                elems[i] = cons.right();
-                if (!elems[i].isBlank()) {
-                    if (lists.isEmpty()) {
-                        if (elems.length==1) return parseSingleElement(elems[i]);
-                        throw new LispError("Missing Parenthesis");
-                    }
-                    lists.car().prepend(parseSingleElement(elems[i]));
+        for (int i=elems.length-1; i>=0; i--) {
+            elems[i] = handleClosingParenthesis(elems[i]);
+            var cons = handleOpeningParenthesis(elems[i]);
+            int nbClose = cons.left();
+            elems[i] = cons.right();
+            if (!elems[i].isBlank()) {
+                if (lists.isEmpty()) {
+                    if (elems.length==1) return parseSingleElement(elems[i]);
+                    throw new LispError("Missing Parenthesis");
                 }
-                var lispExpr = handleCloseExpression(elems, i, nbClose);
-                if (lispExpr!=null) return lispExpr;
+                lists.car().prepend(parseSingleElement(elems[i]));
             }
-        } catch (LispError e) {
-            throw e;
-        } catch (Exception e) {
-            throw new LispError("Parsing expression failed : "+expr, e);
+            var lispExpr = handleCloseExpression(elems, i, nbClose);
+            if (lispExpr!=null) return lispExpr;
         }
         throw new LispError("Invalid expression : "+expr);
     }
