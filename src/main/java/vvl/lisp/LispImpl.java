@@ -96,9 +96,8 @@ public class LispImpl implements Lisp {
     public LispItem evaluate(@NotNull LispItem ex) throws LispError {
         try {
             return ex.eval(context);
-        } catch (Exception e) {
-            var exception = e;
-            if (!(exception instanceof LispError || exception instanceof LispRuntimeError)) throw e;
+        } catch (LispError | LispRuntimeError e) {
+            Exception exception = e;
             var cause = exception.getCause();
             while (cause instanceof LispError || cause instanceof LispRuntimeError) {
                 exception = (Exception) cause;
