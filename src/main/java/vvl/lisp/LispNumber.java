@@ -142,7 +142,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		var a = value();
 		if (a instanceof Double) {
 			if (opd==null) {
-				if (opi!=null) return new LispNumber(opi.apply(BigInteger.valueOf((long) a)));
+				if (opi!=null) return new LispNumber(opi.apply(BigInteger.valueOf(a.longValue())));
 				throw classNotSupported(a.getClass());
 			}
 			return new LispNumber(opd.applyAsDouble((Double) a));
