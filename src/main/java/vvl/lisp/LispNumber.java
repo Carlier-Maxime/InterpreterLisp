@@ -179,7 +179,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 			if (decimal>0) r=-1;
 			else if (decimal<0) r=1;
 		}
-		return r*factor;
+		return factor*r;
 	}
 
 	@NotNull
