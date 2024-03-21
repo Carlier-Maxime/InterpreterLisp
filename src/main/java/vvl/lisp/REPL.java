@@ -15,7 +15,7 @@ import java.util.Scanner;
  *
  */
 public class REPL {
-    public static final String startMsg = "My super own Lisp/Scheme interpreter 2024"+System.lineSeparator()+"Enter a valid Lisp expression followed by Enter. type 'quit' to exit.";
+    public static final String START_MSG = "My super own Lisp/Scheme interpreter 2024"+System.lineSeparator()+"Enter a valid Lisp expression followed by Enter. type 'quit' to exit.";
 
     private REPL() {
         // to prevent instantiation
@@ -23,7 +23,7 @@ public class REPL {
 
     public static void readEvalPrintLoop(@NotNull Lisp lisp) {
     	try (var scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-            System.out.println(startMsg);
+            System.out.println(START_MSG);
             System.out.print("> ");
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
