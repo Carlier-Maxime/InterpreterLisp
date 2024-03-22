@@ -45,14 +45,14 @@ public class LispMapParams extends LispParams {
     @NotNull
     public LispMapParams prepend(LispItem e) {
         if (!(e instanceof LispList)) throw new LispRuntimeError("param must be LispList");
-        return new LispMapParams(getContext(), super.prepend(e).map(LispList.class::cast), getTypes());
+        return new LispMapParams(getContext(), lists.prepend((LispList) e).map(LispList.class::cast), getTypes());
     }
 
     @Override
     @NotNull
     public LispMapParams append(LispItem e) {
         if (!(e instanceof LispList)) throw new LispRuntimeError("param must be LispList");
-        return new LispMapParams(getContext(), super.append(e).map(LispList.class::cast), getTypes());
+        return new LispMapParams(getContext(), lists.append((LispList) e).map(LispList.class::cast), getTypes());
     }
 
     @Override
