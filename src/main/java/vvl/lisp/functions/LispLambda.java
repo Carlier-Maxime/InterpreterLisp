@@ -5,23 +5,15 @@ import vvl.lisp.*;
 import vvl.lisp.pairs.LispParams;
 import vvl.util.ConsList;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class LispLambda extends LispFunction {
     private final ConsList<String> args;
     private final Map<String, LispItem> defaultArgs;
     private final LispItem func;
-
     @SuppressWarnings("unchecked")
-    private static Class<? extends LispItem>[] fillArrayOfLispItemClass(int size) {
-        var array = new Class[size];
-        Arrays.fill(array, LispItem.class);
-        return array;
-    }
-
     public LispLambda(LispContext context, LispExpression args, LispItem func) {
-        super(params -> null, true, fillArrayOfLispItemClass(args.values().size()));
+        super(params -> null, true, new Class[args.values().size()]);
         this.func = func;
         this.args = args.values().map(param -> {
             if (param instanceof LispIdentifier) return  param.toString();
