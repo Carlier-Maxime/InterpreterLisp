@@ -26,7 +26,7 @@ public class Cons<L, R> {
     /**
      * The right hand side of the pair.
      */
-    private R right;
+    private final R right;
 
     /**
      * Private default constructor to prevent its use outside the class.
@@ -64,10 +64,6 @@ public class Cons<L, R> {
      */
     public R right() {
         return right;
-    }
-
-    public void setRight(R right) {
-    	this.right = right;
     }
     
     /**
