@@ -2,7 +2,6 @@ package vvl.lisp.functions;
 
 import org.jetbrains.annotations.NotNull;
 import vvl.lisp.*;
-import vvl.lisp.pairs.LispList;
 import vvl.lisp.pairs.LispParams;
 import vvl.util.ConsList;
 
@@ -14,7 +13,7 @@ public class LispLambda extends LispFunction {
     private final LispItem func;
 
     public LispLambda(LispContext context, LispExpression args, LispItem func) {
-        super(params -> LispList.NIL, true, LispItem.class);
+        super(params -> null, true, LispItem.class);
         this.func = func;
         this.args = args.values().map(param -> {
             if (param instanceof LispIdentifier) return  param.toString();
@@ -25,7 +24,6 @@ public class LispLambda extends LispFunction {
 
     @Override
     public @NotNull LispItem apply(@NotNull LispParams params) throws LispError {
-        checkParameter(params);
         params.setTypes(ConsList.asList(LispItem.class));
         var context = new LispContext(params.getContext());
         for (var arg : defaultArgs.entrySet()) context.setArg(arg.getKey(), arg.getValue());
