@@ -103,7 +103,7 @@ public class LispParams extends LispList {
 
     @Override
     public String toString() {
-        var sb = new StringBuilder("(").append(carRaw());
+        var sb = new StringBuilder("(").append(isEmpty() ? "" : carRaw());
         var next = cdr();
         while (!next.isEmpty()) {
             sb.append(' ').append(next.carRaw());
