@@ -43,4 +43,9 @@ public class LispLambda extends LispFunction {
     public String toString() {
         return "lambda "+args+" "+func;
     }
+
+    @Override
+    public int getNbArgs() {
+        return args.size();
+    }
 }
