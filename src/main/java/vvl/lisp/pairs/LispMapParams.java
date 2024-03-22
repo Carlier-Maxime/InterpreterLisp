@@ -38,7 +38,7 @@ public class LispMapParams extends LispParams {
     public LispMapParams cdr() {
         var next = current.cdr();
         if (next.isEmpty()) return new LispMapParams(getContext(), lists.map(LispList::cdr), getTypes());
-        return new LispMapParams(getContext(), lists, getTypes(), current);
+        return new LispMapParams(getContext(), lists, getTypes(), next);
     }
 
     @Override
