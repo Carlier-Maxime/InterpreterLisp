@@ -6,6 +6,8 @@ import vvl.lisp.LispError;
 import vvl.lisp.LispItem;
 import vvl.util.ConsList;
 
+import java.util.Objects;
+
 public class LispList implements LispPair, ConsList<LispItem> {
     public static final LispList NIL = new LispList(ConsList.nil());
     private final ConsList<LispItem> list;
@@ -57,5 +59,18 @@ public class LispList implements LispPair, ConsList<LispItem> {
     @Override
     public String toString() {
         return list.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LispList lispItems = (LispList) o;
+        return Objects.equals(list, lispItems.list);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(list);
     }
 }
