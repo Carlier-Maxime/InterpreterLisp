@@ -79,8 +79,7 @@ public class Cons<L, R> {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result + ((left == null) ? 0 : left.hashCode());
+        int result = prime + ((left == null) ? 0 : left.hashCode());
         return prime * result + ((right == null) ? 0 : right.hashCode());
     }
 
