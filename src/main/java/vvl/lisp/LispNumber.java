@@ -174,11 +174,7 @@ public class LispNumber implements LispItem, Comparable<LispNumber> {
 		BigInteger i = cons.right().left();
 		double d = cons.right().right();
 		int r = i.compareTo(BigInteger.valueOf((long) d));
-		if (r==0) {
-			double decimal = d - (long) d;
-			if (decimal>0) r=-1;
-			else if (decimal<0) r=1;
-		}
+		if (r==0 && (d - (long) d)>0) r=-1;
 		return factor*r;
 	}
 
