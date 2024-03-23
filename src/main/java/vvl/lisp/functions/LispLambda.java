@@ -13,7 +13,7 @@ public class LispLambda extends LispFunction {
     private final LispItem func;
     @SuppressWarnings("unchecked")
     public LispLambda(LispContext context, LispExpression args, LispItem func) {
-        super(params -> null, true, new Class[args.values().size()]);
+        super(params -> null, new Class[args.values().size()]);
         this.func = func;
         this.args = args.values().map(param -> {
             if (param instanceof LispIdentifier) return  param.toString();
