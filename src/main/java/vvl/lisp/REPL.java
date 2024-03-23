@@ -29,7 +29,7 @@ public class REPL {
                 String line = scanner.nextLine();
                 if ("quit".equalsIgnoreCase(line)) {
                     System.out.println("Bye.");
-                    return;
+                    break;
                 }
                 try {
                     System.out.println(lisp.eval(line));
