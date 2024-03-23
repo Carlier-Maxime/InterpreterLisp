@@ -118,7 +118,7 @@ public interface ConsList<E> extends Iterable<E> {
 			private ConsList<E> list = consList;
 			@Override
 			public boolean hasNext() {
-				return list != null && !list.isEmpty();
+				return !list.isEmpty();
 			}
 
 			@Override
